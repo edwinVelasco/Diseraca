@@ -1,0 +1,214 @@
+{% extends 'diseraca/admin/base_admin.html' %}
+
+{% block nav %}
+    <nav class="nav-extended">
+        <div class="nav-wrapper container">
+            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li>Admin: {{ admin.user.first_name }}</li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+        </div>
+        <div class="nav-content container">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#turnos_docentes" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Turnos de docente"><i class="material-icons">work</i></a></li>
+                <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Carga Docente"><i class="material-icons">view_list</i></a></li>
+                <li class="tab"><a href="#add_docente" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar Docente"><i class="material-icons">add</i></a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container" ng-controller="DocenteAdminContoller">
+        <div class="card-panel" >
+            <div id="turnos_docentes" class="col s12">
+                <div class="row">
+                    <div class="col l10 offset-l1">
+                        <form name="newFormTurno" id="newFormTurno" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Salas Prestadas</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newTurno.pk" ng-value="newTurno.pk">
+                            </div>
+                            <div class="row">
+                                <div class=" input-field col l4">
+                                    <input placeholder="Fecha Inicio" name="fecha_inicio" id="fecha_inicio" type="text" ng-model="consultaTurnos.fecha_inicio" class="datepicker" required>
+                                    <label for="time_start">Fecha Inicio</label>
+                                </div>
+                                <div class=" input-field col l4">
+                                    <input placeholder="Fecha Fin" name="fecha_fin" id="fecha_fin" type="text" ng-model="consultaTurnos.fecha_fin" class="datepicker" required>
+                                    <label for="time_start">Fecha Fin</label>
+                                </div>
+                                <div class=" input-field col l4">
+                                    <input placeholder="Codigo" name="docente" id="docente" type="text" ng-model="consultaTurnos.docente" class="validate" required>
+                                    <label for="time_start">Codigo del Docente</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l6">
+                                    <input class="btn" type="submit" value="Consultar" ng-click="consultarTurnosDocente()">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Codigo Mat.</th>
+                                    <th>Materia</th>
+                                    <th>Para cuando</th>
+                                    <th>Sala</th>
+                                    <th>Turno</th>
+                                    <th>Cuando se presto</th>
+                                    <th>Quien lo presto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTurnos">
+                                <tr ng-repeat="prestamo in listPrestamosDocente">
+                                    <td>[[ prestamo.cod_materia ]]</td>
+                                    <td>[[ prestamo.nom_materia ]]</td>
+                                    <td>[[ prestamo.fecha_turno ]]</td>
+
+                                    <td>[[ prestamo.sala ]]</td>
+                                    <td>[[ prestamo.turno ]]</td>
+
+                                    <td>[[ prestamo.fecha_prestamo ]]</td>
+                                    <td>[[ prestamo.usuario ]]</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <div class="col l12" id="add_docente">
+                <div class="row">
+                    <div class="col l6">
+                        <form name="newFormDocente" id="newFormDocente" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Docentes</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newDocente.pk" ng-value="newDocente.pk">
+                            </div>
+                            <div class="row">
+                                <div class=" input-field col l4">
+                                    <input placeholder="Codigo" name="codigo_docente" id="codigo_docente" type="text" ng-model="newDocente.persona.codigo" class="validate" required>
+                                    <label for="codigo_docente">Codigo</label>
+                                </div>
+                                <div class=" input-field col l8">
+                                    <input placeholder="Nombre" name="nombre_docente" id="nombre_docente" type="text" ng-model="newDocente.persona.nombre" class="validate" required>
+                                    <label for="nombre_docente">Nombre</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select name="dpto_docente" id="dpto_docente">
+                                    </select>
+                                    <label for="dpto_docente">Departamento</label>
+                                </div>
+                                <div class=" input-field col l6">
+                                    <input placeholder="Correo" name="email_docente" id="email_docente" type="email" ng-model="newDocente.persona.email" class="validate" required>
+                                    <label for="email_docente">Correo</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l4 offset-l2">
+                                    <input class="btn" type="submit" value="Guardar" ng-click="saveDocente()" id="saveDocente">
+                                </div>
+                                <div class="col l4">
+                                    <input class="btn" type="button" value="Nuevo" ng-click="newDocenteFunct()">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col l6">
+                        <div class="row">
+                            <form name="" id="" ng-submit="false">
+                                <div>
+                                    <h5 class="center-align">Buscar docente para editar</h5>
+                                    <input type="hidden" name="pk" id="pk" ng-model="newDocente.pk" ng-value="newDocente.pk">
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col l4 offset-l2">
+                                        <input placeholder="Codigo" name="codigo_docente_buscar" id="codigo_docente_buscar" type="text" class="validate" required>
+                                        <label for="codigo_docente_buscar">Codigo</label>
+                                    </div>
+                                    <div class="col l4">
+                                        <input class="btn" type="submit" value="Buscar" ng-click="buscarDocenteEditar()">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row">
+                            <form action="save_docente_csv" method="post" id="form_docente_csv"  enctype="multipart/form-data">
+                                <div>
+                                    <h5 class="center-align">Carga masiva de docentes</h5>
+                                    {% csrf_token %}
+                                </div>
+                                <div class="row">
+                                    <!--<label for="file_docentes">Seleccionar archivo</label>
+                                    <input type="file" accept="text/csv" name="file_docentes" id="file_docentes">
+                                    <input type="submit" value="Subir">
+                                    -->
+                                    <div class="col l8 offset-l2 file-field input-field">
+                                        <div class="btn">
+                                            <span>Cargar CSV</span>
+                                            <input type="file" accept="text/csv" uploader-model="file_docente" id="file_docente" name="file_docente" >
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" id="name_file" name="name_file" ng-model="fileDocentes.name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l4 offset-l4">
+                                        <input class="btn" type="submit" value="Guardar">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block init %}
+
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd'
+      });
+    {% if msg %}
+        if ("Notification" in window){
+            let ask = Notification.requestPermission();
+            ask.then(permission => {
+                if (permission ==='granted') {
+                    let msg = new Notification('Mensaje', {
+                        body: {{ msg }},
+                        icon:"/static/img/ufps.jpg"
+                    });
+                }
+            });
+        }
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Diseraca 2 | Horario
+        {% endblock %}
+    </title>
+    <link type="image/x-icon" rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link href="{% static 'css/material-icons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <main>
+        <div class="container">
+            <div id="body-horario-sala">
+                <img src="{% static 'img/fondo.jpg' %}">
+            </div>
+            <div class="row">
+
+                <div class="col l6 ">
+                    <h2 class="green-text col l12" style="min-height: 500px">{{ edificio.nombre }}</h2>
+
+                    <div class="col l12">
+                        <div class="col l6 ">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
+                                <i class="material-icons">done_all</i>
+                            </a>
+                            <h5>Esta en la sala</h5>
+                        </div>
+                        <div class="col l6 ">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
+                                <i class="material-icons">done</i>
+                            </a>
+                            <h5>Aun no llega</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col l6" id="tabla_prestamos">
+                    {% if prestamos %}
+                        {% if prestamos|length > 0 %}
+                            <table class="bordered centered">
+                                <thead>
+                                  <tr>
+                                      <th data-field="sala">Sala</th>
+                                      <th data-field="docente">Docente</th>
+                                      <th data-field="materia">Materia</th>
+                                      <th data-field="horario">Horario</th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for prestamo in prestamos %}
+                                        {% if prestamo.estado == 1 %}
+                                            <tr class="white-text green">
+                                        {% else %}
+                                            <tr class="white-text red">
+                                        {% endif %}
+
+                                            <td>{{ prestamo.turno_sala.sala.codigo }}</td>
+
+                                            {% if prestamo.tipo == 0 %}
+                                                <td>{{ prestamo.profesor.persona.user.first_name }}</td>
+                                                <td>{{ prestamo.nombre }}: {{ prestamo.codigo }}-{{ prestamo.grupo }}</td>
+                                            {% elif prestamo.tipo == 1 %}
+                                                <td>{{ prestamo.solicitante }}</td>
+                                                <td>Sust. {{ prestamo.carrera.nombre }}</td>
+                                            {% elif prestamo.tipo == 2 %}
+                                                <td>{{ prestamo.solicitante }}</td>
+                                                <td>Curso. {{ prestamo.detalle }}</td>
+                                            {% else %}
+                                                <td>{{ prestamo.solicitante }}</td>
+                                                <td>Reunión. {{ prestamo.detalle }}</td>
+                                            {% endif %}
+
+                                            {% if prestamo.estado == 1 %}
+                                                <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}
+                                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
+                                                        <i class="material-icons">done_all</i>
+                                                    </a>
+                                                </td>
+                                            {% else %}
+                                                <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}
+                                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
+                                                        <i class="material-icons">done</i>
+                                                    </a>
+                                                </td>
+                                            {% endif %}
+                                            </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <h2 class="green-text">Libre</h2>
+
+                    {% endif %}
+                    {% else %}
+                        <h2 class="green-text col l12 ">Turno Libre :)</h2>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row white-text">
+                <div class="col l6 s12">
+                    Avenida Gran Colombia No. 12E-96 Barrio Colsag Edificio CREAD piso 3.
+                </div>
+                <div class="col l3 s12">
+                    Tel: 5753256-5776655 ext 301-302
+                </div>
+                <div class="col l3 s12">
+                    Correo: diseraca@ufps.edu.co
+                </div>
+            </div>
+        </div>
+          <div class="footer-copyright">
+            <div class="container">
+            2017 © Copyright Edwin A. Velasco
+                <div class="right">
+                    <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
+                        UFPS
+                    </a>
+
+                </div>
+
+            </div>
+          </div>
+    </footer>
+
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script>
+        jQuery(document).ready(function() {
+            setInterval('reload({{ edificio.id }})', 25000);
+        });
+
+        function reload(edificio) {
+            $.ajax({
+            type: 'GET',
+            url: 'ver_horario_edificio',
+            data: {'id':edificio, 'bool':'ok'},
+            success: function (data) {
+                $('#tabla_prestamos').html(data)
+
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+        return false;
+        }
+
+    </script>
+</body>
+</html>

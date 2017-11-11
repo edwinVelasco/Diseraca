@@ -1,0 +1,31 @@
+<table class="highlight striped">
+    <thead>
+        <tr>
+            <th>Turnos</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody id="tablaTurnos">
+        <tr ng-repeat="dataTurno in dataTurnos">
+            <tb>
+                [[ dataTurno.fields.time_start ]] a [[ dataTurno.fields.time_end ]]
+            </tb>
+            <tb>
+
+            </tb>
+            <tb>
+
+            </tb>
+        </tr>
+
+    </tbody>
+</table>
+<ul class="pagination">
+    <li class="waves-effect" id="pag_0"><a ng-click="get_turn_day(0)">Lunes</a></li>
+    <li class="waves-effect" id="pag_1"><a ng-click="get_turn_day(1)">Martes</a></li>
+    <li class="waves-effect" id="pag_2"><a ng-click="get_turn_day(2)">Miercoles</a></li>
+    <li class="waves-effect" id="pag_3"><a ng-click="get_turn_day(3)">Jueves</a></li>
+    <li class="waves-effect" id="pag_4"><a ng-click="get_turn_day(4)">Viernes</a></li>
+    <li class="waves-effect" id="pag_5"><a ng-click="get_turn_day(5)">Sabado</a></li>
+</ul>

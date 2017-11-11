@@ -1,0 +1,123 @@
+{% extends 'diseraca/base_index.html' %}
+
+{% block nav %}
+    <nav>
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">Diseraca</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li><a href="/disponibilidad">Disponibilidad</a></li>
+            <li><a target="_blank" href="http://www.ufps.edu.co/ufps/cread/Presentacion.php">Conocenos</a></li>
+            <li><a href="informacion"><i class="material-icons left">info_outline</i>Información</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li><a href="/disponibilidad">Disponibilidad</a></li>
+            <li><a target="_blank" href="http://www.ufps.edu.co/ufps/cread/Presentacion.php">Conocenos</a></li>
+            <li><a href="informacion"><i class="material-icons left">info_outline</i>Información</a></li>
+      </ul>
+    </div>
+  </nav>
+
+{% endblock %}
+
+{% block contenido %}
+    <div class="row" ng-controller="LoginController">
+        <div class="col s8 l4 offset-s1 offset-l4">
+            <form class="col s12 l12 card-panel" action="iniciar_sesion" method="post">
+                <div id="token">
+                    {% csrf_token %}
+
+                </div>
+                <div class="row">
+                    <div class="input-field col s10 l10 offset-s1 offset-l1">
+                        <i class="material-icons prefix">person_pin</i>
+                        <input id="icon_prefix" type="text" class="validate" length="7" name="codigo" required>
+                        <label for="icon_prefix">Codigo</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s10 l10 offset-s1 offset-l1">
+                        <i class="material-icons prefix">lock_outline</i>
+                        <input id="icon_telephone" type="password" class="validate" name="password" required>
+                        <label for="icon_telephone">Contraseña</label>
+                    </div>
+                </div>
+                <div class="row center">
+                    <div class="input-field col s6 l6 offset-s3 offset-l3">
+                        <button class="btn waves-effect waves-light" type="submit" name="action" onclick="cargar_preload()">Entrar
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                    <div id="carga" class="preloader-wrapper medium">
+                        <!-- colocar active o quitarlo cuando se ejecute es bonton de buscar -->
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block init %}
+    if ("Notification" in window){
+        let ask = Notification.requestPermission();
+        ask.then(permission => {
+            if (permission ==='granted') {
+                let msg = new Notification('bienvenido/a', {
+                    body: "A Diseraca 2",
+                    icon:"/static/img/ufps.jpg"
+                });
+            }
+        });
+    }
+    else{
+        console.log("click received");
+    }
+{% endblock %}
+
+{% block script %}
+    function cargar_preload(){
+        $('#carga').addClass('active');
+    }
+{% endblock %}

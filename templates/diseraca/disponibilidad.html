@@ -1,0 +1,179 @@
+{% extends 'diseraca/base_index.html' %}
+
+{% block nav %}
+    <nav>
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">Diseraca</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+          <li><a href="/">Login</a></li>
+            <li><a target="_blank" href="http://www.ufps.edu.co/ufps/cread/Presentacion.php">Conocenos</a></li>
+            <li><a href="informacion"><i class="material-icons left">info_outline</i>Información</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+          <li><a href="/">Login</a></li>
+            <li><a target="_blank" href="http://www.ufps.edu.co/ufps/cread/Presentacion.php">Conocenos</a></li>
+            <li><a href="informacion"><i class="material-icons left">info_outline</i>Información</a></li>
+      </ul>
+    </div>
+  </nav>
+
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <div class="card-panel">
+            <div class="row">
+                <div class="input-field col s6 l5">
+                    <i class="material-icons prefix">today</i>
+                    <input id="daterequire" type="text" class="datepicker" class="validate">
+                    <label for="daterequire">Fecha requerida</label>
+                </div>
+                <div id="carga" class="preloader-wrapper medium">
+                    <!-- colocar active o quitarlo cuando se ejecute es bonton de buscar -->
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                        <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row" id="container_salas">
+
+            </div>
+
+
+            <div class="row" id="container_edificios">
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block init %}
+    fecha = new Date()
+    fecha.setDate(fecha.getDate() + 10);
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 1, // Creates a dropdown of 15 years to control year
+    min: new Date(),
+    max: fecha
+  });
+    buscar_edificio();
+{% endblock %}
+
+
+{% block script %}
+    function buscar_edificio(){
+        $.ajax({
+            type: 'GET',
+            url: 'get_edificios',
+            data: '',
+            success: function (data) {
+                zz = $('#container_edificios');
+                zz.html('')
+                for (i=0;i< data.length; i++)
+                {
+                    c = '<div class="col s1"><a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_horario(\''+data[i].pk+'\')">'
+                    cf =  '</a></div>'
+                    zz.append(c+data[i].fields.codigo+cf);
+                }
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+
+    function buscar_salas_horario(edificio){
+
+        fecha = $('#daterequire').val()
+        if(fecha == '')
+        {
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('bienvenido/a', {
+                            body: "Seleccione la fecha que desea consultar",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("click received");
+            }
+            return false;
+        }
+
+        $('#carga').addClass('active');
+
+        $.ajax({
+            type: 'GET',
+            url: 'get_salas_disponibilidad',
+            data: {'id':edificio, 'fecha':fecha},
+            success: function (data) {
+                $('#container_salas').html(data);
+                $('#carga').removeClass('active');
+                $('.collapsible').collapsible();
+
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+
+    function add_login(fecha, sala_turno){
+        console.log(fecha+', '+sala_turno);
+        window.location='/?id='+fecha+'.'+sala_turno
+    }
+
+{% endblock %}
+
+

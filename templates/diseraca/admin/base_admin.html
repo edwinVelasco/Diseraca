@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="es" ng-app="AppAdmin" >
+<head>
+    <meta charset="UTF-8">
+    <title>Diseraca | Admin</title>
+    <link type="image/x-icon" rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link href="{% static 'css/material-icons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        {% block nav %}
+
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+            2017 © Copyright Edwin A. Velasco
+
+                <div class="right">
+                    <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
+                        UFPS
+                    </a>
+
+                </div>
+
+            </div>
+          </div>
+
+    </footer>
+
+
+
+
+    <script type="text/javascript" src="{% static 'js/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/controller/admin/AppAdmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/controller/admin/AppDocente.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/materialize2.min.js' %}"></script>
+
+    <script>
+        var frm;
+        $(document).ready(function(){
+            $(".button-collapse").sideNav();
+            $(".button-collapse").collapsible();
+
+
+            {% block init %}
+
+            {% endblock %}
+        });
+
+        {% block script %}
+
+        {% endblock %}
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+{% extends 'diseraca/base_index.html' %}
+
+{% block title %}
+    Diseraca 2 | Docente
+{% endblock %}
+
+{% block nav %}
+
+    <nav>
+    <div class="nav-wrapper container">
+        <a href="#!" class="brand-logo">Diseraca</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li>{{ docente.user.first_name }} / Cod: {{ docente.user.username }}</li>
+            <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li><a href="cerrar">Cerrar Sesión</a></li>
+        </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <div class="card-panel">
+            <div class="row" id="msg">
+                {% if msg %}
+                    <h4 class="accent-1 red-text">{{ msg }}</h4>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                {% if prestamos %}
+                    <h4 class="accent-1 red-text">Prestamos</h4>
+                    <table class="highlight centered responsive-table">
+                        <thead>
+                          <tr>
+                              <th data-field="price">Sala-Edificio</th>
+                              <th data-field="id">Fecha</th>
+                              <th data-field="name">Horario</th>
+                              <th data-field="price">Materia-Grupo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                    {% for prestamo in prestamos %}
+                        <tr>
+                            <td>{{ prestamo.turno_sala.sala.codigo }} - {{ prestamo.turno_sala.sala.edificio.codigo }}</td>
+                            <td>{{ prestamo.date_turno }}</td>
+                            <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}</td>
+                            <td>{{ prestamo.nombre }}  G-{{ prestamo.grupo }}
+                                <a onclick="desactivar_prestamo_docente({{ prestamo.id }})"
+                                   class="waves-effect waves-circle waves-light btn-floating secondary-content red">
+                                <i class="material-icons">delete</i>
+                              </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                {% else %}
+                    <h4 class="accent-1 red-text">No tiene prestamos Activos</h4>
+                {% endif %}
+
+            </div>
+
+
+        {% if opcion != 'd'%}
+            <div class="row">
+                <div class="input-field col s6 l5">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="daterequire" type="text" class="datepicker" class="validate" value="{{ fecha }}">
+                    <label for="daterequire">Fecha requerida</label>
+                </div>
+
+                <div id="carga" class="preloader-wrapper medium">
+                    <!-- colocar active o quitarlo cuando se ejecute es bonton de buscar -->
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                        <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" id="container_salas">
+
+
+            </div>
+
+            <div class="row">
+                {% if opcion == 'a' %}
+                    <form id="form_add_prestamo" action="add_prestamo_docente" method="post">
+                        <div>
+                            {% csrf_token %}
+                            <input type="hidden" name="fecha" id="fecha" value="{{ fecha }}" required>
+                            <input type="hidden" name="sala_turno" id="sala_turno" value={% if sala_turno %}
+                                                                                        {{ sala_turno }}
+                                                                                            {% endif %} required>
+                        </div>
+                        <div class="input-field col s12">
+                            <select name="carga" required>
+                              <option value="" disabled selected>Seleccione</option>
+                                {% for carga in cargas %}
+                                    <option value="{{ carga.id }}">{{ carga.nombre }}-{{ carga.codigo }} - {{ carga.grupo }}, Matriculados: {{ carga.matriculados }}</option>
+                                {% endfor %}
+                            </select>
+                            <label>Seleccione la materia</label>
+                        </div>
+                        <div class="input-field col s6 l6 offset-s3 offset-l3">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    {% if opcion == 'b' %}
+                        <h4 class="accent-1 red-text" id="msj_turno_no">No se le permite el prestamo para este turno</h4>
+                    {% endif %}
+
+                    <form class="hiddendiv" id="form_add_prestamo" action="add_prestamo_docente" method="post">
+                        <div>
+                            {% csrf_token %}
+                            <input type="hidden" name="fecha" id="fecha" value="{{ fecha }}" required>
+                            <input type="hidden" name="sala_turno" id="sala_turno" value="" required>
+                        </div>
+                        <div class="input-field col s12">
+                            <select name="carga" required>
+                              <option value="" disabled selected>Seleccione</option>
+                                {% for carga in cargas %}
+                                    <option value="{{ carga.id }}">{{ carga.nombre }}-{{ carga.codigo }} - {{ carga.grupo }}, Matriculados: {{ carga.matriculados }}</option>
+                                {% endfor %}
+                            </select>
+                            <label>Seleccione la materia</label>
+                        </div>
+                        <div class="input-field col s6 l6 offset-s3 offset-l3">
+                            <button class="btn waves-effect waves-light" type="submit">Guardar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+
+                {% endif %}
+            </div>
+
+            <div class="row" id="container_edificios">
+                {% if edificios %}
+                    {% for edificio in edificios %}
+                        <div class="col s1">
+                            <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_horario_docente({{ edificio.id }})">
+                                {{ edificio.codigo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block footet %}
+    <div class="container">
+        <div class="row white-text">
+            <div class="col l6 s12">
+                Avenida Gran Colombia No. 12E-96 Barrio Colsag Edificio CREAD piso 3.
+            </div>
+            <div class="col l3 s12">
+                Tel: 5753256-5776655 ext 301-302
+            </div>
+            <div class="col l3 s12">
+                Correo: diseraca@ufps.edu.co
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+        2017 ©  Copyright Edwin A. Velasco
+            <div class="right">
+                <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
+                    UFPS
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block init %}
+    fecha = new Date()
+    fecha.setDate(fecha.getDate() + 10);
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 1, // Creates a dropdown of 15 years to control year
+        min: new Date(),
+        max: fecha
+    });
+
+    $('select').material_select();
+    frm = $('#form_add_prestamo');
+{% endblock %}
+
+
+{% block script %}
+
+    function buscar_salas_horario_docente(edificio){
+        fecha = $('#daterequire').val()
+        $('#msg').html('');
+        $('#form_add_prestamo').addClass('hiddendiv');
+        $('#msj_turno_no').html('');
+
+
+        if(fecha == '')
+        {
+            return false;
+        }
+
+        $('#carga').addClass('active');
+
+        $.ajax({
+            type: 'GET',
+            url: 'buscar_salas_horario_docente',
+            data: {'id':edificio, 'fecha':fecha},
+            success: function (data) {
+                $('#container_salas').html(data);
+                $('#carga').removeClass('active');
+                $('.collapsible').collapsible();
+
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+        return false;
+    }
+
+    function add_form_prestamo_docente(fecha, sala_turno){
+        $('#fecha').val(fecha)
+        $('#sala_turno').val(sala_turno)
+        frm.removeClass('hiddendiv');
+    }
+
+    function desactivar_prestamo_docente(id){
+        var r = confirm("Desea cancelar el prestamo, recuerde que no se puede retroceder a esta accción?");
+        if (r == true) {
+            document.location='/desactivar_prestamo_docente?id='+id
+        }
+    }
+
+
+{% endblock %}
+
+

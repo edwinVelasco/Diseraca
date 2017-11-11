@@ -1,0 +1,59 @@
+{% extends 'diseraca/admin/base_admin.html' %}
+
+{% block nav %}
+<nav class="nav-extended">
+        <div class="nav-wrapper container">
+            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li>Admin: {{ admin.user.first_name }}</li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+        </div>
+        <div class="nav-content container">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#utilizacion" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
+                <li class="tab"><a href="#carrera" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
+                <li class="tab"><a href="#semestre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones"><i class="material-icons">view_list</i></a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <div class="card-panel">
+            <div id="utilizacion" class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select name="carga" id="carga_docente" required>
+
+                        </select>
+                        <label>Seleccione la materia</label>
+                    </div>
+
+                </div>
+                <div id="grafico-utilizacion" class="row">
+
+                </div>
+            </div>
+            <div id="carrera" class="col s12">Test 2</div>
+            <div id="test3" class="col s12">Test 3</div>
+        </div>
+    </div>
+    <script src=""></script>
+{% endblock %}
+
+
+{% block init %}
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

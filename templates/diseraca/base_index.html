@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="es" ng-app="DiseracaApp">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Diseraca 2 | UFPS
+        {% endblock %}
+    </title>
+    <link type="image/x-icon" rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+    <link href="{% static 'css/material-icons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        {% block nav %}
+
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer class="page-footer">
+        {% block footet %}
+            <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <img src="{% static 'img/logoufpsvertical.png' %}" >
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Contacto</h5>
+                <ul class="white-text">
+                  <li>División de Servicios Académicos UFPS</li>
+                    <li>Avenida Gran Colombia No. 12E-96 Barrio Colsag Edificio CREAD piso 3.</li>
+                    <li>Tel: 5753256-5776655 ext 301-302</li>
+                    <li>Correo: diseraca@ufps.edu.co</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            2017 © Copyright Edwin A. Velasco
+
+                <div class="right">
+                    <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
+                        UFPS
+                    </a>
+
+                </div>
+
+            </div>
+          </div>
+        {% endblock %}
+    </footer>
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/materialize2.min.js' %}"></script>
+    <script>
+        var frm;
+        $(document).ready(function(){
+            $(".button-collapse").sideNav();
+            $(".button-collapse").collapsible();
+
+
+            {% block init %}
+
+            {% endblock %}
+        });
+
+        {% block script %}
+
+            {% endblock %}
+
+
+
+    </script>
+</body>
+</html>

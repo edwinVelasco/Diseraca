@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DjangoModelDependency</ID>
+  <OriginalElement>#diseraca</OriginalElement>
+  <nodes>
+    <node x="50.64041292295926" y="1587.9195182565475">Diseraca.models.Semestre</node>
+    <node x="1270.8579545454545" y="642.0">Diseraca.models.Persona</node>
+    <node x="0.0" y="1032.0">Diseraca.models.Ip_Registro</node>
+    <node x="892.0" y="802.5">Diseraca.models.Beca</node>
+    <node x="577.0" y="791.0">Diseraca.models.Sala</node>
+    <node x="1285.8352508340718" y="540.8308106987353">django.contrib.auth.models.User</node>
+    <node x="1248.8579545454545" y="156.43810906075058">django.contrib.auth.models.Permission</node>
+    <node x="117.5" y="1330.5">Diseraca.models.Asistencia</node>
+    <node x="1654.4829545454545" y="1330.5">Diseraca.models.Sancion</node>
+    <node x="1361.4829545454545" y="1319.0">Diseraca.models.Carga</node>
+    <node x="842.1931818181819" y="1204.0">Diseraca.models.Prestamo</node>
+    <node x="1196.6079545454545" y="367.0">django.contrib.auth.models.Group</node>
+    <node x="1239.4545454545455" y="1020.5">Diseraca.models.Carrera</node>
+    <node x="1214.3579545454545" y="0.0">django.contrib.contenttypes.models.ContentType</node>
+    <node x="1509.4545454545455" y="1009.0">Diseraca.models.Profesor</node>
+    <node x="267.0" y="1032.0">Diseraca.models.Beca_Turno</node>
+    <node x="1288.7045454545455" y="825.5">Diseraca.models.Departamento</node>
+    <node x="534.0" y="1009.0">Diseraca.models.Turno_Sala</node>
+    <node x="271.5" y="802.5">Diseraca.models.Turno</node>
+    <node x="626.0" y="642.0">Diseraca.models.Edificio</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Diseraca.models.Beca_Turno" target="Diseraca.models.Beca">
+      <point x="61.75" y="-49.5" />
+      <point x="452.25" y="989.0" />
+      <point x="965.75" y="989.0" />
+      <point x="-73.75" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Asistencia" target="Diseraca.models.Ip_Registro">
+      <point x="-69.75" y="-72.5" />
+      <point x="187.25" y="1184.0" />
+      <point x="123.5" y="1184.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Prestamo" target="Diseraca.models.Profesor">
+      <point x="171.75" y="-199.0" />
+      <point x="1242.943181818182" y="1184.0" />
+      <point x="1551.9545454545455" y="1184.0" />
+      <point x="-85.0" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Carrera" target="Diseraca.models.Departamento">
+      <point x="0.0" y="-61.0" />
+      <point x="-59.25" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Carga" target="Diseraca.models.Profesor">
+      <point x="68.25" y="-84.0" />
+      <point x="1566.2329545454545" y="1184.0" />
+      <point x="1636.9545454545455" y="1184.0" />
+      <point x="0.0" y="72.5" />
+    </edge>
+    <edge source="django.contrib.auth.models.User" target="django.contrib.auth.models.Permission">
+      <point x="60.0" y="-26.5" />
+      <point x="1449.3579545454545" y="514.0" />
+      <point x="1457.1079545454545" y="514.0" />
+      <point x="1457.1079545454545" y="342.0" />
+      <point x="1459.6079545454545" y="342.0" />
+      <point x="70.25" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Persona" target="django.contrib.auth.models.User">
+      <point x="0.0" y="-49.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="Diseraca.models.Turno_Sala" target="Diseraca.models.Sala">
+      <point x="63.5" y="-72.5" />
+      <point x="0.0" y="84.0" />
+    </edge>
+    <edge source="django.contrib.auth.models.Permission" target="django.contrib.contenttypes.models.ContentType">
+      <point x="0.0" y="-72.5" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="Diseraca.models.Profesor" target="Diseraca.models.Departamento">
+      <point x="-63.75" y="-72.5" />
+      <point x="1573.2045454545455" y="989.0" />
+      <point x="1466.4545454545455" y="989.0" />
+      <point x="59.25" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Prestamo" target="Diseraca.models.Beca">
+      <point x="-57.25" y="-199.0" />
+      <point x="1013.9431818181819" y="1184.0" />
+      <point x="1113.25" y="1184.0" />
+      <point x="73.75" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Prestamo" target="Diseraca.models.Turno_Sala">
+      <point x="-171.75" y="-199.0" />
+      <point x="899.4431818181819" y="1184.0" />
+      <point x="661.0" y="1184.0" />
+      <point x="0.0" y="72.5" />
+    </edge>
+    <edge source="django.contrib.auth.models.User" target="django.contrib.auth.models.Group">
+      <point x="-60.0" y="-26.5" />
+      <point x="1329.3579545454545" y="514.0" />
+      <point x="1321.6079545454545" y="514.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="Diseraca.models.Sancion" target="Diseraca.models.Profesor">
+      <point x="0.0" y="-72.5" />
+      <point x="1782.4829545454545" y="1184.0" />
+      <point x="1721.9545454545455" y="1184.0" />
+      <point x="85.0" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Prestamo" target="Diseraca.models.Carrera">
+      <point x="57.25" y="-199.0" />
+      <point x="1128.443181818182" y="1174.0" />
+      <point x="1293.7045454545455" y="1174.0" />
+      <point x="-54.25" y="61.0" />
+    </edge>
+    <edge source="Diseraca.models.Profesor" target="Diseraca.models.Persona">
+      <point x="63.75" y="-72.5" />
+      <point x="1700.7045454545455" y="766.0" />
+      <point x="1448.6079545454545" y="766.0" />
+      <point x="59.25" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Carga" target="Diseraca.models.Carrera">
+      <point x="-68.25" y="-84.0" />
+      <point x="1429.7329545454545" y="1174.0" />
+      <point x="1402.2045454545455" y="1174.0" />
+      <point x="54.25" y="61.0" />
+    </edge>
+    <edge source="Diseraca.models.Beca" target="Diseraca.models.Persona">
+      <point x="0.0" y="-72.5" />
+      <point x="1039.5" y="766.0" />
+      <point x="1330.1079545454545" y="766.0" />
+      <point x="-59.25" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Sala" target="Diseraca.models.Edificio">
+      <point x="0.0" y="-84.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="django.contrib.auth.models.Group" target="django.contrib.auth.models.Permission">
+      <point x="0.0" y="-61.0" />
+      <point x="1321.6079545454545" y="342.0" />
+      <point x="1319.1079545454545" y="342.0" />
+      <point x="-70.25" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Beca_Turno" target="Diseraca.models.Turno">
+      <point x="-61.75" y="-49.5" />
+      <point x="-57.25" y="72.5" />
+    </edge>
+    <edge source="Diseraca.models.Asistencia" target="Diseraca.models.Beca_Turno">
+      <point x="69.75" y="-72.5" />
+      <point x="326.75" y="1184.0" />
+      <point x="390.5" y="1184.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="Diseraca.models.Turno_Sala" target="Diseraca.models.Turno">
+      <point x="-63.5" y="-72.5" />
+      <point x="597.5" y="979.0" />
+      <point x="443.25" y="979.0" />
+      <point x="57.25" y="72.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5924122310305777" x="859.0791435671954" y="1323.8967692601796" />
+  <SelectedNodes>
+    <node>Diseraca.models.Semestre</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+</Diagram>
+

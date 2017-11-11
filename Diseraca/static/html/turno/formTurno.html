@@ -1,0 +1,39 @@
+<form name="newFormTurno" id="newFormTurno" action="newTurno" method="post" ng-submit="newForm()">
+    <div>
+        {% csrf_token %}
+        <input type="hidden" name="id" id="id" value="0" ng-model="newTurno.id">
+        <h5 class="center-align">Turnos</h5>
+    </div>
+    <div class="row">
+        <div class="input-field col s2 offset-l3">
+            <input placeholder="Hora Inicio" name="time_start" id="time_start" type="text" class="timepicker validate" ng-model="newTurno.time_start" required>
+            <label for="time_start">Hora Inicio</label>
+        </div>
+        <div class="input-field col s2">
+            <input placeholder="Hora Fin" required id="time_end" name="time_end" type="text" class="timepicker validate" ng-model="newTurno.time_end">
+            <label for="time_end">Hora Fin</label>
+        </div>
+        <div class="input-field col s2">
+            <select ng-model="newTurno.dia" id="dia" name="dia" class="validate" required>
+                <option value="" disabled selected>Seleccione Dia</option>
+                <option value="0">Lunes</option>
+                <option value="1">Martes</option>
+                <option value="2">Miercoles</option>
+                <option value="3">Jueves</option>
+                <option value="4">Viernes</option>
+                <option value="5">Sabado</option>
+            </select>
+            <label for="dia">Dia de la semana</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s3 offset-s3">
+            <input type="checkbox" id="estado" name="estado" ng-model="newTurno.estado"
+            ng-true-value="0" ng-false-value="1"/>
+            <label for="estado">Estado</label>
+        </div>
+        <div class="col s3">
+            <input class="btn" type="submit" value="Guardar">
+        </div>
+    </div>
+</form>

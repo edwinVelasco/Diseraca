@@ -1,0 +1,386 @@
+{% extends 'diseraca/admin/base_admin.html' %}
+
+{% block nav %}
+    <nav class="nav-extended">
+        <div class="nav-wrapper container">
+            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li>Admin: {{ admin.user.first_name }}</li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas/"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+        </div>
+        <div class="nav-content container">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#turnos" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos y Gestión de Horarios"><i class="material-icons">date_range</i></a></li>
+                <li class="tab"><a href="#edificios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Edificios y Salas"><i class="material-icons">location_city</i></a></li>
+                <!--<li class="tab"><a href="#sala_turno" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Asignación de Turnos a Salas"><i class="material-icons">date_range</i></a></li>-->
+            </ul>
+        </div>
+
+    </nav>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container" ng-controller="TurnoController">
+        <div class="card-panel" >
+            <div id="turnos" class="col s12">
+                <div class="row">
+                    <div class="col s6">
+                        <form name="newFormTurno" id="newFormTurno" ng-submit="false">
+                        <div>
+                            <h5 class="center-align">Turnos</h5>
+                            <input type="hidden" name="pk" id="pk" ng-model="newTurno.pk" ng-value="newTurno.pk">
+                        </div>
+                        <div class="row">
+                            <div class="input-field col l6">
+                                <input placeholder="Hora Inicio" name="time_start" id="time_start" type="text" ng-model="newTurno.fields.time_start" required>
+                                <label for="time_start">Hora Inicio</label>
+                            </div>
+                            <div class="input-field col l6">
+                                <input placeholder="Hora Fin" required id="time_end" name="time_end" type="text" ng-model="newTurno.fields.time_end">
+                                <label for="time_end">Hora Fin</label>
+                            </div>
+                            <div class="input-field col l6">
+                                <select id="dia" name="dia" required>
+                                    <option value="" disabled selected>Seleccione Dia</option>
+                                    <option value=0>Lunes</option>
+                                    <option value=1>Martes</option>
+                                    <option value=2>Miercoles</option>
+                                    <option value=3>Jueves</option>
+                                    <option value=4>Viernes</option>
+                                    <option value=5>Sabado</option>
+                                </select>
+                                <label for="dia">Dia de la semana</label>
+                            </div>
+                            <div class="col s4">
+                                <input type="checkbox" id="estado" name="estado" ng-model="newTurno.fields.estado"
+                                ng-true-value="0" ng-false-value="1"/>
+                                <label for="estado">Estado</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col l6">
+                                <input class="btn" type="submit" value="Guardar" ng-click="saveTurno()">
+                            </div>
+                            <div class="col l6">
+                                <input class="btn" type="submit" value="Nuevo" ng-click="newTurnoFrom()">
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="col s6">
+                        <form name="newFormHorarioSala" id="newFormHorarioSala" ng-submit="false">
+                        <div>
+                            <h5 class="center-align">Gestion de Horarios</h5>
+                            <input type="hidden" name="pk" id="pk" ng-model="newSalaTurno.pk" ng-value="newSalaTurno.pk">
+                        </div>
+                        <div class="row">
+                            <div class="input-field col l6">
+                                <select id="edif_sala_turno" name="edif_sala_turno" required class="validate">
+                                </select>
+                                <label for="edif">Edificio</label>
+                            </div>
+                            <div class="input-field col l6">
+                                <select id="sala_sala_turno" name="sala_sala_turno" required class="validate">
+                                </select>
+                                <label for="edif">Sala</label>
+                            </div>
+                            <div class="input-field col l6">
+                                <select id="dia_sala_turno" name="dia_sala_turno" required>
+                                    <option value="" disabled selected>Seleccione Dia</option>
+                                    <option value=0>Lunes</option>
+                                    <option value=1>Martes</option>
+                                    <option value=2>Miercoles</option>
+                                    <option value=3>Jueves</option>
+                                    <option value=4>Viernes</option>
+                                    <option value=5>Sabado</option>
+                                </select>
+                                <label for="dia">Dia de la Semana</label>
+                            </div>
+                            <div class="input-field col l6">
+                                <select name="turno_sala_turno" id="turno_sala_turno">
+                                </select>
+                                <label for="edif">Turno</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <select name="estado_sala_turno" id="estado_sala_turno" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option value="0">Activado</option>
+                                    <option value="1">Desactivado</option>
+                                    <option value="2">Temporal</option>
+                                </select>
+                                <label for="edif">Estado</label>
+                            </div>
+                            <div class=" input-field col l6">
+                                <input placeholder="Fecha" name="hasta_sala_turno" id="hasta_sala_turno" type="text" ng-model="newSalaTurno.fields.hasta" class="datepicker">
+                                <label for="time_start">Hasta cuando?</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col l6">
+                                <input class="btn" type="submit" value="Guardar" ng-click="saveSalaTurnoFrom()">
+                            </div>
+                            <div class="col l6">
+                                <input class="btn" type="submit" value="Nuevo" ng-click="newSalaTurnoFrom()">
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col l6" id="divListaTurnos">
+                        <table class="highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Turnos</th>
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTurnos">
+                                <tr ng-repeat="dataTurno in dataTurnos">
+                                    <td>
+                                        [[ dataTurno.fields.time_start ]] a [[ dataTurno.fields.time_end ]]
+                                    </td>
+                                    <td>
+                                        [[ estado[dataTurno.fields.estado] ]]
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-click="edit_turn([[ dataTurno]])" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Turno">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <ul class="pagination">
+                            <li class="waves-effect" id="pag_0"><a ng-click="get_turn_day(0)">Lunes</a></li>
+                            <li class="waves-effect" id="pag_1"><a ng-click="get_turn_day(1)">Martes</a></li>
+                            <li class="waves-effect" id="pag_2"><a ng-click="get_turn_day(2)">Miercoles</a></li>
+                            <li class="waves-effect" id="pag_3"><a ng-click="get_turn_day(3)">Jueves</a></li>
+                            <li class="waves-effect" id="pag_4"><a ng-click="get_turn_day(4)">Viernes</a></li>
+                            <li class="waves-effect" id="pag_5"><a ng-click="get_turn_day(5)">Sabado</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l6">
+                        <h5>Ver Turnos de salas</h5>
+                        <div class="row">
+                            <div class="col s2" ng-repeat="edif in listEdif">
+                                <a class="btn-floating btn-large waves-effect waves-light red"  ng-click="get_salas(edif)">
+                                    [[ edif.fields.codigo ]]
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s3" ng-repeat="sala in listSalas">
+                                <a class="btn" ng-click="get_turn_sala(sala.pk)">
+                                    [[ sala.fields.codigo ]]
+                                </a>
+                            </div>
+                        </div>
+                        <table class="highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Turnos</th>
+                                    <th>Estado</th>
+                                    <th>hasta</th>
+                                    <th>Opción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaSalaTurnos">
+                                <tr ng-repeat="dataTurno in listTurnosSala">
+                                    <td>
+                                        [[ dataTurno.fields.turno.time_start ]] a [[ dataTurno.fields.turno.time_end]] ([[ lisDias[dataTurno.fields.turno.dia] ]])
+                                    </td>
+                                    <td>
+                                        [[ estadoSalaTurno[dataTurno.fields.estado] ]]
+                                    </td>
+                                    <td>
+                                        [[ dataTurno.fields.hasta ]]
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-click="edit_sala_turno(dataTurno)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Turno">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="pagination" ng-show="listTurnosSala.length > 0">
+                            <li class="disabled"><a href="#!" ng-click="showPagination=[showPagination[0]-10, showPagination[1]-10]"><i class="material-icons">chevron_left</i></a></li>
+                            <li class="active"><a href="#!">1</a></li>
+                            <li class="waves-effect" ng-show="listTurnosSala.length > 10" ><a href="#!" ng-click="showPagination = [10, 19]">2</a></li>
+                            <li class="waves-effect" ng-show="listTurnosSala.length > 20" ><a href="#!" ng-click="showPagination = [20, 29]">3</a></li>
+                            <li class="waves-effect" ng-show="listTurnosSala.length > 30" ><a href="#!" ng-click="showPagination = [30, 39]">4</a></li>
+                            <li class="waves-effect" ng-show="listTurnosSala.length > 40" ><a href="#!" ng-click="showPagination = [40, 49]">5</a></li>
+                            <li class="waves-effect" ng-show="listTurnosSala.length > 50" ><a href="#!" ng-click="showPagination = [50, 59]">5</a></li>
+                            <li class="waves-effect"><a href="#!" ng-click="showPagination=[showPagination[0]+10, showPagination[1]+10]"><i class="material-icons">chevron_right</i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="edificios" class="col s12">
+                <div class="row">
+                    <div class="col l6">
+                        <form name="newFormEdif" id="newFormEdif" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Edificios</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newEdif.pk" ng-value="newEdif.pk">
+                            </div>
+                            <div class="row">
+                                <div class="input-field col l5 offset-l1">
+                                    <input placeholder="Nombre" name="name_edif" id="name_edif" type="text" ng-model="newEdif.fields.nombre" required>
+                                    <label for="name_edif">Nombre del Edificio</label>
+                                </div>
+                                <div class="input-field col l5">
+                                    <input placeholder="Codigo" required id="cod_edif" name="cod_edif" type="text" ng-model="newEdif.fields.codigo" maxlength="5">
+                                    <label for="time_end">Codigo del edificio</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l4 offset-l2">
+                                    <input class="btn" type="submit" value="Guardar" ng-click="saveEdif()">
+                                </div>
+                                <div class="col l4">
+                                    <input class="btn" type="button" value="Nuevo" ng-click="newEdifFunct()">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col s2" ng-repeat="edif in listEdif">
+                            <a class="btn-floating btn-large waves-effect waves-light red"  ng-click="get_salas(edif)">
+                                [[ edif.fields.codigo ]]
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col l6">
+                        <form name="newFormSala" id="newFormSala" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Salas</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newSala.pk">
+                            </div>
+                            <div class="row">
+                                <div class="input-field col l6">
+                                    <select id="edif" name="edif" required class="validate">
+                                    </select>
+                                    <label for="edif">Edificio</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <input placeholder="Codigo" name="cod_sala" id="cod_sala" type="text" ng-model="newSala.fields.codigo" required class="validate">
+                                    <label for="time_start">Codigo de sala</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select id="estado_sala" name="estado_sala" required class="validate">
+                                        <option selected disabled>Selecione</option>
+                                        <option value="0">Activo</option>
+                                        <option value="1">Mantenimiento</option>
+                                        <option value="2">Fuera de Servicio</option>
+                                    </select>
+                                    <label for="estado_sala">Estado</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select id="tipo_sala" name="tipo_sala" required class="validate">
+                                        <option disabled selected> Seleccione</option>
+                                        <option value="0">Sala de clase</option>
+                                        <option value="1">Aula virtual</option>
+                                        <option value="2">Auditorio</option>
+                                    </select>
+                                    <label for="tipo_sala">Tipo de Sala</label>
+                                </div>
+                                <div class="input-field col l3">
+                                    <input placeholder="Capacidad" required id="cap_sala" name="cap_sala" ng-model="newSala.fields.capacidad"type="text" min="1" class="validate">
+                                    <label for="time_end">Capacidad</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l4 offset-l2">
+                                    <input class="btn" type="submit" value="Guardar" ng-click="save_sala()">
+                                </div>
+                                <div class="col l4">
+                                    <input class="btn" type="button" value="Nuevo" ng-click="newSalaFunct()">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l6">
+                        <div ng-show="listSalas.length == 0">
+                            <h4>No hay Salas Disponilbles</h4>
+                        </div>
+                        <table class="highlight striped" ng-show="listSalas.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Capacidad</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Opción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTurnos">
+                                <tr ng-repeat="sala in listSalas">
+                                    <td>
+                                        [[ sala.fields.codigo ]]
+                                    </td>
+                                    <td>
+                                        [[ sala.fields.capacidad ]]
+                                    </td>
+                                    <td>
+                                        [[ tiposSalas[sala.fields.tipo] ]]
+                                    </td>
+                                    <td>
+                                        [[ estadoSalas[sala.fields.estado] ]]
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-click="edit_sala(sala)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Sala">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--
+            <div id="sala_turno"  class="col s12">
+                <p>Hola</p>
+            </div>
+            -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block init %}
+    $('#dia').material_select();
+    $('#tipo_sala').material_select();
+    $('#estado_sala').material_select();
+    $('#edif_sala_turno').material_select();
+    $('#sala_sala_turno').material_select();
+    $('#dia_sala_turno').material_select();
+    $('#turno_sala_turno').material_select();
+    $('#estado_sala_turno').material_select();
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd'
+      });
+
+
+{% endblock %}

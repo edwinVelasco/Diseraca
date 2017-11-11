@@ -1,0 +1,424 @@
+{% extends 'diseraca/admin/base_admin.html' %}
+
+{% block nav %}
+    <nav class="nav-extended">
+        <div class="nav-wrapper container">
+            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li>Admin: {{ admin.user.first_name }}</li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+        </div>
+        <div class="nav-content container">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#clase" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
+                <li class="tab"><a href="#sustentacion" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
+                <li class="tab"><a href="#cursos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones"><i class="material-icons">view_list</i></a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        <div class="card-panel">
+
+            <div id="clase" class="col s12">
+                <div class="row" id="msg">
+                    {% if msg %}
+                        <h4 class="accent-1 red-text">{{ msg }}</h4>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="input-field col l5 offset-l1">
+                        <i class="material-icons prefix">today</i>
+                        <input id="daterequire" type="text" class="datepicker" class="validate">
+                        <label for="daterequire">Fecha requerida</label>
+                    </div>
+                    <div class="input-field col l15 ">
+                        <i class="material-icons prefix">person_pin</i>
+                        <input id="icon_prefix" type="text" class="validate" length="7" name="codigo"  >
+                        <label for="icon_prefix">Codigo Docente</label>
+                    </div>
+
+                </div>
+
+                <div class="row" id="container_prestamos_activos">
+
+                </div>
+
+                <div class="row" id="container_salas">
+
+                </div>
+
+                <div class="row hiddendiv" id="form_add_prestamo">
+                    <form  action="add_prestamo_docente_admin" method="post">
+                        <div>
+                            {% csrf_token %}
+                            <input type="hidden" name="fecha" id="fecha" value="" id="fecha"  >
+                            <input type="hidden" name="sala_turno" id="sala_turno" value=""  >
+                        </div>
+                        <div class="input-field col s12">
+                            <select name="carga" id="carga_docente"  >
+
+                            </select>
+                            <label>Seleccione la materia</label>
+                        </div>
+                        <div class="input-field col s6 l6 offset-s3 offset-l3">
+                            <button class="btn waves-effect waves-light" type="submit">Guardar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row" id="container_edificios">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_admin({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="sustentacion" class="col s12">
+                <div class="row">
+                    <div class="input-field col l5 offset-l1">
+                        <i class="material-icons prefix">today</i>
+                        <input id="daterequire_sustentacion" type="text" class="datepicker" class="validate">
+                        <label for="daterequire_sustentacion">Fecha requerida</label>
+                    </div>
+                </div>
+
+                <div class="row" id="container_salas_sustentacion">
+
+                </div>
+
+                <div class="row hiddendiv" id="form_add_prestamo_sustentacion">
+                    <form  action="add_prestamo_sustentacion_admin" method="post">
+                        <div>
+                            {% csrf_token %}
+                            <input type="hidden" name="fecha_sustentacion" value="" id="fecha_sustentacion"  >
+                            <input type="hidden" name="sala_turno_sustentacion" id="sala_turno_sustentacion" value=""  >
+                        </div>
+                        <div class="input-field col s12 l5">
+                            <select name="carrera" id="carrera_sustentacion"  >
+                                {% if carreras %}
+                                    <option value="" disabled selected>Carrera</option>
+                                    {% for carrera in carreras %}
+                                        <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            <label>Seleccione la carrera</label>
+                        </div>
+
+                        <div class="input-field col l4 offset-l3">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input id="soli_prefix" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
+                            <label for="soli_prefix">Solicitante</label>
+                        </div>
+                        <div class="input-field col l4">
+                            <i class="material-icons prefix">phone_in_talk</i>
+                            <input id="tel_prefix" type="text" class="validate" name="tel" maxlength="12"   length="12">
+                            <label for="tel_prefix">Telefono</label>
+                        </div>
+
+                        <div class="input-field col s6 l6 offset-s3 offset-l3">
+                            <button class="btn waves-effect waves-light" type="submit">Guardar
+                                <i class="material-icons right">save</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row" id="container_edificios_sustentacion">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_sustentacion({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div id="cursos" class="col s12">
+                <div class="row">
+                    <div class="input-field col l5 offset-l1">
+                        <i class="material-icons prefix">today</i>
+                        <input id="daterequire_cursos" type="text" class="datepicker" class="validate">
+                        <label for="daterequire_cursos">Fecha requerida</label>
+                    </div>
+                </div>
+
+                <div class="row" id="container_salas_cursos">
+
+                </div>
+
+                <div class="row hiddendiv" id="form_add_prestamo_cursos">
+                    <form  action="add_prestamo_cursos_admin" method="post">
+                        <div>
+                            {% csrf_token %}
+                            <input type="hidden" name="fecha_curso" value="" id="fecha_curso"  >
+                            <input type="hidden" name="sala_turno_curso" id="sala_turno_curso" value=""  >
+                        </div>
+                        <div class="input-field col s12 l5">
+                            <select name="carrera_cursos" id="carrera_cursos"  >
+                                {% if carreras %}
+                                    <option value="" disabled selected>Carrera</option>
+                                    {% for carrera in carreras %}
+                                        <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            <label>Seleccione la carrera relacionada</label>
+                        </div>
+
+                        <div class="input-field col l4 offset-l3">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input id="cc_prefix_curso" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
+                            <label for="cc_prefix_curso">Solicitante</label>
+                        </div>
+                        <div class="input-field col l4 offset-l3">
+                            <i class="material-icons prefix">comment</i>
+                            <input id="des_prefix_curso" type="text" class="validate" length="50" name="descripcion"   maxlength="50">
+                            <label for="des_prefix_curso">Descripción</label>
+                        </div>
+
+                        <div class="input-field col l4">
+                            <i class="material-icons prefix">phone_in_talk</i>
+                            <input id="tel_prefix_curso" type="text" class="validate" name="tel" maxlength="12"   length="12">
+                            <label for="tel_prefix_curso">Telefono</label>
+                        </div>
+                        <div class="input-field col s12 l5">
+                            <select name="tipo"  >
+                                <option value="" disabled selected>Curso/reunion</option>
+                                <option value="2">Curso</option>
+                                <option value="3">Reunion</option>
+                            </select>
+                            <label>Seleccione el tipo de prestamo</label>
+                        </div>
+
+                        <div class="input-field col s6 l6 offset-s3 offset-l3">
+                            <button class="btn waves-effect waves-light" type="submit">Guardar
+                                <i class="material-icons right">save</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row" id="container_edificios_cursos">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_cursos({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block init %}
+  $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 1, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd'
+      });
+
+{% endblock %}
+
+{% block script %}
+    function buscar_salas_admin(edificio){
+        fecha = $('#daterequire').val()
+        docente = $('#icon_prefix').val()
+
+        if (fecha === '' || docente === '' )
+        {
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('bienvenido/a', {
+                            body: "Verifique la fecha y el codigo del docente que desea consultar",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("click received");
+            }
+            return false;
+        }
+        $('#fecha').val(fecha)
+
+        $('#carga').addClass('active');
+
+        $.ajax({
+            type: 'GET',
+            url: 'buscar_salas_admin',
+            data: {'id':edificio, 'fecha':fecha, 'docente': docente},
+            success: function (data) {
+                $('#container_salas').html(data);
+                $('.collapsible').collapsible();
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: 'get_prestamos_activos_docente',
+            data: {'docente': docente},
+            success: function (data) {
+                $('#container_prestamos_activos').html(data);
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+
+
+        $.ajax({
+            type: 'GET',
+            url: 'get_carga_docente',
+            data: {'docente': docente},
+            success: function (data) {
+                $('#carga_docente').html(data);
+                $('#carga').removeClass('active');
+            },
+            error: function(data) {
+                alert(data);
+            }
+        });
+        return false;
+
+    }
+
+    function ver_form(sala_turno){
+        $('#sala_turno').val(sala_turno);
+        $('#form_add_prestamo').removeClass('hiddendiv');
+        $('select').material_select();
+    }
+
+    function get_salas_sustentacion(id){
+        fecha = $('#daterequire_sustentacion').val()
+        if (fecha === '')
+        {
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('bienvenido/a', {
+                            body: "Verifique la fecha",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("click received");
+            }
+            return false;
+        }
+        $('#fecha_sustentacion').val(fecha)
+        $('#carga_sustentacion').addClass('active');
+
+        $.ajax({
+            type: 'GET',
+            url: 'buscar_salas_admin_sustentacion',
+            data: {'id':id, 'fecha':fecha},
+            success: function (data) {
+                $('#container_salas_sustentacion').html(data);
+                $('.collapsible').collapsible();
+                $('#carga_sustentacion').removeClass('active');
+            },
+            error: function(data) {
+                $('#carga_sustentacion').removeClass('active');
+                alert(data);
+            }
+        });
+
+    }
+    function ver_form_sustentacion(sala_turno){
+        $('#sala_turno_sustentacion').val(sala_turno);
+        $('#form_add_prestamo_sustentacion').removeClass('hiddendiv');
+        $('select').material_select();
+    }
+
+    function get_salas_cursos(id){
+        fecha = $('#daterequire_cursos').val()
+        if (fecha === '')
+        {
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('bienvenido/a', {
+                            body: "Verifique la fecha",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("click received");
+            }
+            return false;
+        }
+        $('#fecha_curso').val(fecha)
+        $('#carga_cursos').addClass('active');
+
+        $.ajax({
+            type: 'GET',
+            url: 'buscar_salas_admin_sustentacion',
+            data: {'id':id, 'fecha':fecha, 'opcion': 1},
+            success: function (data) {
+                $('#container_salas_cursos').html(data);
+                $('.collapsible').collapsible();
+                $('#carga_cursos').removeClass('active');
+            },
+            error: function(data) {
+                $('#carga_cursos').removeClass('active');
+                alert(data);
+            }
+        });
+
+    }
+    function ver_form_cursos(sala_turno){
+        $('#sala_turno_curso').val(sala_turno);
+        $('#form_add_prestamo_cursos').removeClass('hiddendiv');
+        $('select').material_select();
+    }
+
+
+
+{% endblock %}
