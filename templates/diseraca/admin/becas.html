@@ -72,8 +72,7 @@
                         <tbody>
                             <tr>
                                 <td>06:00 a 08:00</td>
-                                <td>
-                                    {% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -82,35 +81,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -121,7 +120,7 @@
                             <tr>
                                 <td>08:00 a 10:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -129,35 +128,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -168,7 +167,7 @@
                             <tr>
                                 <td>10:00 a 12:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -176,35 +175,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -215,7 +214,7 @@
                             <tr>
                                 <td>12:00 a 14:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -223,35 +222,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -262,7 +261,7 @@
                             <tr>
                                 <td>14:00 a 16:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -270,35 +269,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -309,7 +308,7 @@
                             <tr>
                                 <td>16:00 a 18:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -317,35 +316,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -356,7 +355,7 @@
                             <tr>
                                 <td>18:00 a 20:00</td>
                                 <td>
-                                    {% for beca_turno in beca_turnos %}
+                                    {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 0 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -364,35 +363,35 @@
                                         {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 1 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 2 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 3 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 4 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
-                                <td>{% for beca_turno in beca_turnos %}
+                                <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 5 %}
                                             <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
@@ -403,7 +402,7 @@
                             <tr>
                         <td>20:00 a 22:00</td>
                         <td>
-                            {% for beca_turno in beca_turnos %}
+                            {% for beca_turno in beca_turnos_lunes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 0 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
@@ -411,35 +410,35 @@
                                 {% endif %}
                             {% endfor %}
                         </td>
-                        <td>{% for beca_turno in beca_turnos %}
+                        <td>{% for beca_turno in beca_turnos_martes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 1 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
-                        <td>{% for beca_turno in beca_turnos %}
+                        <td>{% for beca_turno in beca_turnos_miercoles %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 2 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
-                        <td>{% for beca_turno in beca_turnos %}
+                        <td>{% for beca_turno in beca_turnos_jueves %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 3 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
-                        <td>{% for beca_turno in beca_turnos %}
+                        <td>{% for beca_turno in beca_turnos_viernes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 4 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
-                        <td>{% for beca_turno in beca_turnos %}
+                        <td>{% for beca_turno in beca_turnos_sabado%}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 5 %}
                                     <a onclick="delete_turno_beca({{ beca_turno.id }})" onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}

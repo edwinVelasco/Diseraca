@@ -559,10 +559,8 @@ def buscar_salas_admin(request):
 
         # se obtiene el mes en numero
         date = request.GET['fecha'].split('-')
-        month = int(date[1])-1
-        year = int(date[0])
-        day = int(date[2])
-        fecha = datetime.date(day=day, month=month, year=year)
+
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
         edificio = Edificio.objects.get(id=request.GET['id'])
         salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
@@ -643,13 +641,8 @@ def get_carga_docente(request):
 def add_prestamo_docente_admin(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                     'November', 'December']
-            month = meses.index(request.POST['fecha'].split(',')[0].split(' ')[1]) + 1
-            year = int(request.POST['fecha'].split(',')[1][1:])
-            day = int(request.POST['fecha'].split(',')[0].split(' ')[0])
-
-            fecha = datetime.date(day=day, month=month, year=year)
+            date = request.POST['fecha'].split('-')
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
             carga = Carga.objects.get(id=request.POST['carga'])
             turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno'])
 
@@ -734,8 +727,14 @@ def get_prestamos_activos_docente(request):
 @login_required(login_url='/')
 def view_becas(request):
     if request.user.is_authenticated():
-        turnos = Turno.objects.filter(id__lte=48).order_by('time_start')
-        beca_turnos = Beca_Turno.objects.all()
+        turnos = Turno.objects.filter(id__lte=48, estado=0).order_by('time_start')
+        beca_turnos_lunes = Beca_Turno.objects.filter(turno__dia=0)
+        beca_turnos_martes = Beca_Turno.objects.filter(turno__dia=1)
+        beca_turnos_miercoles = Beca_Turno.objects.filter(turno__dia=2)
+        beca_turnos_jueves = Beca_Turno.objects.filter(turno__dia=3)
+        beca_turnos_viernes = Beca_Turno.objects.filter(turno__dia=4)
+        beca_turnos_sabado = Beca_Turno.objects.filter(turno__dia=5)
+
         becas = Beca.objects.filter(persona__user__is_active=True).order_by('nick')
         persona = Persona.objects.get(user__username=request.session['usuario'])
         ips = Ip_Registro.objects.filter(estado=True)
@@ -746,11 +745,23 @@ def view_becas(request):
                 opcion = request.session['opcion']
                 del request.session['opcion']
                 return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'msg': msg,
-                                                                     'beca_turnos': beca_turnos, 'becas': becas,
+                                                                     'beca_turnos_lunes': beca_turnos_lunes,
+                                                                     'beca_turnos_martes': beca_turnos_martes,
+                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                                     'beca_turnos_jueves': beca_turnos_jueves,
+                                                                     'beca_turnos_viernes': beca_turnos_viernes,
+                                                                     'beca_turnos_sabado': beca_turnos_sabado,
+                                                                     'becas': becas,
                                                                      'ips': ips, 'opcion': opcion, 'admin': persona})
 
             return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'msg': msg,
-                                                                 'beca_turnos': beca_turnos, 'becas': becas, 'ips': ips,
+                                                                 'beca_turnos_lunes': beca_turnos_lunes,
+                                                                 'beca_turnos_martes': beca_turnos_martes,
+                                                                 'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                                 'beca_turnos_jueves': beca_turnos_jueves,
+                                                                 'beca_turnos_viernes': beca_turnos_viernes,
+                                                                 'beca_turnos_sabado': beca_turnos_sabado,
+                                                                 'becas': becas, 'ips': ips,
                                                                  'admin': persona})
         if 'opcion' in request.session:
             opcion = request.session['opcion']
@@ -758,20 +769,45 @@ def view_becas(request):
             if 'beca' in request.session:
                 beca = Beca.objects.get(id=request.session['beca'])
                 del request.session['beca']
-                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'beca_turnos': beca_turnos,
+                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
+                                                                     'beca_turnos_lunes': beca_turnos_lunes,
+                                                                     'beca_turnos_martes': beca_turnos_martes,
+                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                                     'beca_turnos_jueves': beca_turnos_jueves,
+                                                                     'beca_turnos_viernes': beca_turnos_viernes,
+                                                                     'beca_turnos_sabado': beca_turnos_sabado,
                                                                      'becas': becas, 'ips': ips, 'opcion': opcion,
                                                                      'beca': beca, 'admin': persona})
             elif 'ip' in request.session:
                 ip = Ip_Registro.objects.get(id=request.session['ip'])
                 del request.session['ip']
-                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'beca_turnos': beca_turnos,
+                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
+                                                                     'beca_turnos_lunes': beca_turnos_lunes,
+                                                                     'beca_turnos_martes': beca_turnos_martes,
+                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                                     'beca_turnos_jueves': beca_turnos_jueves,
+                                                                     'beca_turnos_viernes': beca_turnos_viernes,
+                                                                     'beca_turnos_sabado': beca_turnos_sabado,
                                                                      'becas': becas, 'ips': ips, 'opcion': opcion,
                                                                      'ip': ip, 'admin': persona})
 
-            return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'beca_turnos': beca_turnos,
-                                                                 'becas': becas, 'ips': ips, 'opcion': opcion, 'admin': persona})
+            return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
+                                                                 'beca_turnos_lunes': beca_turnos_lunes,
+                                                                 'beca_turnos_martes': beca_turnos_martes,
+                                                                 'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                                 'beca_turnos_jueves': beca_turnos_jueves,
+                                                                 'beca_turnos_viernes': beca_turnos_viernes,
+                                                                 'beca_turnos_sabado': beca_turnos_sabado,
+                                                                 'becas': becas, 'ips': ips, 'opcion': opcion,
+                                                                 'admin': persona})
 
-        return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'beca_turnos': beca_turnos,
+        return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
+                                                             'beca_turnos_lunes': beca_turnos_lunes,
+                                                             'beca_turnos_martes': beca_turnos_martes,
+                                                             'beca_turnos_miercoles': beca_turnos_miercoles,
+                                                             'beca_turnos_jueves': beca_turnos_jueves,
+                                                             'beca_turnos_viernes': beca_turnos_viernes,
+                                                             'beca_turnos_sabado': beca_turnos_sabado,
                                                              'becas': becas, 'ips': ips, 'admin': persona})
     else:
         return HttpResponseRedirect('/')
@@ -1370,8 +1406,8 @@ def save_docente(request):
         try:
             docente = Profesor.objects.get(id=request.POST['data[pk]'])
             docente.tel = request.POST['data[tel]']
-            docente.persona.user.first_name = request.POST['data[persona][nombre]']
-            docente.persona.user.email = request.POST['data[persona][email]']
+            docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
+            docente.persona.user.email = request.POST['data[persona][email]'].lower()
             docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
             docente.persona.user.save()
             docente.save()
@@ -1381,8 +1417,8 @@ def save_docente(request):
             docente = Profesor()
             docente.persona.user.username = request.POST['data[persona][codigo]']
             docente.tel = request.POST['data[tel]']
-            docente.persona.user.first_name = request.POST['data[persona][nombre]']
-            docente.persona.user.email = request.POST['data[persona][email]']
+            docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
+            docente.persona.user.email = request.POST['data[persona][email]'].lower()
             docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
             docente.persona.user.save()
             docente.save()
@@ -1414,16 +1450,16 @@ def save_docente_csv(request):
                         dpto.nombre = dt[4]
                         dpto.save()
                     profesor.departamento = dpto
-                    profesor.persona.user.email = dt[3]
-                    profesor.persona.user.first_name = dt[1]
+                    profesor.persona.user.email = dt[3].lower()
+                    profesor.persona.user.first_name = dt[1].lower()
                     profesor.persona.user.save()
                     profesor.save()
                     update += 1
                 except Profesor.DoesNotExist:
                     user = User()
                     user.username = dt[0]
-                    user.email = dt[3]
-                    user.first_name = dt[1]
+                    user.email = dt[3].lower()
+                    user.first_name = dt[1].lower()
                     user.set_password(dt[0])
                     user.save()
                     persona = Persona()
@@ -1437,7 +1473,7 @@ def save_docente_csv(request):
                     except Departamento.DoesNotExist:
                         dpto = Departamento()
                         dpto.codigo = dt[2]
-                        dpto.nombre = dt[4]
+                        dpto.nombre = dt[4].lower()
                         dpto.save()
 
                     profesor.departamento = dpto

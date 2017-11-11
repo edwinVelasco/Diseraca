@@ -12,13 +12,12 @@
       $scope.newDocente = {"pk": 0, 'tel': '', "persona": {"nombre": '', "codigo": '', 'email': ''},
           'dpto': {'codigo_dpto': '', 'nombre_dpto': ''}};
       $scope.fileDocentes = {'name': '', 'file': ''};
-
-
+      $scope.showTableTurnoDocente = false;
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
           $scope.consultaTurnos.fecha_fin = $("#fecha_fin").val();
-            console.log($scope.consultaTurnos);
+
             var bool = false;
             for(pro in $scope.listDocentes){
                 if ($scope.consultaTurnos.docente == $scope.listDocentes[pro].persona.codigo){
@@ -31,6 +30,25 @@
                 $http.get('get_turnos_docente?docente='+ $scope.consultaTurnos.docente+'&fecha_inicio='+$scope.consultaTurnos.fecha_inicio+'&fecha_fin='+$scope.consultaTurnos.fecha_fin)
                 .then(function(response) {
                     $scope.listPrestamosDocente = response.data;
+                    if (response.data.length > 0)
+                    {
+                        $scope.showTableTurnoDocente = true;
+                    }
+                    else{
+                        $scope.showTableTurnoDocente = false;
+                        if ("Notification" in window){
+                        let ask = Notification.requestPermission();
+                        ask.then(permission => {
+                            if (permission ==='granted') {
+                                let msg = new Notification('Mensaje', {
+                                    body: 'El docente no tiene prestamos registrados para el rango de fechas indicadas',
+                                    icon:"/static/img/ufps.jpg"
+                                });
+                            }
+                        });
+                    }
+                    }
+
 
                 }, function(response) {
                     //Second function handles error
