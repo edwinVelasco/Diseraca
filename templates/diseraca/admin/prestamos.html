@@ -351,6 +351,7 @@
         }
         $('#fecha_sustentacion').val(fecha)
         $('#carga_sustentacion').addClass('active');
+        $('#form_add_prestamo_sustentacion').addClass('hiddendiv');
 
         $.ajax({
             type: 'GET',
@@ -419,6 +420,12 @@
         $('select').material_select();
     }
 
+    function desactivar_prestamo_docente(id){
+        var r = confirm("Desea cancelar el prestamo, recuerde que no se puede retroceder a esta accción?");
+        if (r == true) {
+            document.location='/desactivar_prestamo_docente?id='+id
+        }
+    }
 
 
 {% endblock %}

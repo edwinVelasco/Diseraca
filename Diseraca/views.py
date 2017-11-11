@@ -183,7 +183,7 @@ def inicio(request):
                                   {'edificios': edificios, 'prestamos': prestamos, 'docente': persona, 'opcion': 'b',
                                    'fecha': '', 'cargas': cargas})
 
-            fecha = '%s %s, %s' % (ahora.day, meses[ahora.month - 1], ahora.year)
+            fecha = '%s-%s-%s' % (ahora.year, ahora.month, ahora.day)
             # aca es un unicio normal
             if 'msg' in request.GET:
                 return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
@@ -263,14 +263,10 @@ def cerrar(request):
 def buscar_salas_horario_docente(request):
     if request.user.is_authenticated():
         if 'id' in request.GET and 'fecha' in request.GET:
-            meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                     'November', 'December']
-            month = meses.index(request.GET['fecha'].split(',')[0].split(' ')[1]) + 1
-            year = int(request.GET['fecha'].split(',')[1][1:])
-            day = int(request.GET['fecha'].split(',')[0].split(' ')[0])
-            ahora = datetime.datetime.now()
+            date = request.GET['fecha'].split('-')
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
 
-            fecha = datetime.date(day=day, month=month, year=year)
+            ahora = datetime.datetime.now()
             edificio = Edificio.objects.get(id=request.GET['id'])
             salas = Sala.objects.filter(edificio=edificio, tipo=0).exclude(estado=2).order_by('tipo')
             if len(salas) == 0:
@@ -584,7 +580,7 @@ def buscar_salas_admin(request):
                                   </tr>
                                 </thead>
                                 <tbody>
-            ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
+            ''' % (['Sala Audiovisuales', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
 
             sala_turnos = Turno_Sala.objects.filter(sala=s).filter(turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
@@ -598,6 +594,7 @@ def buscar_salas_admin(request):
                 for st in sala_turnos:
                     if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
                         prestamos = Prestamo.objects.filter(date_turno=fecha).filter(turno_sala=st).filter(estado=0)
+
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
                                 ul += '''<tr>
@@ -608,13 +605,30 @@ def buscar_salas_admin(request):
                                     <i class="material-icons">add</i></a></td>
                                     </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5], str(st.id))
                         else:
-                            ul += '''<tr>
+                            if prestamos[0].tipo == 1:
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
+                                                                               str(st.turno.time_end)[:5],
+                                                                               u'Sustentación de %s de %s '
+                                                                                %(prestamos[0].solicitante,
+                                                                                  prestamos[0].carrera.nombre)
+                                                                               )
+                            elif prestamos[0].tipo == 2:
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
+                                                                                str(st.turno.time_end)[:5],
+                                                                                'Curso'
+                                                                                )
+                            elif prestamos[0].tipo == 3:
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
+                                                                                str(st.turno.time_end)[:5],
+                                                                                u'Reunión'
+                                                                                )
+                            else:
+                                ul += '''<tr>
                                 <td>%s a %s</td>
                                 <td>%s</td>
                                 </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                            prestamos[0].profesor.persona.user.first_name + ' / ' + prestamos[
-                                                                                  0].nombre + ', G-' +
-                                            prestamos[0].grupo)
+                                            prestamos[0].profesor.persona.user.first_name + ' / ' + prestamos[0].nombre
+                                            + ', G-' + prestamos[0].grupo)
 
             ul += '</tbody></table></div></li>'
         ul += '</ul>'
@@ -1033,11 +1047,7 @@ def buscar_salas_admin_sustentacion(request):
     if request.user.is_authenticated():
         # se obtiene el mes en numero
         date = request.GET['fecha'].split('-')
-        month = int(date[1]) - 1
-        year = int(date[0])
-        day = int(date[2])
-        fecha = datetime.date(day=day, month=month, year=year)
-        fecha = datetime.date(day=day, month=month, year=year)
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
         edificio = Edificio.objects.get(id=request.GET['id'])
         salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
@@ -1078,6 +1088,7 @@ def buscar_salas_admin_sustentacion(request):
                         prestamos = Prestamo.objects.filter(date_turno=fecha).filter(turno_sala=st).filter(estado=0)
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
+                                #la opcion viene de buscar salas para prestamos de cursos/reuniones
                                 if 'opcion' in request.GET:
                                     ul += '''<tr>
                                     <td>%s a %s</td>
@@ -1094,6 +1105,40 @@ def buscar_salas_admin_sustentacion(request):
                                     waves-light btn-floating secondary-content">
                                     <i class="material-icons">add</i></a></td>
                                     </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5], str(st.id))
+                        else:
+                            # la opcion viene de buscar salas para prestamos de cursos/reuniones
+                            if prestamos[0].tipo == 1 and not 'opcion' in request.GET:
+                                ul += '''<tr>
+                                <td>%s a %s</td>
+                                <td>Sustentacion de %s de %s
+                                <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
+                                waves-light btn-floating secondary-content red">
+                                <i class="material-icons">delete</i></a></td>
+                                </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
+                                prestamos[0].solicitante, prestamos[0].carrera.nombre, prestamos[0].id)
+                            elif 'opcion' in request.GET:
+                                #curso
+                                if prestamos[0].tipo == 2:
+                                    ul += '''<tr>
+                                        <td>%s a %s</td>
+                                        <td>Curso de %s de %s
+                                        <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
+                                        waves-light btn-floating secondary-content red">
+                                        <i class="material-icons">delete</i></a></td>
+                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
+                                    prestamos[0].solicitante, prestamos[0].carrera.nombre, prestamos[0].id)
+                                #reunion
+                                elif prestamos[0].tipo == 3:
+                                    ul += u'''<tr>
+                                        <td>%s a %s</td>
+                                        <td>Reunión de %s para %s
+                                        <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
+                                        waves-light btn-floating secondary-content red">
+                                        <i class="material-icons">delete</i></a></td>
+                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
+                                    prestamos[0].solicitante, prestamos[0].detalle, prestamos[0].id)
+
+
 
 
             ul += '</tbody></table></div></li>'
@@ -1106,12 +1151,8 @@ def buscar_salas_admin_sustentacion(request):
 @login_required(login_url='/')
 def add_prestamo_sustentacion_admin(request):
     if request.user.is_authenticated():
-        date = request.GET['fecha'].split('-')
-        month = int(date[1]) - 1
-        year = int(date[0])
-        day = int(date[2])
-
-        fecha = datetime.date(day=day, month=month, year=year)
+        date = request.POST['fecha_sustentacion'].split('-')
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
         carrera = Carrera.objects.get(codigo=request.POST['carrera'])
         turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_sustentacion'])
         prestamo = Prestamo()
@@ -1126,7 +1167,7 @@ def add_prestamo_sustentacion_admin(request):
         prestamo.save()
 
         if 'msg' not in request.session:
-            request.session['msg'] = 'Prestamo realizado con exito'
+            request.session['msg'] = 'Prestamo para sustentacion realizado con exito'
 
         return HttpResponseRedirect('inicio')
     else:
@@ -1137,12 +1178,8 @@ def add_prestamo_sustentacion_admin(request):
 def add_prestamo_cursos_admin(request):
     if request.user.is_authenticated():
         if request.user.is_authenticated():
-            date = request.GET['fecha'].split('-')
-            month = int(date[1]) - 1
-            year = int(date[0])
-            day = int(date[2])
-
-            fecha = datetime.date(day=day, month=month, year=year)
+            date = request.POST['fecha_curso'].split('-')
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
             carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos'])
             turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_curso'])
             prestamo = Prestamo()

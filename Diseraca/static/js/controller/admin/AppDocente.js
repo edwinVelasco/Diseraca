@@ -37,18 +37,17 @@
                     else{
                         $scope.showTableTurnoDocente = false;
                         if ("Notification" in window){
-                        let ask = Notification.requestPermission();
-                        ask.then(permission => {
-                            if (permission ==='granted') {
-                                let msg = new Notification('Mensaje', {
-                                    body: 'El docente no tiene prestamos registrados para el rango de fechas indicadas',
-                                    icon:"/static/img/ufps.jpg"
-                                });
-                            }
-                        });
+                            let ask = Notification.requestPermission();
+                            ask.then(permission => {
+                                if (permission ==='granted') {
+                                    let msg = new Notification('Mensaje', {
+                                        body: 'El docente no tiene prestamos registrados para el rango de fechas indicadas',
+                                        icon:"/static/img/ufps.jpg"
+                                    });
+                                }
+                            });
+                        }
                     }
-                    }
-
 
                 }, function(response) {
                     //Second function handles error

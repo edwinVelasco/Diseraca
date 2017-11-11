@@ -234,10 +234,15 @@
     fecha.setDate(fecha.getDate() + 10);
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 1, // Creates a dropdown of 15 years to control year
+        selectYears: 1, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd',
         min: new Date(),
         max: fecha
-    });
+      });
 
     $('select').material_select();
     frm = $('#form_add_prestamo');

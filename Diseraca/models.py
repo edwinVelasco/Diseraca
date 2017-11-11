@@ -126,7 +126,7 @@ class Prestamo(models.Model):
     )
     estado = models.IntegerField(default=0, choices=estados)
     tipos = (
-        (0, 'Clase'),
+        (0, 'Audiovisuales'),
         (1, 'Sustentacion'),
         (2, 'Curso'),
         (3, 'Reunion')
@@ -138,10 +138,9 @@ class Prestamo(models.Model):
     tel = models.CharField(max_length=12, null=True)
     detalle = models.CharField(max_length=50, null=True)
 
-
     def __unicode__(self):
-        return ['Activo', 'Entregado', 'Cancelado', 'Anulado'][self.estado]+', '+str(self.date_prestamo)+', '+self.usuario+', '+self.ip+', '+str(self.date_turno)+\
-               ', '+str(self.turno_sala)
+        return ['Activo', 'Entregado', 'Cancelado', 'Anulado'][self.estado]+', '+str(self.date_prestamo)+', '+\
+               self.usuario+', '+self.ip+', '+str(self.date_turno)+', '+str(self.turno_sala)
 
 
 class Persona(models.Model):
