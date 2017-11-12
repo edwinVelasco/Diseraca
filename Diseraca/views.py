@@ -53,16 +53,12 @@ def get_edificios(request):
 
 def get_salas_disponibilidad(request):
     if 'id' in request.GET and 'fecha' in request.GET:
-        meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                 'November', 'December']
-        # se obtiene el mes en numero
-        month = meses.index(request.GET['fecha'].split(',')[0].split(' ')[1]) + 1
-        year = int(request.GET['fecha'].split(',')[1][1:])
-        day = int(request.GET['fecha'].split(',')[0].split(' ')[0])
-        fecha = datetime.date(day=day, month=month, year=year)
+
         edificio = Edificio.objects.get(id=request.GET['id'])
         salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
+        date = request.GET['fecha'].split('-')
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
 
         if len(salas) == 0:
             text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (edificio.nombre)
@@ -122,7 +118,7 @@ def get_salas_disponibilidad(request):
                                 ul += '''<tr><td>%s a %s</td><td>Curso de %s  %s</td></tr>''' % (
                                 str(st.turno.time_start)[:5],
                                 str(st.turno.time_end)[:5], prestamos[0].solicitante, prestamos[0].detalle)
-                            elif prestamos[0].tipo == 2:
+                            elif prestamos[0].tipo == 3:
                                 ul += '''<tr><td>%s a %s</td><td>Reunion de %s  %s</td></tr>''' % (
                                     str(st.turno.time_start)[:5],
                                     str(st.turno.time_end)[:5], prestamos[0].solicitante, prestamos[0].detalle)
@@ -145,24 +141,16 @@ def inicio(request):
         if persona.tipo == 0:
             p = Profesor.objects.get(persona=persona)
             prestamos = Prestamo.objects.filter(profesor=p, estado=0, date_turno__gte=ahora.date())
-            if len(prestamos) == 2:
-                return render(request, 'diseraca/docente.html', {'prestamos': prestamos, 'docente': persona,
-                                                                 'opcion': 'd',
-                                                                 'msg': 'ya tiene los turnos activos permitidos'})
 
             edificios = Edificio.objects.all().order_by('codigo')
             cargas = Carga.objects.filter(profesor=p)
-            meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-                     'October', 'November', 'December']
 
             if 'tmp' in request.session:
+                print 'tmp', request.session['tmp']
                 tmp = request.session['tmp'].split('.')
                 del request.session['tmp']
-                month = meses.index(tmp[0].split(',')[0].split(' ')[1]) + 1
-                year = int(tmp[0].split(',')[1][1:])
-                day = int(tmp[0].split(',')[0].split(' ')[0])
-
-                f = datetime.date(day=day, month=month, year=year)
+                date = tmp[0].split('-')
+                f = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
                 fecha_p = f - datetime.timedelta(days=7)
                 fecha_s = f + datetime.timedelta(days=7)
 
@@ -185,11 +173,13 @@ def inicio(request):
 
             fecha = '%s-%s-%s' % (ahora.year, ahora.month, ahora.day)
             # aca es un unicio normal
-            if 'msg' in request.GET:
+            if 'msg' in request.session:
+                msg = request.session['msg']
+                del request.session['msg']
                 return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
                                                              'docente': persona, 'fecha': fecha, 'cargas': cargas,
-                                                             'opcion': 'c', 'msg': request.GET['msg']})
-            if len(prestamos) == 2:
+                                                             'opcion': 'c', 'msg': msg})
+            if len(prestamos) == 3:
                 return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
                                                                  'docente': persona, 'fecha': fecha, 'cargas': cargas,
                                                                  'opcion': 'c',
@@ -278,7 +268,8 @@ def buscar_salas_horario_docente(request):
                  Solo se muestran las salas y turnos disponibles para usted <a target="_blank"  href="informacion"
                  class=""><i class="material-icons">info_outline</i></a>
                  <ul class="collapsible" data-collapsible="accordion">''' % (edificio.nombre, fecha)
-
+            fecha_p = fecha - datetime.timedelta(days=7)
+            fecha_s = fecha + datetime.timedelta(days=7)
             for s in salas:
                 ul += '''<li>
                     <div class="collapsible-header"><span class="badge">%s, Max %s</span>%s</div>
@@ -310,21 +301,46 @@ def buscar_salas_horario_docente(request):
                             </tr>'''
                 else:
                     j = 0
+
                     for st in sala_turnos:
                         if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                            fecha_p = fecha - datetime.timedelta(days=7)
-                            fecha_s = fecha + datetime.timedelta(days=7)
 
                             # prestamos pasados
-                            p_p = Prestamo.objects.filter(profesor=p, date_turno=fecha_p, turno_sala__turno=st.turno)\
+                            p_turno = Prestamo.objects.filter(date_turno=fecha, turno_sala=st).exclude(estado=2)
+                            p_p1 = Prestamo.objects.filter(profesor=p, date_turno=fecha_p,
+                                                          turno_sala__turno__time_start=st.turno.time_end)\
+                                .exclude(estado=2)
+                            p_p = Prestamo.objects.filter(profesor=p, date_turno=fecha_p, turno_sala__turno=st.turno) \
+                                .exclude(estado=2)
+                            p_p2 = Prestamo.objects.filter(profesor=p, date_turno=fecha_p,
+                                                          turno_sala__turno__time_end=st.turno.time_start)\
                                 .exclude(estado=2)
                             # prestamos siguientes
-                            p_s = Prestamo.objects.filter(profesor=p, date_turno=fecha_s, turno_sala__turno=st.turno)\
+                            p_s1 = Prestamo.objects.filter(profesor=p, date_turno=fecha_s,
+                                                           turno_sala__turno__time_start=st.turno.time_end)\
+                                .exclude(estado=2)
+                            p_s = Prestamo.objects.filter(profesor=p, date_turno=fecha_s, turno_sala__turno=st.turno) \
+                                .exclude(estado=2)
+                            p_s2 = Prestamo.objects.filter(profesor=p, date_turno=fecha_s,
+                                                           turno_sala__turno__time_end=st.turno.time_start)\
                                 .exclude(estado=2)
 
-                            p_d = Prestamo.objects.filter(profesor=p, date_turno=fecha, turno_sala__turno=st.turno)\
+                            # prestamos para el dia del prestamo
+                            p_d1 = Prestamo.objects.filter(profesor=p, date_turno=fecha,
+                                                          turno_sala__turno__time_end=st.turno.time_start)\
                                 .exclude(estado=2)
-                            if len(p_s) == 0 and len(p_p) == 0 and len(p_d) == 0:
+                            p_d = Prestamo.objects.filter(profesor=p, date_turno=fecha, turno_sala__turno=st.turno) \
+                                .exclude(estado=2)
+                            p_d2 = Prestamo.objects.filter(profesor=p, date_turno=fecha,
+                                                          turno_sala__turno__time_end=st.turno.time_start)\
+                                .exclude(estado=2)
+
+
+                            # prestamos siguientes
+
+                            if len(p_p1) == 0 and len(p_p2) == 0 and len(p_s1) == 0 and len(p_s2) == 0 and \
+                                            len(p_d1) == 0 and len(p_d2) == 0 and len(p_s) == 0 and len(p_p) == 0 and \
+                                            len(p_d) == 0 and len(p_turno) == 0:
                                 ul += '''<tr>
                                     <td>%s a %s</td>
                                     <td>Libre
@@ -336,9 +352,10 @@ def buscar_salas_horario_docente(request):
                                         </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
                                                     request.GET['fecha'], str(st.id))
                                 j += 1
+
                     if j == 0:
                         ul += '''<tr>
-                            <td>None</td>
+                            <td></td>
                             <td>Sala sin turnos para usted, contactenos para mas detalles</td>
                             </tr>'''
 
@@ -353,23 +370,20 @@ def buscar_salas_horario_docente(request):
 def add_prestamo_docente(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                     'November', 'December']
-            month = meses.index(request.POST['fecha'].split(',')[0].split(' ')[1]) + 1
-            year = int(request.POST['fecha'].split(',')[1][1:])
-            day = int(request.POST['fecha'].split(',')[0].split(' ')[0])
-
-            fecha = datetime.date(day=day, month=month, year=year)
+            date = request.POST['fecha'].split('-')
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
             ahora = datetime.datetime.now()
             carga = Carga.objects.get(id=request.POST['carga'])
             turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno'])
 
             if carga.matriculados > turno_sala.sala.capacidad:
-                return HttpResponseRedirect('inicio?msg=supera la capacidad de la sala')
+                request.session['msg'] = 'supera la capacidad de la sala'
+                return HttpResponseRedirect('inicio')
 
-            prestamos_activos = Prestamo.objects.filter(profesor=carga.profesor, estado=0)
-            if len(prestamos_activos) == 2:
-                return HttpResponseRedirect('inicio?msg=ya tiene los turnos activos permitidos')
+            prestamos_activos = Prestamo.objects.filter(profesor=carga.profesor, estado=0, date_turno__gte=ahora.date())
+            if len(prestamos_activos) == 3:
+                request.session['msg'] = 'ya tiene los turnos activos permitidos, 3'
+                return HttpResponseRedirect('inicio')
 
             prestamo = Prestamo()
             prestamo.carrera = carga.carrera
@@ -383,7 +397,8 @@ def add_prestamo_docente(request):
             prestamo.usuario = Profesor.objects.get(persona__user__username=request.session['usuario']).\
                 persona.user.first_name
             prestamo.save()
-            return HttpResponseRedirect('inicio?msg=prestamo registrado con exito')
+            request.session['msg'] = 'prestamo registrado con exito'
+            return HttpResponseRedirect('inicio')
     else:
         return HttpResponseRedirect('/')
 
@@ -665,7 +680,7 @@ def add_prestamo_docente_admin(request):
 
 
             prestamos_activos = Prestamo.objects.filter(profesor=carga.profesor, estado=0)
-            if len(prestamos_activos) == 2:
+            if len(prestamos_activos) == 3:
                 request.session['msg'] = 'ya tiene los turnos activos permitidos'
 
             prestamo = Prestamo()
@@ -1415,7 +1430,7 @@ def get_turnos_docente(request):
                                                 date_turno__gte=request.GET['fecha_inicio'])
             t = [{'pk': w.id, 'nom_materia': w.nombre, 'cod_materia': w.codigo, 'mat_grupo': w.grupo,
                   'fecha_prestamo': str(w.date_prestamo)[:16], 'fecha_turno': str(w.date_turno), 'usuario': w.usuario,
-                  'sala': w.turno_sala.sala.codigo, 'turno': str(w.turno_sala.turno.time_start) +'-'+ str(w.turno_sala.turno.time_end)} for w in x]
+                  'sala': w.turno_sala.sala.codigo, 'turno': str(w.turno_sala.turno.time_start) +'-'+ str(w.turno_sala.turno.time_end), 'ip': w.ip} for w in x]
             data2 = json.dumps(t)
             return HttpResponse(data2, content_type='application/json')
         except Profesor.DoesNotExist:
