@@ -12,7 +12,9 @@
       $scope.newDocente = {"pk": 0, 'tel': '', "persona": {"nombre": '', "codigo": '', 'email': ''},
           'dpto': {'codigo_dpto': '', 'nombre_dpto': ''}};
       $scope.fileDocentes = {'name': '', 'file': ''};
+      $scope.fileCargaDocente = {'name': '', 'file': ''};
       $scope.showTableTurnoDocente = false;
+      $scope.listCargaDocente = [];
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
@@ -78,6 +80,7 @@
                 $scope.content = "Something went wrong";
             });
     };
+
     $scope.getDepartamentos = function () {
           $http.get('get_dptos')
             .then(function(response) {
@@ -93,6 +96,7 @@
                 $scope.content = "Something went wrong";
             });
     };
+
     $scope.buscarDocenteEditar = function () {
         cod = $('#codigo_docente_buscar').val();
 
@@ -125,7 +129,9 @@
                 }
         }
     };
+
     $scope.getDocentes();
+
     $scope.getDepartamentos();
 
     $scope.newDocenteFunct = function () {
@@ -157,4 +163,33 @@
                 console.log(err);
             })
     };
+
+    $scope.buscarCargaDocente = function () {
+         $http.get('buscar_carga_docente?docente='+$("#codigo_docente_buscar_carga").val())
+            .then(function(response) {
+                $scope.listCargaDocente = response.data;
+                console.log($scope.listCargaDocente)
+                if ($scope.listCargaDocente.length > 0){
+
+                }
+                else{
+                    if ("Notification" in window){
+                        let ask = Notification.requestPermission();
+                        ask.then(permission => {
+                            if (permission ==='granted') {
+                                let msg = new Notification('Mensaje', {
+                                    body: 'El docente no tiene carga academica',
+                                    icon:"/static/img/ufps.jpg"
+                                });
+                            }
+                        });
+                    }
+                }
+
+
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+    }
 });

@@ -18,7 +18,7 @@
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
                 <li class="tab"><a href="#turnos_docentes" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Turnos de docente"><i class="material-icons">work</i></a></li>
-                <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Carga Docente"><i class="material-icons">view_list</i></a></li>
+                <li class="tab"><a href="#carga_docente" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Carga Academica de Docente"><i class="material-icons">view_list</i></a></li>
                 <li class="tab"><a href="#add_docente" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar Docente"><i class="material-icons">add</i></a></li>
             </ul>
         </div>
@@ -90,6 +90,84 @@
                         </table>
                 </div>
             </div>
+            <div id="carga_docente" class="col s12">
+                <div class="row">
+                    <div class="col l6">
+                        <form action="save_carga_docentes_csv" method="post" id="form_carga_docente_csv"  enctype="multipart/form-data">
+                            <div>
+                                <h5 class="center-align">Carga masiva</h5>
+                                {% csrf_token %}
+                            </div>
+                            <div class="row">
+                                <div class="col l8 offset-l2 file-field input-field">
+                                    <div class="btn">
+                                        <span>Importar CSV</span>
+                                        <input type="file" accept="text/csv" uploader-model="file_carga_docente" id="file_carga_docente" name="file_carga_docente" ng-model="fileCargaDocente.file">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" id="name_file_carga" name="name_file_carga" ng-model="fileCargaDocente.name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l4 offset-l4">
+                                    <input class="btn" type="submit" value="Guardar">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col l6">
+                        <form name="" id="" ng-submit="false">
+                                <div>
+                                    <h5 class="center-align">Buscar carga de docente</h5>
+                                    <input type="hidden" name="pk" id="pk" ng-model="newDocente.pk" ng-value="newDocente.pk">
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col l4 offset-l2">
+                                        <input placeholder="Codigo" name="codigo_docente_buscar_carga" id="codigo_docente_buscar_carga" type="text" class="validate" required>
+                                        <label for="codigo_docente_buscar_carga">Codigo</label>
+                                    </div>
+                                    <div class="col l4">
+                                        <input class="btn" type="submit" value="Buscar" ng-click="buscarCargaDocente()">
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="highlight striped" ng-show="listCargaDocente.length > 0">
+                        <thead>
+                            <tr>
+                                <th>Codigo-Grupo</th>
+                                <th>Nombre</th>
+                                <th>Matriculados</th>
+                                <th>Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTurnos">
+                            <tr ng-repeat="carga in listlistCargaDocenteSalas">
+                                <td>
+                                    [[ carga.codigo ]]-[[ carga.grupo ]]
+                                </td>
+                                <td>
+                                    [[ carga.nombre ]]
+                                </td>
+                                <td>
+                                    [[ carga.matriculados ]]
+                                </td>
+
+                                <td>
+                                    <a href="#" ng-click="edit_carga(carga)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Carga">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
             <div class="col l12" id="add_docente">
                 <div class="row">
                     <div class="col l6">

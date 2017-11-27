@@ -2,102 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce631d71-ef4c-46cd-b192-d71ce84a5a4e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/#diseraca.uml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Bold.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Bold.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Bold.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Light.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Light.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Light.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Medium.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Medium.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Medium.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Regular.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Regular.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Regular.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Thin.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Thin.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Thin.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/banner_ufps.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/bg-default.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/body-bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/fondo.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/logo_ufps.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/logoufpsvertical.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/img/ufps.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/diagram.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/7f8f1f6d-8035-4e8a-9c7d-23e938629812.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/7f8f1f6d-8035-4e8a-9c7d-23e938629812/storage.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/diseraca.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/admin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/archivos/turnos_inicio.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/forms.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/migrations/0001_initial.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/migrations/0002_auto_20171008_1722.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/migrations/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/models.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/libs/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/material-icons.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/materialize.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/materialize.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/materialize2.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/css/style.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Bold.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Light.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Medium.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Regular.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/fonts/roboto/Roboto-Thin.woff2" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/html/turno/formTurno.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/html/turno/listTurnos.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/angular.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/becas.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/login.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/API.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/CHANGES.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/d3.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/d3/d3.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/jquery-2.1.4.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/materialize.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/materialize.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/static/js/materialize2.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/tests.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Diseraca/views.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/diseraca/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/diseraca/settings.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/diseraca/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/diseraca/wsgi.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/manage.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pruebas.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/admin/base_site.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/base_admin.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/becas.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/estadisticas.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/prestamos.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/admin/turnos.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/base_index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/beca.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/disponibilidad.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/docente.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/horario_sala.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/diseraca/login.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/turnos_inicio.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/diseraca.iml" afterPath="$PROJECT_DIR$/.idea/diseraca.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/urls.py" afterPath="$PROJECT_DIR$/Diseraca/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/views.py" afterPath="$PROJECT_DIR$/Diseraca/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" afterPath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -117,44 +29,31 @@
     <option name="SHOW_TABLE_DETAILS" value="true" />
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="db.sqlite3" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="db.sqlite3" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="schema #1" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
+    <expand>
+      <path>
+        <item name="" type="eadb38e5:DatabaseStructure$Root" />
+        <item name="db.sqlite3" type="e3449647:DbNodeDescriptor" />
+      </path>
+      <path>
+        <item name="" type="eadb38e5:DatabaseStructure$Root" />
+        <item name="db.sqlite3" type="e3449647:DbNodeDescriptor" />
+        <item name="schema #1" type="e3449647:DbNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" module-name="diseraca" is-module-sdk="true">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
     <option name="myUseModuleSdk" value="true" />
     <option name="myModuleName" value="diseraca" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="19" lean-forward="false" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+            <state relative-caret-position="310">
+              <caret line="65" column="57" lean-forward="true" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="57" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -165,25 +64,21 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="178">
+              <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="16" />
               <folding>
                 <element signature="e#140#308#0" expanded="false" />
                 <element signature="e#344#571#0" expanded="false" />
-                <element signature="e#605#1003#0" expanded="false" />
                 <element signature="e#1040#1192#0" expanded="false" />
                 <element signature="e#1225#2064#0" expanded="false" />
                 <element signature="e#2098#2831#0" expanded="false" />
                 <element signature="e#2870#3359#0" expanded="false" />
-                <element signature="e#3396#4954#0" expanded="false" />
-                <element signature="e#4990#5303#0" expanded="false" />
-                <element signature="e#5340#5590#0" expanded="false" />
-                <element signature="e#5623#5891#0" expanded="false" />
-                <element signature="e#5931#6172#0" expanded="false" />
-                <element signature="e#6211#6680#0" expanded="false" />
-                <element signature="e#6719#6790#0" expanded="false" />
-                <element signature="e#6827#7052#0" expanded="false" />
-                <element signature="e#7088#7400#0" expanded="false" />
+                <element signature="e#3396#4961#0" expanded="false" />
+                <element signature="e#4997#5310#0" expanded="false" />
+                <element signature="e#5347#5597#0" expanded="false" />
+                <element signature="e#5630#5898#0" expanded="false" />
+                <element signature="e#5938#6179#0" expanded="false" />
+                <element signature="e#6218#6687#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -192,98 +87,59 @@
       <file leaf-file-name="AppDocente.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+            <state relative-caret-position="312">
+              <caret line="171" column="43" lean-forward="false" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="43" />
               <folding>
-                <element signature="e#561#2168#0" expanded="false" />
-                <element signature="e#2208#2498#0" expanded="false" />
-                <element signature="e#2542#3231#0" expanded="false" />
-                <element signature="e#3278#4398#0" expanded="false" />
-                <element signature="e#4499#4847#0" expanded="false" />
+                <element signature="e#697#3166#0" expanded="false" />
+                <element signature="e#3206#3496#0" expanded="false" />
+                <element signature="e#3541#4230#0" expanded="false" />
+                <element signature="e#4278#5398#0" expanded="false" />
+                <element signature="e#5501#5849#0" expanded="false" />
+                <element signature="e#5889#6713#0" expanded="false" />
+                <element signature="e#7099#7678#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3434">
-              <caret line="202" column="36" lean-forward="false" selection-start-line="202" selection-start-column="36" selection-end-line="202" selection-end-column="36" />
-              <folding />
+            <state relative-caret-position="72">
+              <caret line="133" column="35" lean-forward="true" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
+              <folding>
+                <element signature="e#2407#5985#0#HTML" expanded="false" />
+                <element signature="e#6093#7612#0#HTML" expanded="false" />
+                <element signature="e#10461#12829#0#HTML" expanded="false" />
+                <element signature="e#12968#14024#0#HTML" expanded="false" />
+                <element signature="n#block#2;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1423" column="41" lean-forward="false" selection-start-line="1423" selection-start-column="41" selection-end-line="1423" selection-end-column="41" />
+            <state relative-caret-position="199">
+              <caret line="1554" column="27" lean-forward="false" selection-start-line="1554" selection-start-column="15" selection-end-line="1554" selection-end-column="27" />
               <folding>
                 <element signature="e#24#69#0" expanded="true" />
                 <element signature="e#614#1131#0" expanded="false" />
                 <element signature="e#1158#1400#0" expanded="false" />
                 <element signature="e#1436#1494#0" expanded="false" />
-                <element signature="e#1773#6836#0" expanded="false" />
-                <element signature="e#6895#12694#0" expanded="false" />
-                <element signature="e#12730#13382#0" expanded="false" />
-                <element signature="e#13441#13576#0" expanded="false" />
-                <element signature="e#13704#18805#0" expanded="false" />
-                <element signature="e#18878#20681#0" expanded="false" />
-                <element signature="e#20761#21053#0" expanded="false" />
-                <element signature="e#21215#21602#0" expanded="false" />
-                <element signature="e#21675#24881#0" expanded="false" />
-                <element signature="e#24954#28048#0" expanded="false" />
-                <element signature="e#28146#31972#0" expanded="false" />
-                <element signature="e#32042#32680#0" expanded="false" />
-                <element signature="e#32759#34537#0" expanded="false" />
-                <element signature="e#34619#37014#0" expanded="false" />
-                <element signature="e#37077#39950#0" expanded="false" />
-                <element signature="e#40036#40904#0" expanded="false" />
-                <element signature="e#40968#41774#0" expanded="false" />
-                <element signature="e#41845#42609#0" expanded="false" />
-                <element signature="e#42679#43252#0" expanded="false" />
-                <element signature="e#43303#44516#0" expanded="false" />
-                <element signature="e#44590#45172#0" expanded="false" />
-                <element signature="e#45244#45605#0" expanded="false" />
-                <element signature="e#45686#46120#0" expanded="false" />
-                <element signature="e#46192#46754#0" expanded="false" />
-                <element signature="e#46824#47181#0" expanded="false" />
-                <element signature="e#47243#47710#0" expanded="false" />
-                <element signature="e#47851#51561#0" expanded="false" />
-                <element signature="e#51645#52695#0" expanded="false" />
-                <element signature="e#52773#54086#0" expanded="false" />
-                <element signature="e#54271#54665#0" expanded="false" />
-                <element signature="e#55170#56216#0" expanded="false" />
-                <element signature="e#56815#57499#0" expanded="false" />
-                <element signature="e#57659#58303#0" expanded="false" />
-                <element signature="e#58365#58699#0" expanded="false" />
-                <element signature="e#58761#59789#0" expanded="false" />
-                <element signature="e#59857#60885#0" expanded="false" />
-                <element signature="e#60958#61982#0" expanded="false" />
-                <element signature="e#64143#65318#0" expanded="false" />
+                <element signature="e#65979#66623#0" expanded="false" />
+                <element signature="e#66685#67019#0" expanded="false" />
+                <element signature="e#67081#68109#0" expanded="false" />
+                <element signature="e#68177#69205#0" expanded="false" />
+                <element signature="e#69278#70302#0" expanded="false" />
+                <element signature="e#70367#70940#0" expanded="false" />
+                <element signature="e#71011#72053#0" expanded="false" />
+                <element signature="e#72115#72410#0" expanded="false" />
+                <element signature="e#72475#73682#0" expanded="false" />
+                <element signature="e#73751#75896#0" expanded="false" />
+                <element signature="e#75972#76120#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="turnos.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5202">
-              <caret line="306" column="32" lean-forward="false" selection-start-line="306" selection-start-column="32" selection-end-line="308" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="becas.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/becas.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="187" lean-forward="false" selection-start-line="10" selection-start-column="187" selection-end-line="10" selection-end-column="187" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -354,6 +210,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -401,8 +262,8 @@
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js" />
         <option value="$PROJECT_DIR$/Diseraca/urls.py" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
-        <option value="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
         <option value="$PROJECT_DIR$/Diseraca/views.py" />
+        <option value="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
       </list>
     </option>
   </component>
@@ -422,11 +283,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="628" />
-    <option name="y" value="64" />
-    <option name="width" value="1594" />
-    <option name="height" value="867" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="27" />
+    <option name="width" value="1366" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -447,48 +307,31 @@
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Diseraca" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="diseraca" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
     </panes>
@@ -536,6 +379,14 @@
     </option>
   </component>
   <component name="RunManager" selected="Django server.diseraca">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+    </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -600,6 +451,25 @@
       <option name="ADDITIONAL_ARGS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -623,25 +493,6 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -653,15 +504,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <module name="diseraca" />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -741,7 +583,27 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
-    <configuration default="false" name="diseraca" type="Python.DjangoServer" factoryName="Django server">
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration name="diseraca" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -763,30 +625,6 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
-      <method />
-    </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Django server.diseraca" />
-    </list>
-    <configuration default="true" type="tests" factoryName="Attests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -807,19 +645,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="628" y="64" width="1594" height="867" extended-state="0" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18258065" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1898928" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34979972" sideWeight="0.50513476" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29096773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29096478" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34446397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34852546" sideWeight="0.4948652" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967743" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -832,7 +671,7 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -846,75 +685,15 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/lib/python2.7/site-packages/Django-1.8.5-py2.7.egg/django/contrib/auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="402" column="62" lean-forward="true" selection-start-line="402" selection-start-column="62" selection-end-line="402" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/materialize.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="234" column="17397" lean-forward="false" selection-start-line="234" selection-start-column="17397" selection-end-line="234" selection-end-column="17397" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/migrations/0001_initial.py" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/7f8f1f6d-8035-4e8a-9c7d-23e938629812/console.sql" />
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user_user_permissions">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_ip_registro">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca_turno">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_asistencia">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user_user_permissions" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_ip_registro" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca_turno" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_asistencia" />
     <entry file="file://$PROJECT_DIR$/Diseraca/archivos/turnos_inicio.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -997,18 +776,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca" />
     <entry file="file://$PROJECT_DIR$/templates/diseraca/beca.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1059,18 +827,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_turno">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_turno" />
     <entry file="file://$PROJECT_DIR$/templates/diseraca/docente.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-943">
@@ -1100,18 +857,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_edificio">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_edificio" />
     <entry file="uml://DjangoModelDependency/#diseraca">
       <provider selected="true" editor-type-id="UmlEditorProvider">
         <state>
@@ -1237,10 +983,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/migrations/0002_auto_20171008_1722.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_profesor" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_persona" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_prestamo" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user" />
+    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_departamento" />
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="16" />
+          <folding>
+            <element signature="e#140#308#0" expanded="false" />
+            <element signature="e#344#571#0" expanded="false" />
+            <element signature="e#1040#1192#0" expanded="false" />
+            <element signature="e#1225#2064#0" expanded="false" />
+            <element signature="e#2098#2831#0" expanded="false" />
+            <element signature="e#2870#3359#0" expanded="false" />
+            <element signature="e#3396#4961#0" expanded="false" />
+            <element signature="e#4997#5310#0" expanded="false" />
+            <element signature="e#5347#5597#0" expanded="false" />
+            <element signature="e#5630#5898#0" expanded="false" />
+            <element signature="e#5938#6179#0" expanded="false" />
+            <element signature="e#6218#6687#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_persona">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_profesor">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="65" column="57" lean-forward="true" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5202">
-          <caret line="306" column="32" lean-forward="false" selection-start-line="306" selection-start-column="32" selection-end-line="308" selection-end-column="38" />
+        <state relative-caret-position="803">
+          <caret line="349" column="36" lean-forward="true" selection-start-line="319" selection-start-column="28" selection-end-line="349" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -1253,177 +1071,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3434">
-          <caret line="202" column="36" lean-forward="false" selection-start-line="202" selection-start-column="36" selection-end-line="202" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#140#308#0" expanded="false" />
-            <element signature="e#344#571#0" expanded="false" />
-            <element signature="e#605#1003#0" expanded="false" />
-            <element signature="e#1040#1192#0" expanded="false" />
-            <element signature="e#1225#2064#0" expanded="false" />
-            <element signature="e#2098#2831#0" expanded="false" />
-            <element signature="e#2870#3359#0" expanded="false" />
-            <element signature="e#3396#4954#0" expanded="false" />
-            <element signature="e#4990#5303#0" expanded="false" />
-            <element signature="e#5340#5590#0" expanded="false" />
-            <element signature="e#5623#5891#0" expanded="false" />
-            <element signature="e#5931#6172#0" expanded="false" />
-            <element signature="e#6211#6680#0" expanded="false" />
-            <element signature="e#6719#6790#0" expanded="false" />
-            <element signature="e#6827#7052#0" expanded="false" />
-            <element signature="e#7088#7400#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/migrations/0002_auto_20171008_1722.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_profesor">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_persona">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_prestamo">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+        <state relative-caret-position="312">
+          <caret line="171" column="43" lean-forward="false" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="43" />
           <folding>
-            <element signature="e#561#2168#0" expanded="false" />
-            <element signature="e#2208#2498#0" expanded="false" />
-            <element signature="e#2542#3231#0" expanded="false" />
-            <element signature="e#3278#4398#0" expanded="false" />
-            <element signature="e#4499#4847#0" expanded="false" />
+            <element signature="e#697#3166#0" expanded="false" />
+            <element signature="e#3206#3496#0" expanded="false" />
+            <element signature="e#3541#4230#0" expanded="false" />
+            <element signature="e#4278#5398#0" expanded="false" />
+            <element signature="e#5501#5849#0" expanded="false" />
+            <element signature="e#5889#6713#0" expanded="false" />
+            <element signature="e#7099#7678#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="19" lean-forward="false" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_departamento">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1423" column="41" lean-forward="false" selection-start-line="1423" selection-start-column="41" selection-end-line="1423" selection-end-column="41" />
+        <state relative-caret-position="199">
+          <caret line="1554" column="27" lean-forward="false" selection-start-line="1554" selection-start-column="15" selection-end-line="1554" selection-end-column="27" />
           <folding>
             <element signature="e#24#69#0" expanded="true" />
             <element signature="e#614#1131#0" expanded="false" />
             <element signature="e#1158#1400#0" expanded="false" />
             <element signature="e#1436#1494#0" expanded="false" />
-            <element signature="e#1773#6836#0" expanded="false" />
-            <element signature="e#6895#12694#0" expanded="false" />
-            <element signature="e#12730#13382#0" expanded="false" />
-            <element signature="e#13441#13576#0" expanded="false" />
-            <element signature="e#13704#18805#0" expanded="false" />
-            <element signature="e#18878#20681#0" expanded="false" />
-            <element signature="e#20761#21053#0" expanded="false" />
-            <element signature="e#21215#21602#0" expanded="false" />
-            <element signature="e#21675#24881#0" expanded="false" />
-            <element signature="e#24954#28048#0" expanded="false" />
-            <element signature="e#28146#31972#0" expanded="false" />
-            <element signature="e#32042#32680#0" expanded="false" />
-            <element signature="e#32759#34537#0" expanded="false" />
-            <element signature="e#34619#37014#0" expanded="false" />
-            <element signature="e#37077#39950#0" expanded="false" />
-            <element signature="e#40036#40904#0" expanded="false" />
-            <element signature="e#40968#41774#0" expanded="false" />
-            <element signature="e#41845#42609#0" expanded="false" />
-            <element signature="e#42679#43252#0" expanded="false" />
-            <element signature="e#43303#44516#0" expanded="false" />
-            <element signature="e#44590#45172#0" expanded="false" />
-            <element signature="e#45244#45605#0" expanded="false" />
-            <element signature="e#45686#46120#0" expanded="false" />
-            <element signature="e#46192#46754#0" expanded="false" />
-            <element signature="e#46824#47181#0" expanded="false" />
-            <element signature="e#47243#47710#0" expanded="false" />
-            <element signature="e#47851#51561#0" expanded="false" />
-            <element signature="e#51645#52695#0" expanded="false" />
-            <element signature="e#52773#54086#0" expanded="false" />
-            <element signature="e#54271#54665#0" expanded="false" />
-            <element signature="e#55170#56216#0" expanded="false" />
-            <element signature="e#56815#57499#0" expanded="false" />
-            <element signature="e#57659#58303#0" expanded="false" />
-            <element signature="e#58365#58699#0" expanded="false" />
-            <element signature="e#58761#59789#0" expanded="false" />
-            <element signature="e#59857#60885#0" expanded="false" />
-            <element signature="e#60958#61982#0" expanded="false" />
-            <element signature="e#64143#65318#0" expanded="false" />
+            <element signature="e#65979#66623#0" expanded="false" />
+            <element signature="e#66685#67019#0" expanded="false" />
+            <element signature="e#67081#68109#0" expanded="false" />
+            <element signature="e#68177#69205#0" expanded="false" />
+            <element signature="e#69278#70302#0" expanded="false" />
+            <element signature="e#70367#70940#0" expanded="false" />
+            <element signature="e#71011#72053#0" expanded="false" />
+            <element signature="e#72115#72410#0" expanded="false" />
+            <element signature="e#72475#73682#0" expanded="false" />
+            <element signature="e#73751#75896#0" expanded="false" />
+            <element signature="e#75972#76120#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="133" column="35" lean-forward="true" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
+          <folding>
+            <element signature="e#2407#5985#0#HTML" expanded="false" />
+            <element signature="e#6093#7612#0#HTML" expanded="false" />
+            <element signature="e#10461#12829#0#HTML" expanded="false" />
+            <element signature="e#12968#14024#0#HTML" expanded="false" />
+            <element signature="n#block#2;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>

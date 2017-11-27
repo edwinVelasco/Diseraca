@@ -1483,7 +1483,6 @@ def save_docente(request):
 @login_required(login_url='/')
 def save_docente_csv(request):
     if request.user.is_authenticated():
-        f = request.FILES['file_docente']
         data = csv.reader(request.FILES.get('file_docente'))
         add = 0
         update = 0
@@ -1537,6 +1536,29 @@ def save_docente_csv(request):
     else:
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def save_carga_docentes_csv(request):
+    if request.user.is_authenticated():
+        data = csv.reader(request.FILES.get('file_docente'))
+
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def buscar_carga_docente(request):
+    if request.user.is_authenticated() and 'docente' in request.GET:
+        docente = Profesor.objects.get(persona__user__username=request.GET.get('docente', ''))
+        cargas = Carga.objects.filter(profesor=docente)
+        t = [{'codigo': w.codigo, 'nombre': w.nombre, 'grupo': w.grupo,
+              'matriculados': w.matriculados, 'id': w.id} for w in cargas]
+        data = json.dumps(t)
+        return HttpResponse(data, content_type='application/json')
+
+    else:
+        return HttpResponseRedirect('/')
+
 '''
 @login_required(login_url='/')
 def view_docentes(request):
@@ -1544,4 +1566,8 @@ def view_docentes(request):
 
     else:
         return HttpResponseRedirect('/')
+        
+        t = [{'codigo': w.codigo, 'nombre': w.nombre} for w in dptos]
+        data = json.dumps(t)
+        return HttpResponse(data, content_type='application/json')
 '''
