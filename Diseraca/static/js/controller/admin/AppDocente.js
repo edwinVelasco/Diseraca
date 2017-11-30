@@ -15,6 +15,7 @@
       $scope.fileCargaDocente = {'name': '', 'file': ''};
       $scope.showTableTurnoDocente = false;
       $scope.listCargaDocente = [];
+      $scope.listCargaDocenteShow = false;
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
@@ -165,14 +166,12 @@
     };
 
     $scope.buscarCargaDocente = function () {
+        $scope.docenteCarga = $("#codigo_docente_buscar_carga").val();
          $http.get('buscar_carga_docente?docente='+$("#codigo_docente_buscar_carga").val())
             .then(function(response) {
                 $scope.listCargaDocente = response.data;
-                console.log($scope.listCargaDocente)
-                if ($scope.listCargaDocente.length > 0){
-
-                }
-                else{
+                console.log($scope.listCargaDocente);
+                if ($scope.listCargaDocente.length === 0){
                     if ("Notification" in window){
                         let ask = Notification.requestPermission();
                         ask.then(permission => {
@@ -186,10 +185,26 @@
                     }
                 }
 
-
+                $scope.listCargaDocenteShow = true;
             }, function(response) {
                 //Second function handles error
                 $scope.content = "Something went wrong";
             });
+    };
+
+    $scope.get_carreras = function () {
+        $http.get('get_carreras')
+            .then(function(response) {
+                $scope.listCarreras = response.data;
+                setTimeout($('#carreras_carg_docente').material_select(), 3000);
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+    };
+    $scope.get_carreras();
+
+    $scope.show_register_carga = function () {
+        $('#register_carga_docente').modal('open');
     }
 });

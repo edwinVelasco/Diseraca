@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ce631d71-ef4c-46cd-b192-d71ce84a5a4e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/diseraca.iml" afterPath="$PROJECT_DIR$/.idea/diseraca.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/urls.py" afterPath="$PROJECT_DIR$/Diseraca/urls.py" />
@@ -52,8 +50,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="65" column="57" lean-forward="true" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="57" />
+            <state relative-caret-position="140">
+              <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -64,11 +62,10 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="16" />
+            <state relative-caret-position="85">
+              <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="10" />
               <folding>
-                <element signature="e#140#308#0" expanded="false" />
-                <element signature="e#344#571#0" expanded="false" />
+                <element signature="e#605#1003#0" expanded="false" />
                 <element signature="e#1040#1192#0" expanded="false" />
                 <element signature="e#1225#2064#0" expanded="false" />
                 <element signature="e#2098#2831#0" expanded="false" />
@@ -84,45 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppDocente.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="171" column="43" lean-forward="false" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="43" />
-              <folding>
-                <element signature="e#697#3166#0" expanded="false" />
-                <element signature="e#3206#3496#0" expanded="false" />
-                <element signature="e#3541#4230#0" expanded="false" />
-                <element signature="e#4278#5398#0" expanded="false" />
-                <element signature="e#5501#5849#0" expanded="false" />
-                <element signature="e#5889#6713#0" expanded="false" />
-                <element signature="e#7099#7678#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="133" column="35" lean-forward="true" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
-              <folding>
-                <element signature="e#2407#5985#0#HTML" expanded="false" />
-                <element signature="e#6093#7612#0#HTML" expanded="false" />
-                <element signature="e#10461#12829#0#HTML" expanded="false" />
-                <element signature="e#12968#14024#0#HTML" expanded="false" />
-                <element signature="n#block#2;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="199">
-              <caret line="1554" column="27" lean-forward="false" selection-start-line="1554" selection-start-column="15" selection-end-line="1554" selection-end-column="27" />
+              <caret line="1576" column="46" lean-forward="true" selection-start-line="1576" selection-start-column="46" selection-end-line="1576" selection-end-column="46" />
               <folding>
                 <element signature="e#24#69#0" expanded="true" />
                 <element signature="e#614#1131#0" expanded="false" />
@@ -138,8 +101,51 @@
                 <element signature="e#72115#72410#0" expanded="false" />
                 <element signature="e#72475#73682#0" expanded="false" />
                 <element signature="e#73751#75896#0" expanded="false" />
-                <element signature="e#75972#76120#0" expanded="false" />
+                <element signature="e#75973#76121#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppDocente.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+              <folding>
+                <element signature="e#740#3209#0" expanded="false" />
+                <element signature="e#3249#3539#0" expanded="false" />
+                <element signature="e#3584#4273#0" expanded="false" />
+                <element signature="e#4321#5441#0" expanded="false" />
+                <element signature="e#5544#5892#0" expanded="false" />
+                <element signature="e#5932#6756#0" expanded="false" />
+                <element signature="e#6803#7970#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="273" column="57" lean-forward="false" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="57" />
+              <folding>
+                <element signature="e#2407#5985#0#HTML" expanded="false" />
+                <element signature="e#4454#5966#0#HTML" expanded="false" />
+                <element signature="e#10358#16048#0#HTML" expanded="false" />
+                <element signature="n#block#2;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="turnos.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="83" column="28" lean-forward="true" selection-start-line="83" selection-start-column="28" selection-end-line="87" selection-end-column="34" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -261,9 +267,9 @@
         <option value="$PROJECT_DIR$/templates/diseraca/base_index.html" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js" />
         <option value="$PROJECT_DIR$/Diseraca/urls.py" />
-        <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
         <option value="$PROJECT_DIR$/Diseraca/views.py" />
         <option value="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
+        <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
       </list>
     </option>
   </component>
@@ -303,13 +309,16 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
               <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -334,6 +343,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -642,23 +653,31 @@
       <option name="presentableId" value="Default" />
       <updated>1484967263726</updated>
     </task>
+    <task id="LOCAL-00001" summary="comienzo de la carga academica de los docentes">
+      <created>1511788660273</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1511788660273</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1898928" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19372128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34979972" sideWeight="0.50513476" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29096478" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34446397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29096478" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34446397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34852546" sideWeight="0.4948652" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967743" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -675,6 +694,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="comienzo de la carga academica de los docentes" />
+    <option name="LAST_COMMIT_MESSAGE" value="comienzo de la carga academica de los docentes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -828,13 +851,6 @@
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_turno" />
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/docente.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-943">
-          <caret line="173" column="43" lean-forward="false" selection-start-line="173" selection-start-column="43" selection-end-line="173" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/static/html/turno/listTurnos.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -999,28 +1015,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="28" column="16" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="16" />
-          <folding>
-            <element signature="e#140#308#0" expanded="false" />
-            <element signature="e#344#571#0" expanded="false" />
-            <element signature="e#1040#1192#0" expanded="false" />
-            <element signature="e#1225#2064#0" expanded="false" />
-            <element signature="e#2098#2831#0" expanded="false" />
-            <element signature="e#2870#3359#0" expanded="false" />
-            <element signature="e#3396#4961#0" expanded="false" />
-            <element signature="e#4997#5310#0" expanded="false" />
-            <element signature="e#5347#5597#0" expanded="false" />
-            <element signature="e#5630#5898#0" expanded="false" />
-            <element signature="e#5938#6179#0" expanded="false" />
-            <element signature="e#6218#6687#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1045,24 +1039,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="65" column="57" lean-forward="true" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="803">
-          <caret line="349" column="36" lean-forward="true" selection-start-line="319" selection-start-column="28" selection-end-line="349" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/becas.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1071,18 +1047,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/docente.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="171" column="43" lean-forward="false" selection-start-line="171" selection-start-column="27" selection-end-line="171" selection-end-column="43" />
+        <state relative-caret-position="1003">
+          <caret line="183" column="34" lean-forward="true" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
           <folding>
-            <element signature="e#697#3166#0" expanded="false" />
-            <element signature="e#3206#3496#0" expanded="false" />
-            <element signature="e#3541#4230#0" expanded="false" />
-            <element signature="e#4278#5398#0" expanded="false" />
-            <element signature="e#5501#5849#0" expanded="false" />
-            <element signature="e#5889#6713#0" expanded="false" />
-            <element signature="e#7099#7678#0" expanded="false" />
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="10" />
+          <folding>
+            <element signature="e#605#1003#0" expanded="false" />
+            <element signature="e#1040#1192#0" expanded="false" />
+            <element signature="e#1225#2064#0" expanded="false" />
+            <element signature="e#2098#2831#0" expanded="false" />
+            <element signature="e#2870#3359#0" expanded="false" />
+            <element signature="e#3396#4961#0" expanded="false" />
+            <element signature="e#4997#5310#0" expanded="false" />
+            <element signature="e#5347#5597#0" expanded="false" />
+            <element signature="e#5630#5898#0" expanded="false" />
+            <element signature="e#5938#6179#0" expanded="false" />
+            <element signature="e#6218#6687#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1090,7 +1088,7 @@
     <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
-          <caret line="1554" column="27" lean-forward="false" selection-start-line="1554" selection-start-column="15" selection-end-line="1554" selection-end-column="27" />
+          <caret line="1576" column="46" lean-forward="true" selection-start-line="1576" selection-start-column="46" selection-end-line="1576" selection-end-column="46" />
           <folding>
             <element signature="e#24#69#0" expanded="true" />
             <element signature="e#614#1131#0" expanded="false" />
@@ -1106,21 +1104,44 @@
             <element signature="e#72115#72410#0" expanded="false" />
             <element signature="e#72475#73682#0" expanded="false" />
             <element signature="e#73751#75896#0" expanded="false" />
-            <element signature="e#75972#76120#0" expanded="false" />
+            <element signature="e#75973#76121#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="83" column="28" lean-forward="true" selection-start-line="83" selection-start-column="28" selection-end-line="87" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="133" column="35" lean-forward="true" selection-start-line="133" selection-start-column="35" selection-end-line="133" selection-end-column="35" />
+        <state relative-caret-position="366">
+          <caret line="273" column="57" lean-forward="false" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="57" />
           <folding>
             <element signature="e#2407#5985#0#HTML" expanded="false" />
-            <element signature="e#6093#7612#0#HTML" expanded="false" />
-            <element signature="e#10461#12829#0#HTML" expanded="false" />
-            <element signature="e#12968#14024#0#HTML" expanded="false" />
+            <element signature="e#4454#5966#0#HTML" expanded="false" />
+            <element signature="e#10358#16048#0#HTML" expanded="false" />
             <element signature="n#block#2;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding>
+            <element signature="e#740#3209#0" expanded="false" />
+            <element signature="e#3249#3539#0" expanded="false" />
+            <element signature="e#3584#4273#0" expanded="false" />
+            <element signature="e#4321#5441#0" expanded="false" />
+            <element signature="e#5544#5892#0" expanded="false" />
+            <element signature="e#5932#6756#0" expanded="false" />
+            <element signature="e#6803#7970#0" expanded="false" />
           </folding>
         </state>
       </provider>

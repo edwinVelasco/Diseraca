@@ -65,6 +65,10 @@ urlpatterns = [
         url(r'^save_carga_docentes_csv$', views.save_carga_docentes_csv),
         url(r'^buscar_carga_docente$', views.buscar_carga_docente),
 
+
+        #carreras
+        url(r'^get_carreras$', views.get_carreras),
+
     #admin-becas
         url(r'^view_becas$', views.view_becas),
         url(r'^add_beca$', views.add_beca),

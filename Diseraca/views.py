@@ -1537,10 +1537,20 @@ def save_docente_csv(request):
         return HttpResponseRedirect('/')
 
 
+
 @login_required(login_url='/')
 def save_carga_docentes_csv(request):
     if request.user.is_authenticated():
         data = csv.reader(request.FILES.get('file_docente'))
+
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def save_carga_docente(request):
+    if request.user.is_authenticated():
+        pass
 
     else:
         return HttpResponseRedirect('/')
@@ -1559,6 +1569,17 @@ def buscar_carga_docente(request):
     else:
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def get_carreras(request):
+    if request.user.is_authenticated():
+        carreras = Carrera.objects.all()
+        t = [dict(codigo=w.codigo, nombre=w.nombre, departamento=dict(
+            codigo=w.departamento.codigo, nombre=w.departamento.nombre)) for w in carreras]
+        data = json.dumps(t)
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
 '''
 @login_required(login_url='/')
 def view_docentes(request):
