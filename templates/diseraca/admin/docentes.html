@@ -266,36 +266,36 @@
             <form name="" id="" ng-submit="false">
                 <div>
                     <h5 class="center-align">Registrar carga academica del docente</h5>
-                    <input type="hidden" name="docente" id="docente" ng-model="docenteCarga" ng-value="docenteCarga" ng-if="docenteCarga">
-                    <input type="hidden" name="pk" id="pk" ng-model="cargaPk" ng-value="cargaPk" ng-if="cargaPk">
+                    <input type="hidden" name="docente_carga" id="docente_carga" >
+                    <input type="hidden" name="pk" id="pk" value="[[cargaPk]]">
                 </div>
                 <div class="row">
                     <div class="input-field col l6">
-                        <select id="carreras_carg_docente" name="carreras_carg_docente" required class="validate" >
-                            <option value="[[carrera.codigo]]" ng-repeat="carrera in listCarreras">[[carrera.nombre]]</option>
+                        <select id="carreras_carga_docente" name="carreras_carga_docente" required class="validate" ng-required="true">
+
                         </select>
-                        <label for="edif">Carrera</label>
+                        <label for="edif">Seleccione una carrera</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="text" class="validate" required>
+                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="number" class="validate" required ng-required="true">
                         <label for="codigo_materia">Codigo</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required>
+                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true">
                         <label for="nombre_materia">Nombre</label>
                     </div>
                     <div class="input-field col l3">
-                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required>
+                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true">
                         <label for="grupo_materia">Grupo</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="Matriculados" name="matriculados_materia" id="matriculados_materia" type="text" class="validate" required>
+                        <input placeholder="Matriculados" name="matriculados_materia" id="matriculados_materia" type="number" class="validate" required ng-required="true">
                         <label for="grupo_materia">Matriculados</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col l4">
-                        <input class="btn" type="submit" value="Buscar" ng-click="buscarCargaDocente()">
+                        <input class="btn" type="submit" value="Buscar" ng-click="save_carga_docente()">
                     </div>
                 </div>
             </form>

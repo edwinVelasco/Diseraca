@@ -1574,8 +1574,9 @@ def buscar_carga_docente(request):
 def get_carreras(request):
     if request.user.is_authenticated():
         carreras = Carrera.objects.all()
-        t = [dict(codigo=w.codigo, nombre=w.nombre, departamento=dict(
-            codigo=w.departamento.codigo, nombre=w.departamento.nombre)) for w in carreras]
+        t = [ {'codigo': w.codigo, 'nombre': w.nombre, 'departamento':
+            {'codigo': w.departamento.codigo, 'nombre': w.departamento.nombre}
+               } for w in carreras]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
