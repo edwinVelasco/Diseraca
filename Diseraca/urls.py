@@ -64,6 +64,7 @@ urlpatterns = [
 
         url(r'^save_carga_docentes_csv$', views.save_carga_docentes_csv),
         url(r'^buscar_carga_docente$', views.buscar_carga_docente),
+        url(r'^save_carga_docente$', views.save_carga_docente),
 
 
         #carreras

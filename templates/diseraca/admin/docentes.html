@@ -146,7 +146,7 @@
                             </tr>
                         </thead>
                         <tbody id="tablaTurnos">
-                            <tr ng-repeat="carga in listlistCargaDocenteSalas">
+                            <tr ng-repeat="carga in listCargaDocente">
                                 <td>
                                     [[ carga.codigo ]]-[[ carga.grupo ]]
                                 </td>
@@ -252,10 +252,6 @@
                                 </div>
                             </form>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -263,11 +259,12 @@
     </div>
     <div class="modal" id="register_carga_docente">
         <div class="modal-content">
-            <form name="" id="" ng-submit="false">
+            <form name="" id="" method="post" action="save_carga_docente">
                 <div>
                     <h5 class="center-align">Registrar carga academica del docente</h5>
-                    <input type="hidden" name="docente_carga" id="docente_carga" >
-                    <input type="hidden" name="pk" id="pk" value="[[cargaPk]]">
+                    <input type="hidden" name="docente_carga" id="docente_carga" ng-model="newCargaDocente.profesor">
+                    <input type="hidden" name="pk_carga" id="pk_carga">
+                    {% csrf_token %}
                 </div>
                 <div class="row">
                     <div class="input-field col l6">
@@ -277,15 +274,15 @@
                         <label for="edif">Seleccione una carrera</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="number" class="validate" required ng-required="true">
+                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="number" class="validate" required ng-required="true" >
                         <label for="codigo_materia">Codigo</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true">
+                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true" >
                         <label for="nombre_materia">Nombre</label>
                     </div>
                     <div class="input-field col l3">
-                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true">
+                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true" >
                         <label for="grupo_materia">Grupo</label>
                     </div>
                     <div class="input-field col l6">
@@ -295,7 +292,7 @@
                 </div>
                 <div class="row">
                     <div class="col l4">
-                        <input class="btn" type="submit" value="Buscar" ng-click="save_carga_docente()">
+                        <input class="btn modal-action" type="submit" value="Guardar">
                     </div>
                 </div>
             </form>
@@ -315,7 +312,7 @@
         closeOnSelect: true, // Close upon selecting a date,
         format: 'yyyy-mm-dd'
       });
-    $('.modal').modal();
+
     {% if msg %}
         if ("Notification" in window){
             let ask = Notification.requestPermission();
@@ -329,6 +326,7 @@
             });
         }
     {% endif %}
+    $('.modal').modal();
 {% endblock %}
 
 {% block script %}

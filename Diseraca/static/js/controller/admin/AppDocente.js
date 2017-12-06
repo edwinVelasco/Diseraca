@@ -19,6 +19,7 @@
       $scope.listCarreras = [];
       $scope.docenteCarga = "";
       $scope.cargaPk = 0;
+      $scope.newCargaDocente = {};
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
@@ -168,13 +169,23 @@
             })
     };
 
+    $scope.save_carga_docente = function () {
+        $http.post("save_carga_docente", {data: $("#formRegisterCarcaDocente").serialize()})
+            .then( function(data){
+
+            }, function(err){
+                console.log(err);
+            })
+    };
+
     $scope.buscarCargaDocente = function () {
 
         $("#docente_carga").val($("#codigo_docente_buscar_carga").val());
          $http.get('buscar_carga_docente?docente='+$("#codigo_docente_buscar_carga").val())
             .then(function(response) {
+                console.log(response.data);
                 $scope.listCargaDocente = response.data;
-                if ($scope.listCargaDocente.length === 0){
+                if (response.data.length == 0){
                     if ("Notification" in window){
                         let ask = Notification.requestPermission();
                         ask.then(permission => {
@@ -215,5 +226,17 @@
 
     $scope.show_register_carga = function () {
         $('#register_carga_docente').modal('open');
-    }
+    };
+
+    $scope.edit_carga = function (obj) {
+          $("#pk_carga").val(obj.id);
+          $("#carreras_carga_docente").val(obj.carrera);
+          $("#codigo_materia").val(obj.codigo);
+          $("#nombre_materia").val(obj.nombre);
+          $("#grupo_materia").val(obj.grupo);
+          $("#matriculados_materia").val(obj.matriculados);
+          $scope.show_register_carga();
+    };
+
+
 });
