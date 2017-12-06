@@ -16,6 +16,8 @@ position: absolute;
     bottom: 0;
      */
 }
-#body-horario-sala img{
-    
+#horarioSalasBody{
+    background-image: url("../img/fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
