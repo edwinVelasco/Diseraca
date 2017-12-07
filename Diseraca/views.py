@@ -393,6 +393,7 @@ def add_prestamo_docente(request):
             prestamo.grupo = carga.grupo
             prestamo.turno_sala = turno_sala
             prestamo.date_turno = fecha
+            prestamo.matriculados = carga.matriculados
             prestamo.ip = request.META['REMOTE_ADDR']
             prestamo.usuario = Profesor.objects.get(persona__user__username=request.session['usuario']).\
                 persona.user.first_name
@@ -447,6 +448,7 @@ def ver_horario_edificio(request):
 
             if 'bool' in request.GET:
                 if len(prestamos_envio) > 0:
+                    total = 0
                     data = '''
                         <table class="bordered centered">
                         <thead>
@@ -463,6 +465,7 @@ def ver_horario_edificio(request):
                     for pres_envio in prestamos_envio:
                         if pres_envio.estado == 1:
                             data += '<tr class="white-text green">'
+                            total += pres_envio.matriculados
                         else:
                             data += '<tr class="white-text red">'
 
@@ -488,8 +491,12 @@ def ver_horario_edificio(request):
                         data += '</tr>'
 
                     data += '</tbody></table>'
-                    return HttpResponse(data)
-                return HttpResponse('''<h2 class="green-text col l12 ">Turno Libre :)</h2>''')
+                    msg = {'data': data, 'total': 'Aproximado de Personas: '+str(total)}
+                    res = json.dumps(msg)
+                    return HttpResponse(res, content_type='application/json')
+                msg = {'data': '''<h2 class="green-text col l12 ">Turno Libre :)</h2>''', 'total': 'Aproximado de Personas: 0'}
+                res = json.dumps(msg)
+                return HttpResponse(res, content_type='application/json')
 
 
             return render(request, 'diseraca/horario_sala.html', {'edificio': edificio, 'prestamos': prestamos_envio})
@@ -691,6 +698,7 @@ def add_prestamo_docente_admin(request):
             prestamo.grupo = carga.grupo
             prestamo.turno_sala = turno_sala
             prestamo.date_turno = fecha
+            prestamo.matriculados = carga.matriculados
             prestamo.ip = request.META['REMOTE_ADDR']
             prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
             prestamo.save()
@@ -1178,6 +1186,7 @@ def add_prestamo_sustentacion_admin(request):
         prestamo.solicitante = request.POST['solicitante']
         prestamo.tel = request.POST['tel']
         prestamo.tipo = 1
+        prestamo.matriculados = turno_sala.sala.capacidad
         prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
         prestamo.save()
 
@@ -1206,6 +1215,7 @@ def add_prestamo_cursos_admin(request):
             prestamo.solicitante = request.POST['solicitante']
             prestamo.tel = request.POST['tel']
             prestamo.tipo = request.POST['tipo']
+            prestamo.matriculados = turno_sala.sala.capacidad
             prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
             prestamo.save()
 

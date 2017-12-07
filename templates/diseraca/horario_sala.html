@@ -33,15 +33,17 @@
                             <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
                                 <i class="material-icons">done_all</i>
                             </a>
-                            <h5>Esta en la sala</h5>
+                            <h5>En sala</h5>
                         </div>
                         <div class="col l6 ">
                             <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
                                 <i class="material-icons">done</i>
                             </a>
-                            <h5>Aun no llega</h5>
+                            <h5>no ha llega</h5>
                         </div>
-
+                    </div>
+                    <div class="col l12">
+                        <h5 id="totalAlumnos">Aproximado de Personas: 0</h5>
                     </div>
                 </div>
 
@@ -158,7 +160,8 @@
             url: 'ver_horario_edificio',
             data: {'id':edificio, 'bool':'ok'},
             success: function (data) {
-                $('#tabla_prestamos').html(data)
+                $('#tabla_prestamos').html(data.data)
+                $('#totalAlumnos').html(data.total)
 
             },
             error: function(data) {

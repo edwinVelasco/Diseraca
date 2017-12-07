@@ -111,7 +111,8 @@ class Prestamo(models.Model):
     profesor = models.ForeignKey('Profesor', null=True)
     codigo = models.CharField(max_length=7, null=True)  # codigo de la materia
     nombre = models.CharField(max_length=45, null=True)  # nombre de la materia
-    grupo = models.CharField(max_length=1, null=True)
+    grupo = models.CharField(max_length=1, null=True) # materia
+    matriculados = models.IntegerField()
 
     turno_sala = models.ForeignKey('Turno_Sala')
     date_prestamo = models.DateTimeField(auto_now=True)
