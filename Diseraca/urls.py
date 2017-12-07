@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     # para prueba
     #url(r'^cargar_turnos_iniciales$', views.cargar_turnos_iniciales),
-    #url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
 
     #fuera del login
     url(r'^$', views.index),

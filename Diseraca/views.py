@@ -509,7 +509,9 @@ def ver_horario_edificio(request):
 def registrar_asistencia(request):
     if request.user.is_authenticated() and 'usuario' in request.session:
         beca = Beca.objects.get(persona__user__username=request.session['usuario'])
+        print beca
         ahora = datetime.datetime.now()
+        print ahora
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
                                                beca_turno__turno__time_start__lt=ahora.time(),
                                                beca_turno__turno__time_end__gt=ahora.time(), tipo=0)
@@ -939,7 +941,7 @@ def delete_turno_beca(request):
 
 
 def asignar_asistencias_semestre(request):
-
+    #se hizo para cumplir las 16 semanas que se deben cumplir la beca
     ahora = datetime.datetime.now()
     fecha_ini = None
     if (ahora.isoweekday() - 1) == 0:
@@ -958,9 +960,12 @@ def asignar_asistencias_semestre(request):
         fecha_ini = ahora + datetime.timedelta(days=1)
     for i in range(0, 6):
         beca_turnos = Beca_Turno.objects.filter(turno__dia=i)
-        fecha_ini = fecha_ini + datetime.timedelta(days=i)
+        print str(fecha_ini)
+        fecha_ini2 = fecha_ini + datetime.timedelta(days=i)
+        print i, str(fecha_ini)
         for beca_turno in beca_turnos:
-            fecha = fecha_ini# lunea
+            fecha = fecha_ini2# lunea
+            print beca_turno
             for i in range(0, 14):
                 asistencia = Asistencia()
                 asistencia.beca_turno = beca_turno

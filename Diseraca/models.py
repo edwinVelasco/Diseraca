@@ -208,6 +208,9 @@ class Beca_Turno(models.Model):
     beca = models.ForeignKey('Beca')
     turno = models.ForeignKey('Turno')
 
+    def __unicode__(self):
+        return str(self.turno)
+
 
 class Semestre(models.Model):
     nombre = models.CharField(max_length=10)
