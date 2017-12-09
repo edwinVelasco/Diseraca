@@ -5,6 +5,9 @@ urlpatterns = [
     # para prueba
     #url(r'^cargar_turnos_iniciales$', views.cargar_turnos_iniciales),
     url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    #crud ip
+    url(r'^add_ip$', views.add_ip),
+    url(r'^editar_ip$', views.editar_ip),
 
     #fuera del login
     url(r'^$', views.index),

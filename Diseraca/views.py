@@ -32,7 +32,8 @@ def cargar_turnos_iniciales(request):
 
 
 def index(request):
-    # request. --> ip del usuario
+    # request. --> ip del usuario, request.REMOTE_ADDR
+
     if request.method == 'GET':
         if 'id' in request.GET:
             print request.GET['id']
@@ -193,9 +194,10 @@ def inicio(request):
             edificios = Edificio.objects.all().order_by('codigo')
             turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1), time_start__lte=ahora.time(),
                                           time_end__gt=ahora.time())
-            prestamos_turnos = []
+            prestamos_turnos = list()
             for turno in turnos:
                 prestamos = Prestamo.objects.filter(turno_sala__turno=turno, date_turno__gte=ahora.date())
+                print prestamos
                 for pres in prestamos:
                     prestamos_turnos.append(pres)
             if 'msg' in request.session:
@@ -508,14 +510,16 @@ def ver_horario_edificio(request):
 @login_required(login_url='/')
 def registrar_asistencia(request):
     if request.user.is_authenticated() and 'usuario' in request.session:
+        print request.META['REMOTE_ADDR']
         beca = Beca.objects.get(persona__user__username=request.session['usuario'])
-        print beca
         ahora = datetime.datetime.now()
-        print ahora
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
                                                beca_turno__turno__time_start__lt=ahora.time(),
                                                beca_turno__turno__time_end__gt=ahora.time(), tipo=0)
-        print asistencia
+        if asistencia[0].datetime_registro != None and asistencia[0].ip != None:
+            request.session['msg'] = u'Ya se había registrado en este turno, como inasistencia'
+            return HttpResponseRedirect('inicio')
+
         #turno_ahora = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca, datetime_registro=None)
         if len(asistencia) > 0:
             if datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00) < ahora.time() \
@@ -818,7 +822,7 @@ def view_becas(request):
                                                                      'becas': becas, 'ips': ips, 'opcion': opcion,
                                                                      'beca': beca, 'admin': persona})
             elif 'ip' in request.session:
-                ip = Ip_Registro.objects.get(id=request.session['ip'])
+                ip = Ip_Registro.objects.get(ip=request.session['ip'])
                 del request.session['ip']
                 return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
                                                                      'beca_turnos_lunes': beca_turnos_lunes,
@@ -939,41 +943,48 @@ def delete_turno_beca(request):
     else:
         return HttpResponseRedirect('/')
 
-
+@login_required(login_url='/')
 def asignar_asistencias_semestre(request):
-    #se hizo para cumplir las 16 semanas que se deben cumplir la beca
-    ahora = datetime.datetime.now()
-    fecha_ini = None
-    if (ahora.isoweekday() - 1) == 0:
-        fecha_ini = ahora + datetime.timedelta(days=7)
-    elif (ahora.isoweekday() - 1) == 1:
-        fecha_ini = ahora + datetime.timedelta(days=6)
-    elif (ahora.isoweekday() - 1) == 2:
-        fecha_ini = ahora + datetime.timedelta(days=5)
-    elif (ahora.isoweekday() - 1) == 3:
-        fecha_ini = ahora + datetime.timedelta(days=4)
-    elif (ahora.isoweekday() - 1) == 4:
-        fecha_ini = ahora + datetime.timedelta(days=3)
-    elif (ahora.isoweekday() - 1) == 5:
-        fecha_ini = ahora + datetime.timedelta(days=2)
-    else:
-        fecha_ini = ahora + datetime.timedelta(days=1)
-    for i in range(0, 6):
-        beca_turnos = Beca_Turno.objects.filter(turno__dia=i)
-        print str(fecha_ini)
-        fecha_ini2 = fecha_ini + datetime.timedelta(days=i)
-        print i, str(fecha_ini)
-        for beca_turno in beca_turnos:
-            fecha = fecha_ini2# lunea
-            print beca_turno
-            for i in range(0, 14):
-                asistencia = Asistencia()
-                asistencia.beca_turno = beca_turno
-                asistencia.date_turno = fecha.date()
-                asistencia.save()
-                fecha = fecha + datetime.timedelta(days=7)
+    if request.user.is_authenticated():
+        """
+        se hizo para cumplir las 16 semanas que se deben cumplir la beca
+        ahora = datetime.datetime.now()
+        fecha_ini = None
+        
+        if (ahora.isoweekday() - 1) == 0:
+            fecha_ini = ahora + datetime.timedelta(days=7)
+        elif (ahora.isoweekday() - 1) == 1:
+            fecha_ini = ahora + datetime.timedelta(days=6)
+        elif (ahora.isoweekday() - 1) == 2:
+            fecha_ini = ahora + datetime.timedelta(days=5)
+        elif (ahora.isoweekday() - 1) == 3:
+            fecha_ini = ahora + datetime.timedelta(days=4)
+        elif (ahora.isoweekday() - 1) == 4:
+            fecha_ini = ahora + datetime.timedelta(days=3)
+        elif (ahora.isoweekday() - 1) == 5:
+            fecha_ini = ahora + datetime.timedelta(days=2)
+        else:
+            fecha_ini = ahora + datetime.timedelta(days=1)
+    
+        fecha_ini = ahora + datetime.timedelta(days=-5)
+        """
+        date = request.POST['fecha_start'].split('-')
+        fecha_ini = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
 
-    return HttpResponse('ok')
+        for i in range(0, 6):
+            beca_turnos = Beca_Turno.objects.filter(turno__dia=i)
+            fecha_ini2 = fecha_ini + datetime.timedelta(days=i)
+
+            for beca_turno in beca_turnos:
+                fecha = fecha_ini2 #lunea
+                for i in range(1, int(request.POST['semanas'])):
+                    asistencia = Asistencia()
+                    asistencia.beca_turno = beca_turno
+                    asistencia.date_turno = fecha
+                    asistencia.save()
+                    fecha = fecha + datetime.timedelta(days=7)
+
+        return HttpResponseRedirect('view_becas')
 
 
 @login_required(login_url='/')
@@ -1305,7 +1316,7 @@ def view_docentes(request):
 def get_turno_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
         x = Turno_Sala.objects.filter(sala_id=request.GET["sala"])
-        t = [{"pk": w.id, "fields": {"estado": w.estado, "hasta": w.hasta, "sala": {"codigo": w.sala.codigo,
+        t = [{"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta), "sala": {"codigo": w.sala.codigo,
                                                                          "edificio": w.sala.edificio_id, "pk": w.sala_id},
               "turno": {"time_start": str(w.turno.time_start), "time_end": str(w.turno.time_end), "dia": w.turno.dia,
                         "pk": w.turno_id}}} for w in x]
@@ -1407,7 +1418,10 @@ def save_salaTurno_turno(request):
             salaTurno.sala_id = request.POST.get('data[fields][sala][pk]')
             salaTurno.turno_id = request.POST.get('data[fields][turno][pk]')
             salaTurno.estado = request.POST.get('data[fields][estado]', 0)
-            salaTurno.hasta = request.POST.get('data[fields][hasta]', None)
+            if request.POST.get('data[fields][hasta]', None) == '':
+                salaTurno.hasta = None
+            else:
+                salaTurno.hasta = request.POST.get('data[fields][hasta]')
             salaTurno.save()
             return HttpResponse("Editado Exitosamente")
         except Turno_Sala.DoesNotExist:
@@ -1415,7 +1429,10 @@ def save_salaTurno_turno(request):
             salaTurno.sala_id = request.POST.get('data[fields][sala][pk]')
             salaTurno.turno_id = request.POST.get('data[fields][turno][pk]')
             salaTurno.estado = request.POST.get('data[fields][estado]', 0)
-            salaTurno.hasta = request.POST.get('data[fields][hasta]', None)
+            if request.POST.get('data[fields][hasta]', None) == '':
+                salaTurno.hasta = None
+            else:
+                salaTurno.hasta = request.POST.get('data[fields][hasta]')
             salaTurno.save()
             return HttpResponse("Creado con exito")
     else:
