@@ -1495,42 +1495,67 @@ def save_docente(request):
         return HttpResponseRedirect('/')
 
 
+def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
+    csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
+    for row in csv_reader:
+        yield [unicode(cell, 'utf-8', errors='ignore') for cell in row]
+
+
 @login_required(login_url='/')
 def save_docente_csv(request):
     if request.user.is_authenticated():
-        data = csv.reader(request.FILES.get('file_docente'))
+        data = unicode_csv_reader(request.FILES.get('file_docente'))
+        w = 0
         add = 0
         update = 0
-        w = 0
-        for dt in data:
+        for COD_PROFESOR, NOMBRES, COD_DPTO, EMAIL, NOMDPTO in data:
             if w == 0:
                 w = 1
             else:
                 try:
-                    profesor = Profesor.objects.get(persona__user__username=str(dt[0]))
-                    try:
-                        dpto = Departamento.objects.get(codigo=str(dt[2]))
-                    except Departamento.DoesNotExist:
-                        dpto = Departamento()
-                        dpto.codigo = str(dt[2])
-                        dpto.nombre = str(dt[4])
-                        dpto.save()
+                    dpto = Departamento.objects.get(codigo=str(COD_DPTO))
+                    user = User.objects.get(username=str(COD_PROFESOR))
+                    profesor = Profesor.objects.get(persona__user=user)
                     profesor.departamento = dpto
-                    profesor.persona.user.email = str(dt[3])
-                    fn = dt[1]
-                    print fn.encode('ascii', 'strict'), 'nnor'
-                    profesor.persona.user.first_name = 'gfg'
+                    profesor.persona.user.email = EMAIL.lower()
+                    profesor.persona.user.first_name = NOMBRES.lower()
                     profesor.persona.user.save()
-                    profesor.save()
                     update += 1
-                except Profesor.DoesNotExist:
+                except Departamento.DoesNotExist:
+                    try:
+                        dpto = Departamento()
+                        dpto.codigo = str(COD_DPTO)
+                        dpto.nombre = NOMDPTO.lower()
+                        dpto.save()
+                        profesor = Profesor.objects.get(persona__user__username=str(COD_PROFESOR))
+                        profesor.persona.user.email = EMAIL.lower()
+                        profesor.persona.user.first_name = NOMBRES.lower()
+                        profesor.persona.user.save()
+                        update += 1
+                    except Profesor.DoesNotExist:
+                        user = User()
+                        user.username = str(COD_PROFESOR)
+                        user.email = EMAIL.lower()
+                        user.first_name = NOMBRES.lower()
+                        user.set_password(str(COD_PROFESOR))
+                        user.save()
+                        persona = Persona()
+                        persona.user = user
+                        persona.save()
+
+                        profesor = Profesor()
+                        profesor.persona = persona
+                        dpto = Departamento.objects.get(codigo=str(COD_DPTO))
+                        profesor.departamento = dpto
+                        profesor.tel = '0000000000'
+                        profesor.save()
+                        add += 1
+                except User.DoesNotExist:
                     user = User()
-                    user.username = str(dt[0])
-                    user.email = str(dt[3]).lower()
-                    fn = dt[1]
-                    print fn.encode('ascii', 'strict'), 'nnor'
-                    user.first_name = 'hdjshd'
-                    user.set_password(str(dt[0]))
+                    user.username = str(COD_PROFESOR)
+                    user.email = EMAIL.lower()
+                    user.first_name = NOMBRES.lower()
+                    user.set_password(str(COD_PROFESOR))
                     user.save()
                     persona = Persona()
                     persona.user = user
@@ -1538,14 +1563,17 @@ def save_docente_csv(request):
 
                     profesor = Profesor()
                     profesor.persona = persona
-                    try:
-                        dpto = Departamento.objects.get(codigo=dt[2])
-                    except Departamento.DoesNotExist:
-                        dpto = Departamento()
-                        dpto.codigo = str(dt[2])
-                        dpto.nombre = str(dt[4]).lower()
-                        dpto.save()
-
+                    dpto = Departamento.objects.get(codigo=COD_DPTO)
+                    profesor.departamento = dpto
+                    profesor.tel = '0000000000'
+                    profesor.save()
+                    add += 1
+                except Profesor.DoesNotExist:
+                    user = User.objects.get(username=str(COD_PROFESOR))
+                    persona = Persona.objects.get(user=user)
+                    profesor = Profesor()
+                    profesor.persona = persona
+                    dpto = Departamento.objects.get(codigo=COD_DPTO)
                     profesor.departamento = dpto
                     profesor.tel = '0000000000'
                     profesor.save()
@@ -1556,56 +1584,65 @@ def save_docente_csv(request):
         return HttpResponseRedirect('/')
 
 
-
 @login_required(login_url='/')
 def save_carga_docentes_csv(request):
     if request.user.is_authenticated():
-        data = csv.reader(request.FILES.get('file_carga_docente'))
+        data = unicode_csv_reader(request.FILES.get('file_carga_docente'))
         add = 0
         update = 0
         imposible = 0
         w = 0
-        for dt in data:
+        for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, MATRICULADOS in data:
             if w == 0:
                 w = 1
             else:
                 try:
-                    try:
-                        carrera = Carrera.objects.get(codigo=str(dt[0]))
-                    except Carrera.DoesNotExist:
-                        carrera = Carrera()
-                        carrera.codigo = str(dt[0])
-                        try:
-                            dpto = Departamento.objects.get(codigo=str(dt[1]))
-                            carrera.departamento.codigo = dpto
-                            carrera.nombre = dt[0]
-                            carrera.save()
-                            carga = Carga.objects.get(carrera=carrera,
-                                                      codigo=str(dt[2])
-                                                      , grupo=dt[4])
-                            try:
-                                profesor = Profesor.objects.get(
-                                    persona__user__username=dt[5])
-                                carga.profesor = profesor
-                                carga.matriculados = dt[6]
-                                carga.save()
-                                update += 1
-                            except Profesor.DoesNotExist:
-                                imposible += 1
-                        except Departamento.DoesNotExist:
-                            imposible += 1
+                    carrera = Carrera.objects.get(codigo=COD_CARRERA)
+                    carga = Carga.objects.get(carrera=carrera,
+                                              codigo=COD_MATERIA
+                                              , grupo=GRUPO.lower())
+
+                    profesor = Profesor.objects.get(
+                        persona__user__username=COD_PROFESOR)
+                    carga.profesor = profesor
+                    carga.matriculados = MATRICULADOS
+                    carga.grupo = GRUPO.lower()
+                    carga.save()
+                    update += 1
                 except Profesor.DoesNotExist:
-                    print 'xxx'
+                    imposible += 1
+
+                except Carrera.DoesNotExist:
+                    try:
+                        carrera = Carrera()
+                        carrera.codigo = COD_CARRERA
+                        dpto = Departamento.objects.get(codigo=COD_DPTO)
+                        carrera.departamento = dpto
+                        carrera.nombre = COD_CARRERA.lower()
+                        carrera.save()
+                        carga = Carga()
+                        carga.carrera = carrera
+                        profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
+                        carga.profesor = profesor
+                        carga.matriculados = MATRICULADOS
+                        carga.codigo = COD_MATERIA
+                        carga.nombre = NOMMATE.lower()
+                        carga.grupo = GRUPO.lower()
+                        carga.save()
+                        add += 1
+                    except (Profesor.DoesNotExist, Departamento.DoesNotExist):
+                        imposible += 1
+                except Carga.DoesNotExist:
                     carga = Carga()
-                    carrera = Carrera.objects.get(codigo=str(dt[0]))
+                    carrera = Carrera.objects.get(codigo=COD_CARRERA)
                     carga.carrera = carrera
                     try:
-                        profesor = Profesor.objects.get(persona__user__username=dt[5])
+                        profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
                         carga.profesor = profesor
-                        carga.matriculados = dt[6]
-                        carga.codigo = str(dt[2])
-                        carga.nombre = dt[3]
-                        carga.grupo = dt[4]
+                        carga.matriculados = MATRICULADOS
+                        carga.codigo = COD_MATERIA
+                        carga.nombre = NOMMATE.lower()
+                        carga.grupo = GRUPO.lower()
                         carga.save()
                         add += 1
                     except Profesor.DoesNotExist:
@@ -1627,7 +1664,6 @@ def save_carga_docentes_csv(request):
 @login_required(login_url='/')
 def save_carga_docente(request):
     if request.user.is_authenticated() and request.method == 'POST':
-        print request.POST
         try:
             carga = Carga.objects.get(id=request.POST['pk_carga'])
             carga.carrera_id = request.POST['carreras_carga_docente']
