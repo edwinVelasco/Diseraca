@@ -4,7 +4,7 @@
 {% block nav %}
     <nav class="nav-extended">
         <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#!" class="brand-logo">Diseraca 2.0</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
@@ -521,7 +521,10 @@
                     </form>
 
                 </div>
+                <div class="divider"></div>
                 <div class="row">
+
+                    <h5 class="center-align">Inicio de las asistencias del semestre.</h5>
                     <form action="asignar_asistencias_semestre" method="post">
                         <div id="token">
                             {% csrf_token %}
@@ -566,24 +569,24 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col l4 offset-l2">
+                            <div class="input-field col l3 offset-l3">
                                 <i class="material-icons prefix">card_membership</i>
                                 <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" value="{{ beca.persona.user.username }}" required maxlength="7">
                                 <label for="codigo_prefix">Codigo</label>
                             </div>
-                            <div class="input-field col l4">
+                            <div class="input-field col l3">
                                 <i class="material-icons prefix">face</i>
                                 <input id="nick_prefix" type="text" class="validate" length="7" name="nick" value="{{ beca.nick }}" required maxlength="7">
                                 <label for="nick_prefix">Nick</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col l5 offset-l1">
+                            <div class="input-field col l3 offset-l3">
                                 <i class="material-icons prefix">smartphone</i>
                                 <input id="tel_prefix" type="text" class="validate" name="tel" required value="{{ beca.tel }}">
                                 <label for="tel_prefix">Telefono</label>
                             </div>
-                            <div class="input-field col l5">
+                            <div class="input-field col l3">
                                 <i class="material-icons prefix">contact_mail</i>
                                 <input id="nick_prefix" type="email" class="validate"  name="correo" required value="{{ beca.persona.user.email }}">
                                 <label for="nick_prefix">Correo</label>
@@ -616,24 +619,24 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col l4 offset-l2">
+                        <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">card_membership</i>
                             <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" required maxlength="7">
                             <label for="codigo_prefix">Codigo</label>
                         </div>
-                        <div class="input-field col l4">
+                        <div class="input-field col l3">
                             <i class="material-icons prefix">face</i>
                             <input id="nick_prefix" type="text" class="validate" length="7" name="nick" required maxlength="7">
                             <label for="nick_prefix">Nick</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col l5 offset-l1">
+                        <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">smartphone</i>
                             <input id="tel_prefix" type="text" class="validate" name="tel" required>
                             <label for="tel_prefix">Telefono</label>
                         </div>
-                        <div class="input-field col l5">
+                        <div class="input-field col l3">
                             <i class="material-icons prefix">contact_mail</i>
                             <input id="nick_prefix" type="email" class="validate"  name="correo" required>
                             <label for="nick_prefix">Correo</label>
