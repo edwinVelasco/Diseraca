@@ -12,7 +12,14 @@
       $scope.newDocente = {"pk": 0, 'tel': '', "persona": {"nombre": '', "codigo": '', 'email': ''},
           'dpto': {'codigo_dpto': '', 'nombre_dpto': ''}};
       $scope.fileDocentes = {'name': '', 'file': ''};
+      $scope.fileCargaDocente = {'name': '', 'file': ''};
       $scope.showTableTurnoDocente = false;
+      $scope.listCargaDocente = [];
+      $scope.listCargaDocenteShow = false;
+      $scope.listCarreras = [];
+      $scope.docenteCarga = "";
+      $scope.cargaPk = 0;
+      $scope.newCargaDocente = {};
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
@@ -78,6 +85,7 @@
                 $scope.content = "Something went wrong";
             });
     };
+
     $scope.getDepartamentos = function () {
           $http.get('get_dptos')
             .then(function(response) {
@@ -93,6 +101,7 @@
                 $scope.content = "Something went wrong";
             });
     };
+
     $scope.buscarDocenteEditar = function () {
         cod = $('#codigo_docente_buscar').val();
 
@@ -125,7 +134,9 @@
                 }
         }
     };
+
     $scope.getDocentes();
+
     $scope.getDepartamentos();
 
     $scope.newDocenteFunct = function () {
@@ -157,4 +168,75 @@
                 console.log(err);
             })
     };
+
+    $scope.save_carga_docente = function () {
+        $http.post("save_carga_docente", {data: $("#formRegisterCarcaDocente").serialize()})
+            .then( function(data){
+
+            }, function(err){
+                console.log(err);
+            })
+    };
+
+    $scope.buscarCargaDocente = function () {
+
+        $("#docente_carga").val($("#codigo_docente_buscar_carga").val());
+         $http.get('buscar_carga_docente?docente='+$("#codigo_docente_buscar_carga").val())
+            .then(function(response) {
+                console.log(response.data);
+                $scope.listCargaDocente = response.data;
+                if (response.data.length == 0){
+                    if ("Notification" in window){
+                        let ask = Notification.requestPermission();
+                        ask.then(permission => {
+                            if (permission ==='granted') {
+                                let msg = new Notification('Mensaje', {
+                                    body: 'El docente no tiene carga academica',
+                                    icon:"/static/img/ufps.jpg"
+                                });
+                            }
+                        });
+                    }
+                }
+
+                $scope.listCargaDocenteShow = true;
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+    };
+
+    $scope.get_carreras = function () {
+        $http.get('get_carreras')
+            .then(function(response) {
+                $scope.listCarreras = response.data;
+                $('#carreras_carga_docente').html('');
+                //$('#carreras_carga_docente').append("<option disabled selected>Seleccione</option>");
+                for(i in $scope.listCarreras){
+                    $('#carreras_carga_docente').append("<option value=\""+$scope.listCarreras[i].codigo+"\">"+$scope.listCarreras[i].nombre+"</option>");
+                }
+                $('#carreras_carga_docente').material_select();
+
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+    };
+    $scope.get_carreras();
+
+    $scope.show_register_carga = function () {
+        $('#register_carga_docente').modal('open');
+    };
+
+    $scope.edit_carga = function (obj) {
+          $("#pk_carga").val(obj.id);
+          $("#carreras_carga_docente").val(obj.carrera);
+          $("#codigo_materia").val(obj.codigo);
+          $("#nombre_materia").val(obj.nombre);
+          $("#grupo_materia").val(obj.grupo);
+          $("#matriculados_materia").val(obj.matriculados);
+          $scope.show_register_carga();
+    };
+
+
 });

@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     # para prueba
     #url(r'^cargar_turnos_iniciales$', views.cargar_turnos_iniciales),
-    #url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
 
     #fuera del login
     url(r'^$', views.index),
@@ -59,6 +59,16 @@ urlpatterns = [
         url(r'^get_dptos$', views.get_dptos),
         url(r'^save_docente$', views.save_docente),
         url(r'^save_docente_csv$', views.save_docente_csv),
+
+        #gestion de carga docente
+
+        url(r'^save_carga_docentes_csv$', views.save_carga_docentes_csv),
+        url(r'^buscar_carga_docente$', views.buscar_carga_docente),
+        url(r'^save_carga_docente$', views.save_carga_docente),
+
+
+        #carreras
+        url(r'^get_carreras$', views.get_carreras),
 
     #admin-becas
         url(r'^view_becas$', views.view_becas),

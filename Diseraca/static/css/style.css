@@ -16,3 +16,8 @@ position: absolute;
     bottom: 0;
      */
 }
+#horarioSalasBody{
+    background-image: url("../img/fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
