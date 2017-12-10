@@ -5,6 +5,7 @@
 app.controller('BecasAdminContoller', function ($scope, $http) {
     $scope.listReporteBecas = [];
     $scope.listDetalleReporte = [];
+    $scope.beca = "";
 
 
     $scope.getReporteBecas = function () {
@@ -18,10 +19,11 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
             });
     };
 
-    $scope.verMasInfo = function (obj) {
-        $http.get('get_semestres')
+    $scope.verMasInfoTarde = function (id, nick) {
+        $scope.beca = nick + " (LLegadas tarde)";
+        $http.get('get_asistencias_tarde?id='+id)
             .then(function(response) {
-                $scope.listSemestres = response.data.msg;
+                $scope.listDetalleReporte = response.data.msg;
 
             }, function(response) {
                 //Second function handles error
@@ -30,4 +32,15 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
     };
 
     $scope.getReporteBecas();
+    $scope.verMasInfoIn = function (id, nick) {
+        $scope.beca = nick + " (Inasistencias)";
+        $http.get('get_inasistencias_beca?id='+id)
+            .then(function(response) {
+                $scope.listDetalleReporte = response.data.msg;
+
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+    }
 });

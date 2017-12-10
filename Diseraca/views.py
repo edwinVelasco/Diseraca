@@ -203,10 +203,10 @@ def inicio(request):
             if 'msg' in request.session:
                 msg = request.session['msg']
                 del request.session['msg']
-                return render(request, 'diseraca/beca.html', {'edificios': edificios, 'beca': b, 'msg': msg,
+                return render(request, 'diseraca/beca/beca.html', {'edificios': edificios, 'beca': b, 'msg': msg,
                                                               'prestamos': prestamos_turnos})
 
-            return render(request, 'diseraca/beca.html', {'edificios': edificios, 'beca': b,
+            return render(request, 'diseraca/beca/beca.html', {'edificios': edificios, 'beca': b,
                                                             'prestamos': prestamos_turnos})
         elif persona.tipo == 2:
             edificios = Edificio.objects.all().order_by('codigo')
@@ -516,12 +516,14 @@ def registrar_asistencia(request):
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
                                                beca_turno__turno__time_start__lt=ahora.time(),
                                                beca_turno__turno__time_end__gt=ahora.time(), tipo=0)
-        if asistencia[0].datetime_registro != None and asistencia[0].ip != None:
-            request.session['msg'] = u'Ya se había registrado en este turno, como inasistencia'
-            return HttpResponseRedirect('inicio')
+
 
         #turno_ahora = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca, datetime_registro=None)
         if len(asistencia) > 0:
+            if asistencia[0].datetime_registro != None and asistencia[0].ip != None:
+                request.session['msg'] = u'Ya se había registrado en este turno, como inasistencia'
+                return HttpResponseRedirect('inicio')
+
             if datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00) < ahora.time() \
                     < datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=50, second=00):
                 try:
@@ -1749,7 +1751,6 @@ def view_estadisticas(request):
     if request.user.is_authenticated():
         persona = Persona.objects.get(user__username=request.session['usuario'])
         return render(request, 'diseraca/admin/estadisticas.html', {'admin': persona})
-
     else:
         return HttpResponseRedirect('/')
 
@@ -1808,11 +1809,10 @@ def get_report_becas(request):
         becas = Beca.objects.filter(persona__user__is_active=True)
         list_reportes = list()
         hoy = datetime.datetime.now().date()
-        print hoy
         for beca in becas:
             inasistencias = 0
             tardes = 0
-            asistencias = Asistencia.objects.filter(beca_turno__beca=beca)
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy)
             for asis in asistencias:
                 if asis.tipo == 0:
                     inasistencias += 1
@@ -1828,7 +1828,60 @@ def get_report_becas(request):
     else:
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def get_inasistencias_beca(request):
+    if request.user.is_authenticated():
+        try:
+            hoy = datetime.datetime.now().date()
+            beca = Beca.objects.get(id=request.GET['id'])
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy, tipo=0)
+            msg = [{'date_turno': str(w.date_turno), 'datetime_registro': str(w.datetime_registro),
+                    'ip': w.ip, 'turno': u"{0}-{1}".format(str(w.beca_turno.turno.time_start)[:5],
+                                                           str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
+            res = json.dumps({'code': 200, 'msg': msg})
+            return HttpResponse(res, content_type='application/json')
+        except Exception as e:
+            print e.message
+            res = json.dumps({'code': 404, 'msg': "error"})
+            return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+
+
+@login_required(login_url='/')
+def get_asistencias_tarde(request):
+    if request.user.is_authenticated():
+        try:
+            hoy = datetime.datetime.now().date()
+            beca = Beca.objects.get(id=request.GET['id'])
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy, tipo=1)
+            msg = [{'date_turno': str(w.date_turno), 'datetime_registro': str(w.datetime_registro),
+                    'ip': w.ip, 'turno': u"{0}-{1}".format(str(w.beca_turno.turno.time_start)[:5],
+                                                           str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
+            res = json.dumps({'code': 200, 'msg': msg})
+            return HttpResponse(res, content_type='application/json')
+        except Exception as e:
+            print e.message
+            res = json.dumps({'code': 404, 'msg': "error"})
+            return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
 #------------------fin reporte de becas por inasistencia o retardos----
+
+
+@login_required(login_url='/')
+def mis_turnos(request):
+    if request.user.is_authenticated():
+        persona = Persona.objects.get(user__username=request.session['usuario'])
+        beca = Beca.objects.get(persona=persona)
+        turnos = Beca_Turno.objects.filter(beca=beca)
+        hoy = datetime.datetime.now().date()
+        asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy).exclude(tipo=2)
+        return render(request, 'diseraca/beca/turnos.html', {'beca': beca, 'turnos': turnos, 'asistencias': asistencias})
+    else:
+        return HttpResponseRedirect('/')
 
 '''
 @login_required(login_url='/')

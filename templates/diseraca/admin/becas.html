@@ -694,13 +694,13 @@
                                     </td>
                                     <td>
                                         [[ reporteBeca.inasistencias ]]
-                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
+                                        <a href="#" ng-click="verMasInfoIn(reporteBeca.id, reporteBeca.nick)" ng-show="reporteBeca.inasistencias > 0" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
                                             <i class="material-icons">remove_red_eye</i>
                                         </a>
                                     </td>
                                     <td>
                                         [[ reporteBeca.tarde ]]
-                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
+                                        <a href="#" ng-click="verMasInfoTarde(reporteBeca.id, reporteBeca.nick)" ng-show="reporteBeca.tarde > 0" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
                                             <i class="material-icons">remove_red_eye</i>
                                         </a>
                                     </td>
@@ -711,37 +711,31 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col s6" ng-show="listDetalleReporte > 0">
+                    <div class="col s6" ng-show="listDetalleReporte.length > 0">
                         <h5>[[beca]]</h5>
                         <table class="s8 offset-s2 highlight striped">
                             <thead>
                                 <tr>
                                     <th>Fecha Turno</th>
                                     <th>Turno</th>
-                                    <th>Fecha/Hora registro</th>
+                                    <th>Hora registro</th>
                                     <th>IP</th>
-                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="reporteBeca in listDetalleReporte">
+                                <tr ng-repeat="asistencia in listDetalleReporte">
                                     <td>
-                                        [[ reporteBeca.nick ]]
+                                        [[ asistencia.date_turno ]]
                                     </td>
                                     <td>
-                                        [[ reporteBeca.inasistencias ]]
-                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
-                                            <i class="material-icons">remove_red_eye</i>
-                                        </a>
+                                        [[ asistencia.turno ]]
                                     </td>
                                     <td>
-                                        [[ reporteBeca.tarde ]]
-                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
-                                            <i class="material-icons">remove_red_eye</i>
-                                        </a>
+                                        [[ asistencia.datetime_registro ]]
+
                                     </td>
                                     <td>
-                                        [[ reporteBeca.total ]]
+                                        [[ asistencia.ip ]]
                                     </td>
                                 </tr>
                             </tbody>

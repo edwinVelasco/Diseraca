@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^ver_horario_edificio$', views.ver_horario_edificio),
     url(r'^llegada_docente$', views.llegada_docente),
     url(r'^registrar_asistencia$', views.registrar_asistencia),
+    url(r'^mis_turnos$', views.mis_turnos),
 
     #docente
     url(r'^buscar_salas_horario_docente$', views.buscar_salas_horario_docente),
@@ -87,6 +88,8 @@ urlpatterns = [
 
     #admin-reporte de becas
         url(r'^get_report_becas$', views.get_report_becas),
+        url(r'^get_inasistencias_beca$', views.get_inasistencias_beca),
+        url(r'^get_asistencias_tarde$', views.get_asistencias_tarde),
 
 
 

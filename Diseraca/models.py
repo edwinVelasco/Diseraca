@@ -234,8 +234,11 @@ class Sancion(models.Model):
 
 class Semestre(models.Model):
     nombre = models.TextField(max_length=10)
-    fecha_inicio = models.DateField(null=False)
-    fecha_fin = models.DateField(null=False)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+
+    def __unicode__(self):
+        return self.nombre
 
 '''
 class Restriccion(models.Model):
