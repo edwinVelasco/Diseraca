@@ -232,7 +232,10 @@ class Sancion(models.Model):
         return self.profesor+', desde: '+str(self.date_start)+' hasta: '+str(self.date_end)
 
 
-
+class Semestre(models.Model):
+    nombre = models.TextField(max_length=10)
+    fecha_inicio = models.DateField(null=False)
+    fecha_fin = models.DateField(null=False)
 
 '''
 class Restriccion(models.Model):

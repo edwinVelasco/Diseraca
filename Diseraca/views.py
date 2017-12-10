@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import datetime
 import json
 from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, Beca_Turno, Asistencia, \
-    Ip_Registro, Carrera, Departamento
+    Ip_Registro, Carrera, Departamento, Semestre
 import csv as csv
 
 # Create your views here.
@@ -1739,11 +1739,104 @@ def get_carreras(request):
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
+
+
+
+#------------crud semestre---------------
+
+@login_required(login_url='/')
+def view_estadisticas(request):
+    if request.user.is_authenticated():
+        persona = Persona.objects.get(user__username=request.session['usuario'])
+        return render(request, 'diseraca/admin/estadisticas.html', {'admin': persona})
+
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def save_semester(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            if 'id' in request.POST:
+                semestre = Semestre.objects.get(id=request.POST['id'])
+                msg = "Editado con exito"
+            else:
+                semestre = Semestre()
+                msg = "Creado con exito"
+            date = request.POST['fecha_inicio'].split('-')
+            fecha_inicio = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+
+            date = request.POST['fecha_fin'].split('-')
+            fecha_fin = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+
+
+            semestre.nombre = request.POST['semestre']
+            semestre.fecha_inicio = fecha_inicio
+            semestre.fecha_fin = fecha_fin
+            semestre.save()
+
+
+        res = json.dumps({'code': 200, 'msg': msg})
+        return HttpResponse(res, content_type='application/json')
+
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def get_semestres(request):
+    if request.user.is_authenticated():
+        semestres = Semestre.objects.all().order_by('nombre')
+        t = [{'id': w.id, 'semestre': w.nombre, 'fecha_inicio': str(w.fecha_inicio),
+              'fecha_fin': str(w.fecha_fin)} for w in semestres]
+        #data = json.dumps(t)
+
+        res = json.dumps({'code': 200, 'msg': t})
+        return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+#---------------end crud semestre---------
+
+
+
+#------------------reporte de becas por inasistencia o retardos----
+
+@login_required(login_url='/')
+def get_report_becas(request):
+    if request.user.is_authenticated():
+        becas = Beca.objects.filter(persona__user__is_active=True)
+        list_reportes = list()
+        hoy = datetime.datetime.now().date()
+        print hoy
+        for beca in becas:
+            inasistencias = 0
+            tardes = 0
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca)
+            for asis in asistencias:
+                if asis.tipo == 0:
+                    inasistencias += 1
+                elif asis.tipo == 1:
+                    tardes += 1
+            total = inasistencias*2 + tardes
+            reporte = {'id': beca.id, 'nick': beca.nick, 'inasistencias': inasistencias,
+                       'tarde': tardes, 'total': total}
+            list_reportes.append(reporte)
+
+        res = json.dumps({'code': 200, 'msg': list_reportes})
+        return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+#------------------fin reporte de becas por inasistencia o retardos----
+
 '''
 @login_required(login_url='/')
 def view_docentes(request):
     if request.user.is_authenticated():
-
+        
+        res = json.dumps({'code': 200, 'msg': "Mensaje o datos"})
+        return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
         

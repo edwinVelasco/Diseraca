@@ -85,9 +85,18 @@ urlpatterns = [
         url(r'^desactivar_ip_admin$', views.desactivar_ip_admin),
         url(r'^get_edit_ip_admin$', views.get_edit_ip_admin),
 
+    #admin-reporte de becas
+        url(r'^get_report_becas$', views.get_report_becas),
+
+
+
     #admin-docentes
     url(r'^view_docentes$', views.view_docentes),
         #actualizacion base de docentes
 
         #reportes de inasistencia
+    #admin-estadisticas
+        url(r'^estadisticas$', views.view_estadisticas),
+        url(r'^save_semester$', views.save_semester),
+        url(r'^get_semestres$', views.get_semestres),
     ]

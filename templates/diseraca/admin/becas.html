@@ -11,7 +11,7 @@
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
-                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
+                <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
                 <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block contenido %}
-    <div class="container">
+    <div class="container" ng-controller="BecasAdminContoller">
         <div class="card-panel">
             <div id="turnos" class="col s12">
                 {% if msg  and obcion == 2 %}
@@ -673,7 +673,85 @@
                 </div>
             </div>
 
-            <div id="retardos" class="col s12">Retardos</div>
+            <div id="retardos" class="col s12">
+                <h5 class="center-align">Lista de asistencias hasta HOY</h5>
+                <div class="row" ng-show="listReporteBecas.length > 0">
+                    <div class="col s6">
+                        <h5 class="center-align">Lista General de asistencias</h5>
+                        <table class="s8 offset-s2 highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Beca</th>
+                                    <th>Inasistencias</th>
+                                    <th>LLegadas Tarde</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reporteBeca in listReporteBecas">
+                                    <td>
+                                        [[ reporteBeca.nick ]]
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.inasistencias ]]
+                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.tarde ]]
+                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.total ]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col s6" ng-show="listDetalleReporte > 0">
+                        <h5>[[beca]]</h5>
+                        <table class="s8 offset-s2 highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Turno</th>
+                                    <th>Turno</th>
+                                    <th>Fecha/Hora registro</th>
+                                    <th>IP</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reporteBeca in listDetalleReporte">
+                                    <td>
+                                        [[ reporteBeca.nick ]]
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.inasistencias ]]
+                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.tarde ]]
+                                        <a href="#" ng-click="verMasInfo(reporteBeca.id)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.total ]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="listReporteBecas.length <= 0">
+                    <h5 class="center-align">No hay becas Activos</h5>
+                </div>
+            </div>
 
             <div id="ips" class="col s12">
             {% if msg  and obcion == 4 %}
