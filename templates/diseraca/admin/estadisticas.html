@@ -2,31 +2,31 @@
 
 {% block nav %}
 <nav class="nav-extended">
-        <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Diseraca</a>
-            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li>Admin: {{ admin.user.first_name }}</li>
-                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
-                <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
-                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
-                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
-                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
-                <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
-            </ul>
-        </div>
-        <div class="nav-content container">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#utilizacion" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
-                <li class="tab"><a href="#carrera" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
-                <li class="tab"><a href="#semestre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones"><i class="material-icons">view_list</i></a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="nav-wrapper container">
+        <a href="#!" class="brand-logo">Diseraca 2.0</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li>Admin: {{ admin.user.first_name }}</li>
+            <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+            <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
+            <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+            <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
+            <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+            <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+        </ul>
+    </div>
+    <div class="nav-content container">
+        <ul class="tabs tabs-transparent">
+            <li class="tab"><a href="#utilizacion" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
+            <li class="tab"><a href="#carrera" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
+            <li class="tab"><a href="#semestre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Semestres"><i class="material-icons">today</i></a></li>
+        </ul>
+    </div>
+</nav>
 {% endblock %}
 
 {% block contenido %}
-    <div class="container">
+    <div class="container" ng-controller="EstadisticaAdminContoller">
         <div class="card-panel">
             <div id="utilizacion" class="col s12">
                 <div class="row">
@@ -43,7 +43,79 @@
                 </div>
             </div>
             <div id="carrera" class="col s12">Test 2</div>
-            <div id="test3" class="col s12">Test 3</div>
+            <div id="semestre" class="col s12">
+                <div class="row">
+                    <div class="col s8 offset-s2">
+                        <form name="" id="" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Semestre.</h5>
+                                <input type="hidden" name="id" id="id" ng-model="NewSemester.id">
+                            </div>
+                            <div class="row">
+                                <div class=" input-field col l4">
+                                    <input placeholder="Semestre" name="semestre" id="semestre" type="text" ng-model="NewSemester.semestre" class="validate" required>
+                                    <label for="semestre">Codigo del Docente</label>
+                                </div>
+                                <div class=" input-field col l4">
+                                    <input placeholder="Fecha Inicio" name="fecha_inicio" id="fecha_inicio" type="text" ng-model="NewSemester.fecha_inicio" class="datepicker" required>
+                                    <label for="time_start">Fecha Inicio</label>
+                                </div>
+                                <div class=" input-field col l4">
+                                    <input placeholder="Fecha Fin" name="fecha_fin" id="fecha_fin" type="text" ng-model="NewSemester.fecha_fin" class="datepicker" required>
+                                    <label for="time_start">Fecha Fin</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l6">
+                                    <input id="buttonNewSemestre" class="btn" type="submit" value="Guardar" ng-click="SaveNewSemester()">
+                                </div>
+                                <div class="col l6">
+                                    <button class="btn" ng-click="clearFormNewSemestre()">
+                                        Nuevo
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" ng-show="listSemestres.length > 0">
+                    <div class="col s8 offset-s2">
+                        <table class="highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Semestre</th>
+                                    <th>Fecha de inicio</th>
+                                    <th>Fecha de finalización</th>
+                                    <th>Opción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="semestre in listSemestres">
+                                    <td>
+                                        [[ semestre.semestre ]]
+                                    </td>
+                                    <td>
+                                        [[ semestre.fecha_inicio ]]
+                                    </td>
+                                    <td>
+                                        [[ semestre.fecha_fin ]]
+                                    </td>
+
+                                    <td>
+                                        <a href="#" ng-click="editSemestre(semestre)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Carga">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="listSemestres.length <= 0">
+                    <h5 class="center-align">No hay Semestres registrados</h5>
+                </div>
+
+            </div>
         </div>
     </div>
     <script src=""></script>
@@ -51,7 +123,15 @@
 
 
 {% block init %}
-
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd'
+      });
 {% endblock %}
 
 {% block script %}

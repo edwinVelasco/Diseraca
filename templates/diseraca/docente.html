@@ -8,7 +8,7 @@
 
     <nav>
     <div class="nav-wrapper container">
-        <a href="#!" class="brand-logo">Diseraca</a>
+        <a href="#!" class="brand-logo">Diseraca 2.0</a>
         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
             <li>{{ docente.user.first_name }} / Cod: {{ docente.user.username }}</li>
@@ -218,7 +218,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-        2017 ©  Copyright Edwin A. Velasco
+        2017 © Copyright Edwin A. Velasco, Ingenieria de Sistemas
             <div class="right">
                 <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
                     UFPS
@@ -234,10 +234,15 @@
     fecha.setDate(fecha.getDate() + 10);
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 1, // Creates a dropdown of 15 years to control year
+        selectYears: 1, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd',
         min: new Date(),
         max: fecha
-    });
+      });
 
     $('select').material_select();
     frm = $('#form_add_prestamo');

@@ -3,14 +3,14 @@
 {% block nav %}
     <nav class="nav-extended">
         <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#!" class="brand-logo">Diseraca 2.0</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
-                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
                 <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
@@ -18,7 +18,7 @@
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
                 <li class="tab"><a href="#turnos_docentes" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Turnos de docente"><i class="material-icons">work</i></a></li>
-                <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Carga Docente"><i class="material-icons">view_list</i></a></li>
+                <li class="tab"><a href="#carga_docente" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Carga Academica de Docente"><i class="material-icons">view_list</i></a></li>
                 <li class="tab"><a href="#add_docente" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar Docente"><i class="material-icons">add</i></a></li>
             </ul>
         </div>
@@ -69,6 +69,7 @@
                                     <th>Turno</th>
                                     <th>Cuando se presto</th>
                                     <th>Quien lo presto</th>
+                                    <th>Ip</th>
                                 </tr>
                             </thead>
                             <tbody id="tablaTurnos">
@@ -82,12 +83,91 @@
 
                                     <td>[[ prestamo.fecha_prestamo ]]</td>
                                     <td>[[ prestamo.usuario ]]</td>
+                                    <td>[[ prestamo.ip ]]</td>
                                 </tr>
 
                             </tbody>
                         </table>
                 </div>
             </div>
+            <div id="carga_docente" class="col s12">
+                <div class="row">
+                    <div class="col l6">
+                        <form action="save_carga_docentes_csv" method="post" id="form_carga_docente_csv"  enctype="multipart/form-data">
+                            <div>
+                                <h5 class="center-align">Carga masiva</h5>
+                                {% csrf_token %}
+                            </div>
+                            <div class="row">
+                                <div class="col l8 offset-l2 file-field input-field">
+                                    <div class="btn">
+                                        <span>Importar CSV</span>
+                                        <input type="file" accept="text/csv" uploader-model="file_carga_docente" id="file_carga_docente" name="file_carga_docente" ng-model="fileCargaDocente.file">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" id="name_file_carga" name="name_file_carga" ng-model="fileCargaDocente.name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l4 offset-l4">
+                                    <input class="btn" type="submit" value="Guardar">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col l6">
+                        <form name="" id="" ng-submit="false">
+                            <div>
+                                <h5 class="center-align">Buscar carga de docente</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newDocente.pk" ng-value="newDocente.pk">
+                            </div>
+                            <div class="row">
+                                <div class="input-field col l4 offset-l2">
+                                    <input placeholder="Codigo" name="codigo_docente_buscar_carga" id="codigo_docente_buscar_carga" type="text" class="validate" required>
+                                    <label for="codigo_docente_buscar_carga">Codigo</label>
+                                </div>
+                                <div class="col l4">
+                                    <input class="btn" type="submit" value="Buscar" ng-click="buscarCargaDocente()">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" ng-show="listCargaDocenteShow">
+                    <button class="btn" ng-click="show_register_carga()">Registrar Carga</button>
+                    <table class="highlight striped">
+                        <thead>
+                            <tr>
+                                <th>Codigo-Grupo</th>
+                                <th>Nombre</th>
+                                <th>Matriculados</th>
+                                <th>Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTurnos">
+                            <tr ng-repeat="carga in listCargaDocente">
+                                <td>
+                                    [[ carga.codigo ]]-[[ carga.grupo ]]
+                                </td>
+                                <td>
+                                    [[ carga.nombre ]]
+                                </td>
+                                <td>
+                                    [[ carga.matriculados ]]
+                                </td>
+
+                                <td>
+                                    <a href="#" ng-click="edit_carga(carga)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Carga">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="col l12" id="add_docente">
                 <div class="row">
                     <div class="col l6">
@@ -171,13 +251,50 @@
                                 </div>
                             </form>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="modal" id="register_carga_docente">
+        <div class="modal-content">
+            <form name="" id="" method="post" action="save_carga_docente">
+                <div>
+                    <h5 class="center-align">Registrar carga academica del docente</h5>
+                    <input type="hidden" name="docente_carga" id="docente_carga" ng-model="newCargaDocente.profesor">
+                    <input type="hidden" name="pk_carga" id="pk_carga">
+                    {% csrf_token %}
+                </div>
+                <div class="row">
+                    <div class="input-field col l6">
+                        <select id="carreras_carga_docente" name="carreras_carga_docente" required class="validate" ng-required="true">
+
+                        </select>
+                        <label for="edif">Seleccione una carrera</label>
+                    </div>
+                    <div class="input-field col l6">
+                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="number" class="validate" required ng-required="true" >
+                        <label for="codigo_materia">Codigo</label>
+                    </div>
+                    <div class="input-field col l6">
+                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true" >
+                        <label for="nombre_materia">Nombre</label>
+                    </div>
+                    <div class="input-field col l3">
+                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true" >
+                        <label for="grupo_materia">Grupo</label>
+                    </div>
+                    <div class="input-field col l6">
+                        <input placeholder="Matriculados" name="matriculados_materia" id="matriculados_materia" type="number" class="validate" required ng-required="true">
+                        <label for="grupo_materia">Matriculados</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l4">
+                        <input class="btn modal-action" type="submit" value="Guardar">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
@@ -194,6 +311,7 @@
         closeOnSelect: true, // Close upon selecting a date,
         format: 'yyyy-mm-dd'
       });
+
     {% if msg %}
         if ("Notification" in window){
             let ask = Notification.requestPermission();
@@ -207,6 +325,7 @@
             });
         }
     {% endif %}
+    $('.modal').modal();
 {% endblock %}
 
 {% block script %}

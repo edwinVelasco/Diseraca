@@ -111,7 +111,8 @@ class Prestamo(models.Model):
     profesor = models.ForeignKey('Profesor', null=True)
     codigo = models.CharField(max_length=7, null=True)  # codigo de la materia
     nombre = models.CharField(max_length=45, null=True)  # nombre de la materia
-    grupo = models.CharField(max_length=1, null=True)
+    grupo = models.CharField(max_length=1, null=True) # materia
+    matriculados = models.IntegerField()
 
     turno_sala = models.ForeignKey('Turno_Sala')
     date_prestamo = models.DateTimeField(auto_now=True)
@@ -126,7 +127,7 @@ class Prestamo(models.Model):
     )
     estado = models.IntegerField(default=0, choices=estados)
     tipos = (
-        (0, 'Clase'),
+        (0, 'Audiovisuales'),
         (1, 'Sustentacion'),
         (2, 'Curso'),
         (3, 'Reunion')
@@ -138,10 +139,9 @@ class Prestamo(models.Model):
     tel = models.CharField(max_length=12, null=True)
     detalle = models.CharField(max_length=50, null=True)
 
-
     def __unicode__(self):
-        return ['Activo', 'Entregado', 'Cancelado', 'Anulado'][self.estado]+', '+str(self.date_prestamo)+', '+self.usuario+', '+self.ip+', '+str(self.date_turno)+\
-               ', '+str(self.turno_sala)
+        return ['Activo', 'Entregado', 'Cancelado', 'Anulado'][self.estado]+', '+str(self.date_prestamo)+', '+\
+               self.usuario+', '+self.ip+', '+str(self.date_turno)+', '+str(self.turno_sala)
 
 
 class Persona(models.Model):
@@ -208,6 +208,9 @@ class Beca_Turno(models.Model):
     beca = models.ForeignKey('Beca')
     turno = models.ForeignKey('Turno')
 
+    def __unicode__(self):
+        return str(self.turno)
+
 
 class Semestre(models.Model):
     nombre = models.CharField(max_length=10)
@@ -229,7 +232,13 @@ class Sancion(models.Model):
         return self.profesor+', desde: '+str(self.date_start)+' hasta: '+str(self.date_end)
 
 
+class Semestre(models.Model):
+    nombre = models.TextField(max_length=10)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
 
+    def __unicode__(self):
+        return self.nombre
 
 '''
 class Restriccion(models.Model):

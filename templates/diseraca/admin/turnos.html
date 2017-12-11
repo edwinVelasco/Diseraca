@@ -3,21 +3,22 @@
 {% block nav %}
     <nav class="nav-extended">
         <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#!" class="brand-logo">Diseraca 2.0</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas/"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
-                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
                 <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
         </div>
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#turnos" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos y Gestión de Horarios"><i class="material-icons">date_range</i></a></li>
+                <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos"><i class="material-icons">event_seat</i></a></li>
+                <li class="tab"><a href="#horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestión de Horarios de Salas"><i class="material-icons">date_range</i></a></li>
                 <li class="tab"><a href="#edificios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Edificios y Salas"><i class="material-icons">location_city</i></a></li>
                 <!--<li class="tab"><a href="#sala_turno" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Asignación de Turnos a Salas"><i class="material-icons">date_range</i></a></li>-->
             </ul>
@@ -31,7 +32,7 @@
         <div class="card-panel" >
             <div id="turnos" class="col s12">
                 <div class="row">
-                    <div class="col s6">
+                    <div class="col s6 offset-s3">
                         <form name="newFormTurno" id="newFormTurno" ng-submit="false">
                         <div>
                             <h5 class="center-align">Turnos</h5>
@@ -74,7 +75,51 @@
                         </div>
                     </form>
                     </div>
-                    <div class="col s6">
+
+                </div>
+
+                <div class="row">
+                    <div class="col s8 offset-s2" id="divListaTurnos">
+                        <table class="highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Turnos</th>
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTurnos">
+                                <tr ng-repeat="dataTurno in dataTurnos">
+                                    <td>
+                                        [[ dataTurno.fields.time_start ]] a [[ dataTurno.fields.time_end ]]
+                                    </td>
+                                    <td>
+                                        [[ estado[dataTurno.fields.estado] ]]
+                                    </td>
+                                    <td>
+                                        <a href="#" ng-click="edit_turn([[ dataTurno]])" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Turno">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <ul class="pagination">
+                            <li class="waves-effect" id="pag_0"><a ng-click="get_turn_day(0)">Lunes</a></li>
+                            <li class="waves-effect" id="pag_1"><a ng-click="get_turn_day(1)">Martes</a></li>
+                            <li class="waves-effect" id="pag_2"><a ng-click="get_turn_day(2)">Miercoles</a></li>
+                            <li class="waves-effect" id="pag_3"><a ng-click="get_turn_day(3)">Jueves</a></li>
+                            <li class="waves-effect" id="pag_4"><a ng-click="get_turn_day(4)">Viernes</a></li>
+                            <li class="waves-effect" id="pag_5"><a ng-click="get_turn_day(5)">Sabado</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div id="horarios" class="col s12">
+                <div class="row">
+                    <div class="col s6 offset-s3">
                         <form name="newFormHorarioSala" id="newFormHorarioSala" ng-submit="false">
                         <div>
                             <h5 class="center-align">Gestion de Horarios</h5>
@@ -132,46 +177,10 @@
                         </div>
                     </form>
                     </div>
-
                 </div>
 
                 <div class="row">
-                    <div class="col l6" id="divListaTurnos">
-                        <table class="highlight striped">
-                            <thead>
-                                <tr>
-                                    <th>Turnos</th>
-                                    <th>Estado</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaTurnos">
-                                <tr ng-repeat="dataTurno in dataTurnos">
-                                    <td>
-                                        [[ dataTurno.fields.time_start ]] a [[ dataTurno.fields.time_end ]]
-                                    </td>
-                                    <td>
-                                        [[ estado[dataTurno.fields.estado] ]]
-                                    </td>
-                                    <td>
-                                        <a href="#" ng-click="edit_turn([[ dataTurno]])" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Turno">
-                                            <i class="material-icons">edit</i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        <ul class="pagination">
-                            <li class="waves-effect" id="pag_0"><a ng-click="get_turn_day(0)">Lunes</a></li>
-                            <li class="waves-effect" id="pag_1"><a ng-click="get_turn_day(1)">Martes</a></li>
-                            <li class="waves-effect" id="pag_2"><a ng-click="get_turn_day(2)">Miercoles</a></li>
-                            <li class="waves-effect" id="pag_3"><a ng-click="get_turn_day(3)">Jueves</a></li>
-                            <li class="waves-effect" id="pag_4"><a ng-click="get_turn_day(4)">Viernes</a></li>
-                            <li class="waves-effect" id="pag_5"><a ng-click="get_turn_day(5)">Sabado</a></li>
-                        </ul>
-                    </div>
-                    <div class="col l6">
+                    <div class="col s8 offset-s2">
                         <h5>Ver Turnos de salas</h5>
                         <div class="row">
                             <div class="col s2" ng-repeat="edif in listEdif">
@@ -227,6 +236,7 @@
                         </ul>
                     </div>
                 </div>
+
             </div>
             <div id="edificios" class="col s12">
                 <div class="row">
@@ -289,7 +299,7 @@
                                 <div class="input-field col l6">
                                     <select id="tipo_sala" name="tipo_sala" required class="validate">
                                         <option disabled selected> Seleccione</option>
-                                        <option value="0">Sala de clase</option>
+                                        <option value="0">Sala Audiovisual</option>
                                         <option value="1">Aula virtual</option>
                                         <option value="2">Auditorio</option>
                                     </select>

@@ -1,0 +1,135 @@
+{% extends 'diseraca/base_index.html' %}
+
+{% block title %}
+    Diseraca 2 | Beca
+{% endblock %}
+
+{% block nav %}
+
+    <nav>
+    <div class="nav-wrapper container">
+        <a href="#!" class="brand-logo">Diseraca 2.0</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li>{{ beca.persona.user.first_name }} Cod: {{ beca.persona.user.username }}</li>
+            <li><a href="inicio">Inicio</a></li>
+            <li><a href="registrar_asistencia" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar Asistencia"><i class="material-icons">add_alarm</i></a></li>
+            <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li>
+                <div class="userView">
+                    <div class="background">
+                        <img src="static/img/bg-default.jpg">
+                    </div>
+                    <span class="white-text name">{{ beca.persona.user.first_name }}</span>
+                </div>
+            </li>
+            <li><a href="cerrar">Cerrar Sesión</a></li>
+            <li><a href="inicio">Mis Turnos</a></li>
+        </ul>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block contenido %}
+
+    <div class="container">
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s4">
+                    <h5 class="center-align">Mis turnos</h5>
+                    <table class="s8 offset-s2 highlight striped">
+                        <thead>
+                            <tr>
+                                <th>Dia</th>
+                                <th>Turno</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for turno in turnos %}
+                                <tr>
+                                    {% if turno.turno.dia == 0 %}
+                                        <td>Lunes</td>
+                                    {%  elif turno.turno.dia == 1 %}
+                                        <td>Martes</td>
+                                    {%  elif turno.turno.dia == 2 %}
+                                        <td>Miercoles</td>
+                                    {%  elif turno.turno.dia == 3 %}
+                                        <td>Jueves</td>
+                                    {%  elif turno.turno.dia == 4 %}
+                                        <td>Viernes</td>
+                                    {%  elif turno.turno.dia == 5 %}
+                                        <td>Sabado</td>
+                                    {% endif %}
+                                    <td>{{ turno.turno.time_start }} a {{ turno.turno.time_end }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col s8">
+                    <h5 class="center-align">LLegadas tardes e inasistencias</h5>
+                    <table class="s8 offset-s2 highlight">
+                        <thead>
+                            <tr>
+                                <th>Fecha Turno</th>
+                                <th>Turno</th>
+                                <th>Hora registro</th>
+                                <th>IP</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asistencia in asistencias %}
+                                <tr>
+                                    <td>{{ asistencia.date_turno }}</td>
+                                    <td>{{ asistencia.beca_turno.turno.time_start }} a {{ asistencia.beca_turno.turno.time_end }}</td>
+                                    <td>{{ asistencia.datetime_registro | time}}</td>
+                                    <td>{{ asistencia.ip.ip }}</td>
+                                    {% if asistencia.tipo == 0%}
+                                        <td>Inasistencia</td>
+                                    {%  else %}
+                                        <td>Tarde</td>
+                                    {% endif %}
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footet %}
+    <div class="footer-copyright">
+        <div class="container">
+        2017 © Copyright Edwin A. Velasco, Ingenieria de Sistemas
+            <div class="right">
+                <a class="grey-text text-lighten-4" href="http://ufps.edu.co">
+                    UFPS
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block init %}
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 1, // Creates a dropdown of 15 years to control year
+        min: new Date(),
+        max: fecha
+    });
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+
+

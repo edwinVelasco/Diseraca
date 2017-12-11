@@ -4,7 +4,10 @@ from . import views
 urlpatterns = [
     # para prueba
     #url(r'^cargar_turnos_iniciales$', views.cargar_turnos_iniciales),
-    #url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    #crud ip
+    url(r'^add_ip$', views.add_ip),
+    url(r'^editar_ip$', views.editar_ip),
 
     #fuera del login
     url(r'^$', views.index),
@@ -18,6 +21,7 @@ urlpatterns = [
     url(r'^ver_horario_edificio$', views.ver_horario_edificio),
     url(r'^llegada_docente$', views.llegada_docente),
     url(r'^registrar_asistencia$', views.registrar_asistencia),
+    url(r'^mis_turnos$', views.mis_turnos),
 
     #docente
     url(r'^buscar_salas_horario_docente$', views.buscar_salas_horario_docente),
@@ -60,6 +64,16 @@ urlpatterns = [
         url(r'^save_docente$', views.save_docente),
         url(r'^save_docente_csv$', views.save_docente_csv),
 
+        #gestion de carga docente
+
+        url(r'^save_carga_docentes_csv$', views.save_carga_docentes_csv),
+        url(r'^buscar_carga_docente$', views.buscar_carga_docente),
+        url(r'^save_carga_docente$', views.save_carga_docente),
+
+
+        #carreras
+        url(r'^get_carreras$', views.get_carreras),
+
     #admin-becas
         url(r'^view_becas$', views.view_becas),
         url(r'^add_beca$', views.add_beca),
@@ -72,9 +86,20 @@ urlpatterns = [
         url(r'^desactivar_ip_admin$', views.desactivar_ip_admin),
         url(r'^get_edit_ip_admin$', views.get_edit_ip_admin),
 
+    #admin-reporte de becas
+        url(r'^get_report_becas$', views.get_report_becas),
+        url(r'^get_inasistencias_beca$', views.get_inasistencias_beca),
+        url(r'^get_asistencias_tarde$', views.get_asistencias_tarde),
+
+
+
     #admin-docentes
     url(r'^view_docentes$', views.view_docentes),
         #actualizacion base de docentes
 
         #reportes de inasistencia
+    #admin-estadisticas
+        url(r'^estadisticas$', views.view_estadisticas),
+        url(r'^save_semester$', views.save_semester),
+        url(r'^get_semestres$', views.get_semestres),
     ]

@@ -4,14 +4,14 @@
 {% block nav %}
     <nav class="nav-extended">
         <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo">Diseraca</a>
+            <a href="#!" class="brand-logo">Diseraca 2.0</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
-                <li><a href="#" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">show_chart</i></a></li>
+                <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
                 <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block contenido %}
-    <div class="container">
+    <div class="container" ng-controller="BecasAdminContoller">
         <div class="card-panel">
             <div id="turnos" class="col s12">
                 {% if msg  and obcion == 2 %}
@@ -521,7 +521,29 @@
                     </form>
 
                 </div>
+                <div class="divider"></div>
+                <div class="row">
 
+                    <h5 class="center-align">Inicio de las asistencias del semestre.</h5>
+                    <form action="asignar_asistencias_semestre" method="post">
+                        <div id="token">
+                            {% csrf_token %}
+                        </div>
+                        <div class="input-field col l3 offset-l2">
+                            <input id="fecha_start" type="text" class="datepicker" name="fecha_start" required>
+                            <label for="cc_prefix">Fecha de inicio de Beca</label>
+                        </div>
+                        <div class="input-field col l3">
+                            <input id="semanas" type="number" class="validate" name="semanas" required max="16">
+                            <label for="semanas">Semanas De beca (16)</label>
+                        </div>
+                        <div class="input-field col l3">
+                            <button class="btn waves-effect waves-light" type="submit">Asignar
+                                <i class="material-icons right">save</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div id="add" class="col s12">
@@ -547,24 +569,24 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col l4 offset-l2">
+                            <div class="input-field col l3 offset-l3">
                                 <i class="material-icons prefix">card_membership</i>
                                 <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" value="{{ beca.persona.user.username }}" required maxlength="7">
                                 <label for="codigo_prefix">Codigo</label>
                             </div>
-                            <div class="input-field col l4">
+                            <div class="input-field col l3">
                                 <i class="material-icons prefix">face</i>
                                 <input id="nick_prefix" type="text" class="validate" length="7" name="nick" value="{{ beca.nick }}" required maxlength="7">
                                 <label for="nick_prefix">Nick</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col l5 offset-l1">
+                            <div class="input-field col l3 offset-l3">
                                 <i class="material-icons prefix">smartphone</i>
                                 <input id="tel_prefix" type="text" class="validate" name="tel" required value="{{ beca.tel }}">
                                 <label for="tel_prefix">Telefono</label>
                             </div>
-                            <div class="input-field col l5">
+                            <div class="input-field col l3">
                                 <i class="material-icons prefix">contact_mail</i>
                                 <input id="nick_prefix" type="email" class="validate"  name="correo" required value="{{ beca.persona.user.email }}">
                                 <label for="nick_prefix">Correo</label>
@@ -597,24 +619,24 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col l4 offset-l2">
+                        <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">card_membership</i>
                             <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" required maxlength="7">
                             <label for="codigo_prefix">Codigo</label>
                         </div>
-                        <div class="input-field col l4">
+                        <div class="input-field col l3">
                             <i class="material-icons prefix">face</i>
                             <input id="nick_prefix" type="text" class="validate" length="7" name="nick" required maxlength="7">
                             <label for="nick_prefix">Nick</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col l5 offset-l1">
+                        <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">smartphone</i>
                             <input id="tel_prefix" type="text" class="validate" name="tel" required>
                             <label for="tel_prefix">Telefono</label>
                         </div>
-                        <div class="input-field col l5">
+                        <div class="input-field col l3">
                             <i class="material-icons prefix">contact_mail</i>
                             <input id="nick_prefix" type="email" class="validate"  name="correo" required>
                             <label for="nick_prefix">Correo</label>
@@ -651,14 +673,86 @@
                 </div>
             </div>
 
-            <div id="retardos" class="col s12">Retardos</div>
+            <div id="retardos" class="col s12">
+                <h5 class="center-align">Lista de asistencias hasta HOY</h5>
+                <div class="row" ng-show="listReporteBecas.length > 0">
+                    <div class="col s6">
+                        <h5 class="center-align">Lista General de asistencias</h5>
+                        <table class="s8 offset-s2 highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Beca</th>
+                                    <th>Inasistencias</th>
+                                    <th>LLegadas Tarde</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="reporteBeca in listReporteBecas">
+                                    <td>
+                                        [[ reporteBeca.nick ]]
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.inasistencias ]]
+                                        <a href="#" ng-click="verMasInfoIn(reporteBeca.id, reporteBeca.nick)" ng-show="reporteBeca.inasistencias > 0" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las inasistencias">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.tarde ]]
+                                        <a href="#" ng-click="verMasInfoTarde(reporteBeca.id, reporteBeca.nick)" ng-show="reporteBeca.tarde > 0" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ver las LLegadas tardes">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        [[ reporteBeca.total ]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col s6" ng-show="listDetalleReporte.length > 0">
+                        <h5>[[beca]]</h5>
+                        <table class="s8 offset-s2 highlight striped">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Turno</th>
+                                    <th>Turno</th>
+                                    <th>Hora registro</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="asistencia in listDetalleReporte">
+                                    <td>
+                                        [[ asistencia.date_turno ]]
+                                    </td>
+                                    <td>
+                                        [[ asistencia.turno ]]
+                                    </td>
+                                    <td>
+                                        [[ asistencia.datetime_registro ]]
+
+                                    </td>
+                                    <td>
+                                        [[ asistencia.ip ]]
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" ng-show="listReporteBecas.length <= 0">
+                    <h5 class="center-align">No hay becas Activos</h5>
+                </div>
+            </div>
 
             <div id="ips" class="col s12">
             {% if msg  and obcion == 4 %}
                 <h4 class="accent-1 red-text">{{ msg }}</h4>
             {% endif %}
             {% if opcion and opcion == 5%}
-                <form action="editar_ip" method="post">
+                <form action="get_edit_ip_admin" method="post">
                     <input type="hidden" name="id" id="id" value="{{ ip.id }}">
                     <div id="token">
                         {% csrf_token %}
@@ -666,7 +760,7 @@
                     <div class="row center">
                         <div class="input-field col l4 offset-l4">
                             <i class="material-icons prefix">credit_card</i>
-                            <input id="ip_prefix" type="text" class="validate" name="ip" required value="{{ ip.ip }}">
+                            <input id="ip_prefix" type="text" class="validate" name="ip_prefix" required value="{{ ip.ip }}">
                             <label for="ip_prefix">Ip</label>
                         </div>
                     </div>
@@ -725,6 +819,15 @@
 
 {% block init %}
     $('select').material_select();
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 1, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: true, // Close upon selecting a date,
+        format: 'yyyy-mm-dd'
+      });
 {% endblock %}
 
 
