@@ -212,15 +212,6 @@ class Beca_Turno(models.Model):
         return str(self.turno)
 
 
-class Semestre(models.Model):
-    nombre = models.CharField(max_length=10)
-    date_start = models.DateField()
-    date_end = models.DateField()
-
-    def __unicode__(self):
-        return self.nombre+' desde:'+str(self.date_start)+' hasta:'+str(self.date_end)
-
-
 class Sancion(models.Model):
     profesor = models.ForeignKey('Profesor')
     date_start = models.DateField()

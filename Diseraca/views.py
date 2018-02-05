@@ -5,38 +5,25 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+
+from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, \
+    Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
+
 import datetime
 import json
-from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, Beca_Turno, Asistencia, \
-    Ip_Registro, Carrera, Departamento, Semestre
 import csv as csv
-
-# Create your views here.
-
-def cargar_turnos_iniciales(request):
-    archivo = open('/home/wolf/PycharmProjects/diseraca/Diseraca/archivos/turnos_inicio.csv', 'r')
-    while True:
-        linea = archivo.readline()
-        if not linea:
-            break
-        s = linea.split(',')
-        turno = Turno()
-        turno.time_start = datetime.time(hour=int(s[0]), minute=0, second=0)
-        turno.time_end = datetime.time(hour=int(s[1]), minute=0, second=0)
-        turno.dia = int(s[2])
-        turno.estado = 0
-        turno.save()
-        print turno
-
-    return HttpResponse('ok')
-
+import threading
+import re
 
 def index(request):
-    # request. --> ip del usuario, request.REMOTE_ADDR
 
     if request.method == 'GET':
+        if 'msg' in request.session:
+            msg = request.session['msg']
+            del request.session['msg']
+            return render(request, 'diseraca/login.html', {'msg': msg})
+
         if 'id' in request.GET:
-            print request.GET['id']
             request.session['tmp'] = request.GET['id']
         return render(request, 'diseraca/login.html', {})
 
@@ -70,8 +57,8 @@ def get_salas_disponibilidad(request):
 
         for s in salas:
             ul += '''
-                    <li>
-                        <div class="collapsible-header"><span class="badge">%s, Max %s</span>%s</div>
+                    <li class="active">
+                        <div class="collapsible-header active"><span class="badge">%s, Max %s</span>%s</div>
                         <div class="collapsible-body">
                               <table class="highlight centered responsive-table">
                                 <thead>
@@ -147,7 +134,7 @@ def inicio(request):
             cargas = Carga.objects.filter(profesor=p)
 
             if 'tmp' in request.session:
-                print 'tmp', request.session['tmp']
+                #print 'tmp', request.session['tmp']
                 tmp = request.session['tmp'].split('.')
                 del request.session['tmp']
                 date = tmp[0].split('-')
@@ -197,7 +184,7 @@ def inicio(request):
             prestamos_turnos = list()
             for turno in turnos:
                 prestamos = Prestamo.objects.filter(turno_sala__turno=turno, date_turno__gte=ahora.date())
-                print prestamos
+                #print prestamos
                 for pres in prestamos:
                     prestamos_turnos.append(pres)
             if 'msg' in request.session:
@@ -232,12 +219,18 @@ def iniciar_sesion(request):
             if user.is_active:
                 login(request, user)
                 request.session['usuario'] = username
+                if request.POST['password'] == request.POST['codigo']:
+                    return HttpResponseRedirect('view_init_password')
+
+
                 return HttpResponseRedirect('inicio')
 
             else:
-                return HttpResponse('Usuario Desactivado')
+                request.session['msg'] = "Usuario Desactivado"
+                return HttpResponseRedirect('/')
         else:
-            return HttpResponse('codigo o contraseña erroneos')
+            request.session['msg'] = "codigo o contraseña erroneos"
+            return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
 
@@ -249,7 +242,38 @@ def cerrar(request):
         logout(request)
     return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def view_init_password(request):
+    if request.method == 'GET':
+        return render(request, 'diseraca/cambiar_password.html',
+                      {'correo': request.user.email, 'msg': u'Cambiar contraseña inicial y correo'})
+
+    if request.method == 'POST':
+        if request.POST['password1'] == request.POST['password2']:
+            patronMay = r"[A-Z]{1}"
+            patronNum = r"\d{2}"
+            if re.search(patronMay, request.POST['password1']) and re.search(patronNum, request.POST['password1']) and \
+                len(request.POST['password1']) >= 8:
+                user = request.user
+                user.email = request.POST['email']
+                user.set_password(request.POST['password1'])
+                user.save()
+                del request.session['usuario']
+                logout(request)
+                request.session['msg'] = "Contraseña y correo cambiado exitosamente"
+                return HttpResponseRedirect('/')
+            else:
+                return render(request, 'diseraca/cambiar_password.html',
+                              {'correo': request.POST['email'], 'msg': u'La nueva contraseña no cumple con el patron requerido'})
+        else:
+            return render(request, 'diseraca/cambiar_password.html',
+                          {'correo': request.POST['email'],
+                           'msg': u'La nueva contraseña no coincide'})
+
+
 #--------------def Docentes-------------------
+
 
 @login_required(login_url='/')
 def buscar_salas_horario_docente(request):
@@ -417,6 +441,7 @@ def desactivar_prestamo_docente(request):
     else:
         return HttpResponseRedirect('/')
 
+
 #-------------------end def Docentes--------------
 
 
@@ -510,7 +535,7 @@ def ver_horario_edificio(request):
 @login_required(login_url='/')
 def registrar_asistencia(request):
     if request.user.is_authenticated() and 'usuario' in request.session:
-        print request.META['REMOTE_ADDR']
+        #print request.META['REMOTE_ADDR']
         beca = Beca.objects.get(persona__user__username=request.session['usuario'])
         ahora = datetime.datetime.now()
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
@@ -675,7 +700,9 @@ def get_carga_docente(request):
             for c in carga:
                 data += '''<option value="%s">%s-%s-%s, Matriculados: %s</option>''' % (c.id, c.nombre, c.codigo, c.grupo,
                                                                                   c.matriculados)
-            return HttpResponse(data)
+
+            data = json.dumps({'code': 200, 'msg': data, 'docente': profesor.persona.user.first_name.upper()})
+            return HttpResponse(data, content_type='application/json')
 
         except Profesor.DoesNotExist:
             return HttpResponse('not')
@@ -780,71 +807,8 @@ def view_becas(request):
         beca_turnos_viernes = Beca_Turno.objects.filter(turno__dia=4)
         beca_turnos_sabado = Beca_Turno.objects.filter(turno__dia=5)
 
-        becas = Beca.objects.filter(persona__user__is_active=True).order_by('nick')
         persona = Persona.objects.get(user__username=request.session['usuario'])
         ips = Ip_Registro.objects.filter(estado=True)
-        if 'msg' in request.session:
-            msg = request.session['msg']
-            del request.session['msg']
-            if 'opcion' in request.session:
-                opcion = request.session['opcion']
-                del request.session['opcion']
-                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'msg': msg,
-                                                                     'beca_turnos_lunes': beca_turnos_lunes,
-                                                                     'beca_turnos_martes': beca_turnos_martes,
-                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                                     'beca_turnos_jueves': beca_turnos_jueves,
-                                                                     'beca_turnos_viernes': beca_turnos_viernes,
-                                                                     'beca_turnos_sabado': beca_turnos_sabado,
-                                                                     'becas': becas,
-                                                                     'ips': ips, 'opcion': opcion, 'admin': persona})
-
-            return render(request, 'diseraca/admin/becas.html', {'turnos': turnos, 'msg': msg,
-                                                                 'beca_turnos_lunes': beca_turnos_lunes,
-                                                                 'beca_turnos_martes': beca_turnos_martes,
-                                                                 'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                                 'beca_turnos_jueves': beca_turnos_jueves,
-                                                                 'beca_turnos_viernes': beca_turnos_viernes,
-                                                                 'beca_turnos_sabado': beca_turnos_sabado,
-                                                                 'becas': becas, 'ips': ips,
-                                                                 'admin': persona})
-        if 'opcion' in request.session:
-            opcion = request.session['opcion']
-            del request.session['opcion']
-            if 'beca' in request.session:
-                beca = Beca.objects.get(id=request.session['beca'])
-                del request.session['beca']
-                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
-                                                                     'beca_turnos_lunes': beca_turnos_lunes,
-                                                                     'beca_turnos_martes': beca_turnos_martes,
-                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                                     'beca_turnos_jueves': beca_turnos_jueves,
-                                                                     'beca_turnos_viernes': beca_turnos_viernes,
-                                                                     'beca_turnos_sabado': beca_turnos_sabado,
-                                                                     'becas': becas, 'ips': ips, 'opcion': opcion,
-                                                                     'beca': beca, 'admin': persona})
-            elif 'ip' in request.session:
-                ip = Ip_Registro.objects.get(ip=request.session['ip'])
-                del request.session['ip']
-                return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
-                                                                     'beca_turnos_lunes': beca_turnos_lunes,
-                                                                     'beca_turnos_martes': beca_turnos_martes,
-                                                                     'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                                     'beca_turnos_jueves': beca_turnos_jueves,
-                                                                     'beca_turnos_viernes': beca_turnos_viernes,
-                                                                     'beca_turnos_sabado': beca_turnos_sabado,
-                                                                     'becas': becas, 'ips': ips, 'opcion': opcion,
-                                                                     'ip': ip, 'admin': persona})
-
-            return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
-                                                                 'beca_turnos_lunes': beca_turnos_lunes,
-                                                                 'beca_turnos_martes': beca_turnos_martes,
-                                                                 'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                                 'beca_turnos_jueves': beca_turnos_jueves,
-                                                                 'beca_turnos_viernes': beca_turnos_viernes,
-                                                                 'beca_turnos_sabado': beca_turnos_sabado,
-                                                                 'becas': becas, 'ips': ips, 'opcion': opcion,
-                                                                 'admin': persona})
 
         return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
                                                              'beca_turnos_lunes': beca_turnos_lunes,
@@ -853,7 +817,7 @@ def view_becas(request):
                                                              'beca_turnos_jueves': beca_turnos_jueves,
                                                              'beca_turnos_viernes': beca_turnos_viernes,
                                                              'beca_turnos_sabado': beca_turnos_sabado,
-                                                             'becas': becas, 'ips': ips, 'admin': persona})
+                                                             'admin': persona})
     else:
         return HttpResponseRedirect('/')
 
@@ -863,12 +827,24 @@ def view_becas(request):
 @login_required(login_url='/')
 def add_beca(request):
     if request.user.is_authenticated():
-        if request.method == 'POST':
+        try:
+            beca = Beca.objects.get(id=request.POST['id'])
+            beca.persona.user.username = request.POST['persona[codigo]']
+            beca.persona.user.first_name = request.POST['persona[nombre]']
+            beca.persona.user.email = request.POST['persona[email]']
+            beca.persona.user.save()
+            beca.tel = request.POST['tel']
+            beca.nick = request.POST['nick']
+            beca.cc = request.POST['cc']
+            beca.save()
+            res = json.dumps({'code': 200, 'msg': "Editado con exito"})
+            return HttpResponse(res, content_type='application/json')
+        except Beca.DoesNotExist:
             user = User()
-            user.username = request.POST['codigo']
-            user.first_name = request.POST['nombre']
-            user.email = request.POST['correo']
-            user.set_password(request.POST['codigo'])
+            user.username = request.POST['persona[codigo]']
+            user.first_name = request.POST['persona[nombre]']
+            user.email = request.POST['persona[email]']
+            user.set_password(request.POST['persona[codigo]'])
             user.save()
             persona = Persona()
             persona.user = user
@@ -880,31 +856,8 @@ def add_beca(request):
             beca.nick = request.POST['nick']
             beca.cc = request.POST['cc']
             beca.save()
-            request.session['msg'] = 'Beca agregado con exito'
-            request.session['opcion'] = 1
-        return HttpResponseRedirect('view_becas')
-    else:
-        return HttpResponseRedirect('/')
-
-
-@login_required(login_url='/')
-def editar_beca(request):
-    if request.user.is_authenticated() and 'id' in request.POST:
-        try:
-            beca = Beca.objects.get(id=request.POST['id'])
-            beca.persona.user.username = request.POST['codigo']
-            beca.persona.user.first_name = request.POST['nombre']
-            beca.persona.user.email = request.POST['correo']
-            beca.persona.user.save()
-            beca.tel = request.POST['tel']
-            beca.nick = request.POST['nick']
-            beca.cc = request.POST['cc']
-            beca.save()
-            request.session['msg'] = 'Beca Editado con exito'
-            request.session['opcion'] = 1
-            return HttpResponseRedirect('view_becas')
-        except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            res = json.dumps({'code': 200, 'msg': "Registrado con exito"})
+            return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
@@ -944,6 +897,7 @@ def delete_turno_beca(request):
 
     else:
         return HttpResponseRedirect('/')
+
 
 @login_required(login_url='/')
 def asignar_asistencias_semestre(request):
@@ -992,46 +946,80 @@ def asignar_asistencias_semestre(request):
 @login_required(login_url='/')
 def desactivar_beca_admin(request):
     if request.user.is_authenticated() and 'id' in request.GET:
-        request.session['opcion'] = 1
         try:
             beca = Beca.objects.get(id=request.GET['id'])
             beca.persona.user.is_active = False
-            beca.save()
-            request.session['msg'] = 'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
-            request.session['opcion'] = 1
-            return HttpResponseRedirect('view_becas')
+            beca.persona.user.save()
+            #'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
+
+            res = json.dumps({'code': 200, 'msg': "Beca desactivado"})
+            return HttpResponse(res, content_type='application/json')
         except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            res = json.dumps({'code': 404, 'msg': "Beca no existe"})
+            return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
 
 @login_required(login_url='/')
-def get_beca_edit_admin(request):
+def activar_beca_admin(request):
     if request.user.is_authenticated() and 'id' in request.GET:
         try:
-            request.session['opcion'] = 3
-            request.session['beca'] = request.GET['id']
-            return HttpResponseRedirect('view_becas')
+            beca = Beca.objects.get(id=request.GET['id'])
+            beca.persona.user.is_active = True
+            beca.persona.user.save()
+            res = json.dumps({'code': 200, 'msg': "Beca activado"})
+            return HttpResponse(res, content_type='application/json')
         except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            res = json.dumps({'code': 404, 'msg': "Beca no existe"})
+            return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def get_becas(request):
+    if request.user.is_authenticated():
+        becas = Beca.objects.all()
+
+        t = [{'id': w.id, 'tel': w.tel, 'nick': w.nick, 'cc': w.cc,
+              'persona': {'nombre': w.persona.user.first_name, 'codigo': w.persona.user.username,
+                          'email': w.persona.user.email, 'is_active': w.persona.user.is_active}} for w in becas]
+        #data = json.dumps(t)
+
+        res = json.dumps({'code': 200, 'msg': t})
+        return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
 #----crud ip-----------
 
 @login_required(login_url='/')
+def get_ips(request):
+    ips = Ip_Registro.objects.all()
+    t = [{'id': w.id, 'ip': w.ip, 'estado': w.estado} for w in ips]
+
+    res = json.dumps({'code': 200, 'msg': t})
+    return HttpResponse(res, content_type='application/json')
+
+
+@login_required(login_url='/')
 def add_ip(request):
     if request.user.is_authenticated():
         try:
+            ip = Ip_Registro.objects.get(id=request.POST['id'])
+            ip.ip = request.POST['ip']
+            ip.estado = True
+            ip.save()
+            res = json.dumps({'code': 200, 'msg': "IP Editada"})
+            return HttpResponse(res, content_type='application/json')
+        except Ip_Registro.DoesNotExist:
             ip = Ip_Registro()
             ip.ip = request.POST['ip']
+            ip.estado = True
             ip.save()
-            request.session['opcion'] = 4
-            request.session['msg'] = 'IP Registrada con exito'
-            return HttpResponseRedirect('view_becas')
-        except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            res = json.dumps({'code': 200, 'msg': "IP Registrada"})
+            return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
@@ -1039,29 +1027,31 @@ def add_ip(request):
 @login_required(login_url='/')
 def desactivar_ip_admin(request):
     if request.user.is_authenticated() and 'id' in request.GET:
-        request.session['opcion'] = 1
         try:
             ip = Ip_Registro.objects.get(id=request.GET['id'])
             ip.estado = False
             ip.save()
-            request.session['msg'] = 'IP desactivada, recuerde que solo el Webmaster puede activar IP\'S'
-            request.session['opcion'] = 4
-            return HttpResponseRedirect('view_becas')
-        except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            res = json.dumps({'code': 200, 'msg': "IP desactivada"})
+            return HttpResponse(res, content_type='application/json')
+        except Ip_Registro.DoesNotExist:
+            res = json.dumps({'code': 404, 'msg': "IP no encontrada"})
+            return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
 
 @login_required(login_url='/')
-def get_edit_ip_admin(request):
+def activar_ip_admin(request):
     if request.user.is_authenticated() and 'id' in request.GET:
         try:
-            request.session['opcion'] = 5
-            request.session['ip'] = request.GET['id']
-            return HttpResponseRedirect('view_becas')
-        except Beca.DoesNotExist:
-            return HttpResponseRedirect('inicio')
+            ip = Ip_Registro.objects.get(id=request.GET['id'])
+            ip.estado = True
+            ip.save()
+            res = json.dumps({'code': 200, 'msg': "IP activada"})
+            return HttpResponse(res, content_type='application/json')
+        except Ip_Registro.DoesNotExist:
+            res = json.dumps({'code': 404, 'msg': "IP no encontrada"})
+            return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
@@ -1219,33 +1209,80 @@ def add_prestamo_sustentacion_admin(request):
 @login_required(login_url='/')
 def add_prestamo_cursos_admin(request):
     if request.user.is_authenticated():
-        if request.user.is_authenticated():
-            date = request.POST['fecha_curso'].split('-')
-            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
-            carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos'])
-            turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_curso'])
-            prestamo = Prestamo()
-            prestamo.carrera = carrera
-            prestamo.turno_sala = turno_sala
-            prestamo.date_turno = fecha
-            prestamo.ip = request.META['REMOTE_ADDR']
-            prestamo.detalle = request.POST['descripcion']
-            prestamo.solicitante = request.POST['solicitante']
-            prestamo.tel = request.POST['tel']
-            prestamo.tipo = request.POST['tipo']
-            prestamo.matriculados = turno_sala.sala.capacidad
-            prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
-            prestamo.save()
+        date = request.POST['fecha_curso'].split('-')
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos'])
+        turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_curso'])
+        prestamo = Prestamo()
+        prestamo.carrera = carrera
+        prestamo.turno_sala = turno_sala
+        prestamo.date_turno = fecha
+        prestamo.ip = request.META['REMOTE_ADDR']
+        prestamo.detalle = request.POST['descripcion']
+        prestamo.solicitante = request.POST['solicitante']
+        prestamo.tel = request.POST['tel']
+        prestamo.tipo = request.POST['tipo']
+        prestamo.matriculados = turno_sala.sala.capacidad
+        prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+        prestamo.save()
 
-            if 'msg' not in request.session:
-                request.session['msg'] = 'Prestamo realizado con exito'
+        if 'msg' not in request.session:
+            request.session['msg'] = 'Prestamo realizado con exito'
 
-            return HttpResponseRedirect('inicio')
-        else:
-            return HttpResponseRedirect('/')
+        return HttpResponseRedirect('inicio')
     else:
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def save_prestamo_masivo(request):
+    if request.user.is_authenticated():
+
+        date = request.POST['fecha_inicial'].split('-')
+        fecha_inicial = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        date = request.POST['fecha_final'].split('-')
+        fecha_final = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+
+        if fecha_inicial >= fecha_final:
+            res = json.dumps({'code': 200, 'msg': "la fecha inicial debe ser mayor a la final"})
+            return HttpResponse(res, content_type='application/json')
+
+        carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos_masivo'])
+        turno_sala = Turno_Sala.objects.get(id=request.POST['turno'])
+
+
+        while fecha_inicial.isoweekday() - 1 != turno_sala.turno.dia:
+            fecha_inicial = fecha_inicial + datetime.timedelta(days=1)
+
+        registros = 0
+        salida = ""
+        while fecha_inicial <= fecha_final:
+            prestamos_turno = Prestamo.objects.filter(date_turno=fecha_inicial, turno_sala=turno_sala, estado=0)
+            if len(prestamos_turno) == 0:
+                prestamo = Prestamo()
+                prestamo.carrera = carrera
+                prestamo.turno_sala = turno_sala
+                prestamo.date_turno = fecha_inicial
+                prestamo.ip = request.META['REMOTE_ADDR']
+                prestamo.detalle = request.POST['descripcion']
+                prestamo.solicitante = request.POST['solicitante']
+                prestamo.tel = request.POST['tel']
+                prestamo.tipo = request.POST['tipo']
+                prestamo.matriculados = turno_sala.sala.capacidad
+                prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+                prestamo.save()
+                registros += 1
+            else:
+                salida += "{0},".format(fecha_inicial)
+            fecha_inicial = fecha_inicial + datetime.timedelta(days=7)
+
+        if salida != "":
+            res = json.dumps({'code': 200, 'msg': "{0} registrados, no registrados {1}".format(registros, salida)})
+        else:
+            res = json.dumps({'code': 200, 'msg': "{0} registrados".format(registros)})
+        return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
 #-----------------end prestar salar sustentaciones, cursos y reuniones
 
 
@@ -1271,7 +1308,7 @@ def get_turno_dia(request):
         data = serializers.serialize('json', turnos, fields=('time_start', 'time_end', 'estado', 'dia'))
         return HttpResponse(data, content_type='application/json')
     else:
-        print "no esta el dia"
+        #print "no esta el dia"
         return HttpResponseRedirect('/')
 
 
@@ -1284,7 +1321,7 @@ def save_turno(request):
             turno.time_end = request.POST["turno[fields][time_end]"]
             turno.estado = request.POST["turno[fields][estado]"]
             turno.dia = request.POST["turno[fields][dia]"]
-            print request.POST["turno[fields][dia]"], 'editar'
+            #print request.POST["turno[fields][dia]"], 'editar'
             turno.save()
             return HttpResponse("Editado Exitosamente")
         except Turno.DoesNotExist:
@@ -1293,7 +1330,7 @@ def save_turno(request):
             turno.time_end = request.POST["turno[fields][time_end]"]
             turno.estado = request.POST["turno[fields][estado]"]
             turno.dia = request.POST["turno[fields][dia]"]
-            print request.POST["turno[fields][dia]"], 'nuevo'
+            #print request.POST["turno[fields][dia]"], 'nuevo'
             turno.save()
             return HttpResponse("Creado con exito")
     else:
@@ -1327,6 +1364,16 @@ def get_turno_sala(request):
     else:
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/')
+def get_turno_dia_sala(request):
+    if request.user.is_authenticated() and 'sala' in request.GET:
+        x = Turno_Sala.objects.filter(sala_id=request.GET["sala"], turno__dia=request.GET['dia'])
+        t = [{"id": w.id, "time_start": str(w.turno.time_start), "time_end": str(w.turno.time_end)} for w in x]
+        data = json.dumps(t)
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
 
 # --------------------end Crud Turnos---------------
 
@@ -1462,15 +1509,19 @@ def get_turnos_docente(request):
             x = Prestamo.objects.filter(profesor__persona__user=user,
                                                 date_turno__lte=request.GET['fecha_fin'],
                                                 date_turno__gte=request.GET['fecha_inicio'])
-            t = [{'pk': w.id, 'nom_materia': w.nombre, 'cod_materia': w.codigo, 'mat_grupo': w.grupo,
+            t = [{'pk': w.id, 'nom_materia': w.nombre, 'cod_materia': w.carrera.codigo+w.codigo, 'mat_grupo': w.grupo,
                   'fecha_prestamo': str(w.date_prestamo)[:16], 'fecha_turno': str(w.date_turno), 'usuario': w.usuario,
-                  'sala': w.turno_sala.sala.codigo, 'turno': str(w.turno_sala.turno.time_start) +'-'+ str(w.turno_sala.turno.time_end), 'ip': w.ip} for w in x]
-            data2 = json.dumps(t)
-            return HttpResponse(data2, content_type='application/json')
+                  'sala': w.turno_sala.sala.codigo,
+                  'turno': str(w.turno_sala.turno.time_start) +'-'+ str(w.turno_sala.turno.time_end),
+                  'ip': w.ip, 'estado': w.estado} for w in x]
+
+            res = json.dumps({'code': 200, 'msg': t, 'docente': user.first_name.upper()})
+            return HttpResponse(res, content_type='application/json')
+
         except Profesor.DoesNotExist:
-            print 'error de docente'
+            print('error de docente')
         except Exception as e:
-            print e.message
+            print (e.message)
     else:
         return HttpResponseRedirect('/')
 
@@ -1515,7 +1566,8 @@ def save_docente(request):
 
 
 def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
-    csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
+    csv_reader = csv.reader(utf8_data, dialect=dialect, delimiter=";",
+                            **kwargs)
     for row in csv_reader:
         yield [unicode(cell, 'utf-8', errors='ignore') for cell in row]
 
@@ -1523,161 +1575,165 @@ def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
 @login_required(login_url='/')
 def save_docente_csv(request):
     if request.user.is_authenticated():
-        data = unicode_csv_reader(request.FILES.get('file_docente'))
-        w = 0
-        add = 0
-        update = 0
-        for COD_PROFESOR, NOMBRES, COD_DPTO, EMAIL, NOMDPTO in data:
-            if w == 0:
-                w = 1
-            else:
-                try:
-                    dpto = Departamento.objects.get(codigo=str(COD_DPTO))
-                    user = User.objects.get(username=str(COD_PROFESOR))
-                    profesor = Profesor.objects.get(persona__user=user)
-                    profesor.departamento = dpto
-                    profesor.persona.user.email = EMAIL.lower()
-                    profesor.persona.user.first_name = NOMBRES.lower()
-                    profesor.persona.user.save()
-                    update += 1
-                except Departamento.DoesNotExist:
-                    try:
-                        dpto = Departamento()
-                        dpto.codigo = str(COD_DPTO)
-                        dpto.nombre = NOMDPTO.lower()
-                        dpto.save()
-                        profesor = Profesor.objects.get(persona__user__username=str(COD_PROFESOR))
-                        profesor.persona.user.email = EMAIL.lower()
-                        profesor.persona.user.first_name = NOMBRES.lower()
-                        profesor.persona.user.save()
-                        update += 1
-                    except Profesor.DoesNotExist:
-                        user = User()
-                        user.username = str(COD_PROFESOR)
-                        user.email = EMAIL.lower()
-                        user.first_name = NOMBRES.lower()
-                        user.set_password(str(COD_PROFESOR))
-                        user.save()
-                        persona = Persona()
-                        persona.user = user
-                        persona.save()
+        #
+        h = threading.Thread(target=background_docente,
+                             args=(request.FILES.get('file_docente'),))
+        h.start()
 
-                        profesor = Profesor()
-                        profesor.persona = persona
-                        dpto = Departamento.objects.get(codigo=str(COD_DPTO))
-                        profesor.departamento = dpto
-                        profesor.tel = '0000000000'
-                        profesor.save()
-                        add += 1
-                except User.DoesNotExist:
-                    user = User()
-                    user.username = str(COD_PROFESOR)
-                    user.email = EMAIL.lower()
-                    user.first_name = NOMBRES.lower()
-                    user.set_password(str(COD_PROFESOR))
-                    user.save()
-                    persona = Persona()
-                    persona.user = user
-                    persona.save()
+        #request.session['msg'] = "Se enviara un correo a %s cuando termine el procedimiento" % request.user.email
 
-                    profesor = Profesor()
-                    profesor.persona = persona
-                    dpto = Departamento.objects.get(codigo=COD_DPTO)
-                    profesor.departamento = dpto
-                    profesor.tel = '0000000000'
-                    profesor.save()
-                    add += 1
-                except Profesor.DoesNotExist:
-                    user = User.objects.get(username=str(COD_PROFESOR))
-                    persona = Persona.objects.get(user=user)
-                    profesor = Profesor()
-                    profesor.persona = persona
-                    dpto = Departamento.objects.get(codigo=COD_DPTO)
-                    profesor.departamento = dpto
-                    profesor.tel = '0000000000'
-                    profesor.save()
-                    add += 1
-        request.session['msg'] = '%s actualizados y %s registrados' % (str(update), str(add))
         return HttpResponseRedirect('view_docentes')
     else:
         return HttpResponseRedirect('/')
+
+
+def background_docente(file):
+
+    data = unicode_csv_reader(file)
+    add = 0
+    update = 0
+    for COD_PROFESOR, NOMBRES, COD_DPTO, EMAIL, NOMDPTO in data:
+        try:
+            dpto = Departamento.objects.get(codigo=str(COD_DPTO))
+            user = User.objects.get(username=str(COD_PROFESOR))
+            profesor = Profesor.objects.get(persona__user=user)
+            profesor.departamento = dpto
+            profesor.persona.user.first_name = NOMBRES.lower()
+            profesor.persona.user.save()
+            update += 1
+        except Departamento.DoesNotExist:
+            try:
+                dpto = Departamento()
+                dpto.codigo = str(COD_DPTO)
+                dpto.nombre = NOMDPTO.lower()
+                dpto.save()
+                profesor = Profesor.objects.get(persona__user__username=str(COD_PROFESOR))
+                profesor.persona.user.email = EMAIL.lower()
+                profesor.persona.user.first_name = NOMBRES.lower()
+                profesor.persona.user.save()
+                update += 1
+            except Profesor.DoesNotExist:
+                user = User()
+                user.username = str(COD_PROFESOR)
+                user.email = EMAIL.lower()
+                user.first_name = NOMBRES.lower()
+                user.set_password(str(COD_PROFESOR))
+                user.save()
+                persona = Persona()
+                persona.user = user
+                persona.save()
+
+                profesor = Profesor()
+                profesor.persona = persona
+                dpto = Departamento.objects.get(codigo=str(COD_DPTO))
+                profesor.departamento = dpto
+                profesor.tel = '0000000000'
+                profesor.save()
+                add += 1
+        except User.DoesNotExist:
+            user = User()
+            user.username = str(COD_PROFESOR)
+            user.email = EMAIL.lower()
+            user.first_name = NOMBRES.lower()
+            user.set_password(str(COD_PROFESOR))
+            user.save()
+            persona = Persona()
+            persona.user = user
+            persona.save()
+
+            profesor = Profesor()
+            profesor.persona = persona
+            dpto = Departamento.objects.get(codigo=COD_DPTO)
+            profesor.departamento = dpto
+            profesor.tel = '0000000000'
+            profesor.save()
+            add += 1
+        except Profesor.DoesNotExist:
+            user = User.objects.get(username=str(COD_PROFESOR))
+            persona = Persona.objects.get(user=user)
+            profesor = Profesor()
+            profesor.persona = persona
+            dpto = Departamento.objects.get(codigo=COD_DPTO)
+            profesor.departamento = dpto
+            profesor.tel = '0000000000'
+            profesor.save()
+            add += 1
+
+    print add, 'add'
+    print update, 'update'
 
 
 @login_required(login_url='/')
 def save_carga_docentes_csv(request):
     if request.user.is_authenticated():
-        data = unicode_csv_reader(request.FILES.get('file_carga_docente'))
-        add = 0
-        update = 0
-        imposible = 0
-        w = 0
-        for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, MATRICULADOS in data:
-            if w == 0:
-                w = 1
-            else:
-                try:
-                    carrera = Carrera.objects.get(codigo=COD_CARRERA)
-                    carga = Carga.objects.get(carrera=carrera,
-                                              codigo=COD_MATERIA
-                                              , grupo=GRUPO.lower())
-
-                    profesor = Profesor.objects.get(
-                        persona__user__username=COD_PROFESOR)
-                    carga.profesor = profesor
-                    carga.matriculados = MATRICULADOS
-                    carga.grupo = GRUPO.lower()
-                    carga.save()
-                    update += 1
-                except Profesor.DoesNotExist:
-                    imposible += 1
-
-                except Carrera.DoesNotExist:
-                    try:
-                        carrera = Carrera()
-                        carrera.codigo = COD_CARRERA
-                        dpto = Departamento.objects.get(codigo=COD_DPTO)
-                        carrera.departamento = dpto
-                        carrera.nombre = COD_CARRERA.lower()
-                        carrera.save()
-                        carga = Carga()
-                        carga.carrera = carrera
-                        profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
-                        carga.profesor = profesor
-                        carga.matriculados = MATRICULADOS
-                        carga.codigo = COD_MATERIA
-                        carga.nombre = NOMMATE.lower()
-                        carga.grupo = GRUPO.lower()
-                        carga.save()
-                        add += 1
-                    except (Profesor.DoesNotExist, Departamento.DoesNotExist):
-                        imposible += 1
-                except Carga.DoesNotExist:
-                    carga = Carga()
-                    carrera = Carrera.objects.get(codigo=COD_CARRERA)
-                    carga.carrera = carrera
-                    try:
-                        profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
-                        carga.profesor = profesor
-                        carga.matriculados = MATRICULADOS
-                        carga.codigo = COD_MATERIA
-                        carga.nombre = NOMMATE.lower()
-                        carga.grupo = GRUPO.lower()
-                        carga.save()
-                        add += 1
-                    except Profesor.DoesNotExist:
-                        imposible += 1
-        print update
-        print add
-        print imposible
-        request.session['msg'] = '%s actualizados, %s registrados y no se ' \
-                                 'pudieron registrar %s porque no se encuentra ' \
-                                 'el docente' % (str(update), str(add),
-                                                 str(imposible))
+        h = threading.Thread(target=background_carga_docente,
+                             args=(request.FILES.get('file_carga_docente'),))
+        h.start()
         return HttpResponseRedirect('view_docentes')
-
-
     else:
         return HttpResponseRedirect('/')
+
+
+def background_carga_docente(file):
+    data = unicode_csv_reader(file)
+    add = 0
+    update = 0
+    imposible = 0
+    for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, MATRICULADOS in data:
+        try:
+            carrera = Carrera.objects.get(codigo=COD_CARRERA)
+            carga = Carga.objects.get(carrera=carrera,
+                                      codigo=COD_MATERIA
+                                      , grupo=GRUPO.lower())
+
+            profesor = Profesor.objects.get(
+                persona__user__username=COD_PROFESOR)
+            carga.profesor = profesor
+            carga.matriculados = MATRICULADOS
+            carga.grupo = GRUPO.lower()
+            carga.save()
+            update += 1
+        except Profesor.DoesNotExist:
+            imposible += 1
+        except Carrera.DoesNotExist:
+            try:
+                carrera = Carrera()
+                carrera.codigo = COD_CARRERA
+                dpto = Departamento.objects.get(codigo=COD_DPTO)
+                carrera.departamento = dpto
+                carrera.nombre = COD_CARRERA.lower()
+                carrera.save()
+                carga = Carga()
+                carga.carrera = carrera
+                profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
+                carga.profesor = profesor
+                carga.matriculados = MATRICULADOS
+                carga.codigo = COD_MATERIA
+                carga.nombre = NOMMATE.lower()
+                carga.grupo = GRUPO.lower()
+                carga.save()
+                add += 1
+            except (Profesor.DoesNotExist, Departamento.DoesNotExist):
+                imposible += 1
+        except Carga.DoesNotExist:
+            carga = Carga()
+            carrera = Carrera.objects.get(codigo=COD_CARRERA)
+            carga.carrera = carrera
+            try:
+                profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
+                carga.profesor = profesor
+                carga.matriculados = MATRICULADOS
+                carga.codigo = COD_MATERIA
+                carga.nombre = NOMMATE.lower()
+                carga.grupo = GRUPO.lower()
+                carga.save()
+                add += 1
+            except Profesor.DoesNotExist:
+                imposible += 1
+
+    print add, 'add'
+    print update, 'update'
+    print imposible, 'imposible'
 
 
 @login_required(login_url='/')
@@ -1695,13 +1751,13 @@ def save_carga_docente(request):
             carga.matriculados = request.POST['matriculados_materia']
             carga.save()
             request.session['msg'] = 'Carga registrada exitosamente'
-            print 'Carga registrada exitosamente'
+            #print 'Carga registrada exitosamente'
         except (Carga.DoesNotExist, ValueError):
             carga = Carga()
             carga.carrera_id = request.POST['carreras_carga_docente']
             docente = Profesor.objects.get(
                 persona__user__username=request.POST['docente_carga'])
-            print docente
+            #print docente
             carga.profesor = docente
             carga.codigo = request.POST['codigo_materia']
             carga.nombre = request.POST['nombre_materia']
@@ -1709,7 +1765,7 @@ def save_carga_docente(request):
             carga.matriculados = request.POST['matriculados_materia']
             carga.save()
             request.session['msg'] = 'Carga editada exitosamente'
-            print 'erer'
+            #print 'erer'
         return HttpResponseRedirect('view_docentes')
     else:
         return HttpResponseRedirect('/')
@@ -1721,10 +1777,10 @@ def buscar_carga_docente(request):
         docente = Profesor.objects.get(persona__user__username=str(
             request.GET['docente']))
         cargas = Carga.objects.filter(profesor=docente)
-        t = [{'codigo': w.codigo, 'nombre': w.nombre, 'grupo': w.grupo,
+        t = [{'codigo': w.codigo, 'nombre': w.nombre.upper(), 'grupo': w.grupo,
               'matriculados': w.matriculados, 'id': w.id, 'carrera':
-                  w.carrera.codigo, 'profesor': w.profesor.id} for w in cargas]
-        data = json.dumps(t)
+                  w.carrera.codigo, 'profesor': w.profesor.id, 'carrera': w.carrera.codigo} for w in cargas]
+        data = json.dumps({'code': 200, 'msg': t, 'docente': docente.persona.user.first_name.upper()})
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
@@ -1741,8 +1797,6 @@ def get_carreras(request):
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
-
-
 
 #------------crud semestre---------------
 
@@ -1791,7 +1845,6 @@ def get_semestres(request):
         semestres = Semestre.objects.all().order_by('nombre')
         t = [{'id': w.id, 'semestre': w.nombre, 'fecha_inicio': str(w.fecha_inicio),
               'fecha_fin': str(w.fecha_fin)} for w in semestres]
-        #data = json.dumps(t)
 
         res = json.dumps({'code': 200, 'msg': t})
         return HttpResponse(res, content_type='application/json')
@@ -1842,12 +1895,11 @@ def get_inasistencias_beca(request):
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
-            print e.message
+            #print e.message
             res = json.dumps({'code': 404, 'msg': "error"})
             return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
-
 
 
 @login_required(login_url='/')
@@ -1863,7 +1915,7 @@ def get_asistencias_tarde(request):
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
-            print e.message
+            #print e.message
             res = json.dumps({'code': 404, 'msg': "error"})
             return HttpResponse(res, content_type='application/json')
     else:
@@ -1883,6 +1935,87 @@ def mis_turnos(request):
     else:
         return HttpResponseRedirect('/')
 
+
+
+
+
+#----------crud admin-----------------
+
+@login_required(login_url='/')
+def get_admins(request):
+    if request.user.is_authenticated():
+        admins = Persona.objects.filter(tipo=2).exclude(user__username="06337")
+
+        t = [{'id': w.id, 'codigo': w.user.username, 'nombre': w.user.first_name,
+              'email': w.user.email, 'is_active': w.user.is_active} for w in admins]
+        data = json.dumps({'code': 200, 'msg': t})
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def add_admin(request):
+    if request.user.is_authenticated():
+        print request.POST
+        try:
+            p = Persona.objects.get(user__username=request.POST['codigo'])
+            p.user.first_name = request.POST['nombre']
+            p.user.email = request.POST['email']
+            p.user.set_password(request.POST['codigo'])
+            p.user.save()
+            p.tipo = 2
+            p.save()
+
+            res = json.dumps({'code': 200, 'msg': "Editado correctamente"})
+            return HttpResponse(res, content_type='application/json')
+        except Persona.DoesNotExist:
+            user = User()
+            user.username = request.POST['codigo']
+            user.first_name = request.POST['nombre']
+            user.email = request.POST['email']
+            user.set_password(request.POST['codigo'])
+            user.save()
+
+            p = Persona()
+            p.user = user
+            p.tipo = 2
+            p.save()
+
+            res = json.dumps({'code': 200, 'msg': "nuevo creado con exito"})
+            return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/')
+def deactivte_admin(request):
+    if request.user.is_authenticated():
+        try:
+            persona = Persona.objects.get(id=request.GET['id'])
+            if persona.user.is_active:
+                persona.user.is_active = False
+                persona.user.save()
+                res = json.dumps({'code': 200, 'msg': "Admin desactivado"})
+                return HttpResponse(res, content_type='application/json')
+            else:
+                persona.user.is_active = True
+                persona.user.save()
+                res = json.dumps({'code': 200, 'msg': "Admin activado"})
+                return HttpResponse(res, content_type='application/json')
+
+        except Persona.DoesNotExist:
+            res = json.dumps({'code': 200, 'msg': "Admin no encontrado"})
+            return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
+
+
+
+
+
+
+#----------fin crud admin-----------------
 '''
 @login_required(login_url='/')
 def view_docentes(request):

@@ -1,0 +1,42 @@
+#carga masiva de docentes
+#COD_PROFESOR;NOMBRES;COD_DPTO;EMAIL;NOMDPTO
+
+#carga academica de docentes
+#COD_CARRERA;COD_DPTO;COD_MATERIA;NOMMATE;GRUPO;COD_PROFESOR;MATRICULADOS
+
+import os
+import datetime
+import csv as csv
+
+def load_superuser(apps, schema_editor):
+
+    User = apps.get_model("auth", "User")
+    user = User()
+    user.username = "06337"
+    user.first_name = "Edwin Alberto Velasco"
+    user.email = "edwinalbertovelasco8@gmail.com"
+    #user.set_password('Claro"##0')
+    user.password = "pbkdf2_sha256$24000$M2GCizhOGfsG$xtPlLQIl+Bp74MXppeO8uXaOR9Rj/4XRyrISZZgejTs="
+    user.is_superuser = True
+    user.is_staff = True
+    user.save()
+
+    Persona = apps.get_model("Diseraca", "Persona")
+    p = Persona()
+    p.user = user
+    p.tipo = 2
+    p.save()
+
+
+def load_turnos_iniciales(apps, schema_editor):
+
+    Turno = apps.get_model("Diseraca", "Turno")
+    base_dir_doc = os.getcwd()
+    data = csv.reader(open(base_dir_doc + "/turnos_inicio.csv", mode="rw"))
+    for time_start, time_end, dia, estado in data:
+        turno = Turno()
+        turno.time_start = datetime.time(hour=int(time_start), minute=0, second=0)
+        turno.time_end = datetime.time(hour=int(time_end), minute=0, second=0)
+        turno.dia = int(dia)
+        turno.estado = 0
+        turno.save()

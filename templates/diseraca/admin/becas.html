@@ -10,38 +10,27 @@
                 <li>Admin: {{ admin.user.first_name }}</li>
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
-                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
                 <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
-                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">school</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="inicio">Prestamos</a></li>
+                <li><a href="horarios">Horarios</a></li>
+                <li><a href="view_becas">Becas</a></li>
+                <li><a href="estadisticas">Estadisticas</a></li>
+                <li><a href="view_docentes">Docentes</a></li>
+                <li><a href="cerrar">Cerrar Sesión</a></li>
             </ul>
         </div>
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
-                {% if opcion %}
-                    {% if opcion == 1 or opcion == 3 %}
-                        <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Repartir horario de trabajo"><i class="material-icons">work</i></a></li>
-                        <li class="tab"><a href="#add" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Agregar Becas"><i class="material-icons">add</i></a></li>
-                        <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retardos"><i class="material-icons">view_list</i></a></li>
-                        <li class="tab"><a href="#ips" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar IP"><i class="material-icons">vpn_key</i></a></li>
-                    {% elif opcion == 2 %}
-                        <li class="tab"><a href="#turnos" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Repartir horario de trabajo"><i class="material-icons">work</i></a></li>
-                        <li class="tab"><a href="#add" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Agregar Becas"><i class="material-icons">add</i></a></li>
-                        <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retardos"><i class="material-icons">view_list</i></a></li>
-                        <li class="tab"><a href="#ips" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar IP"><i class="material-icons">vpn_key</i></a></li>
-                    {% elif opcion == 4 or opcion == 5 %}
-                        <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Repartir horario de trabajo"><i class="material-icons">work</i></a></li>
-                        <li class="tab"><a href="#add" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Agregar Becas"><i class="material-icons">add</i></a></li>
-                        <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retardos"><i class="material-icons">view_list</i></a></li>
-                        <li class="tab"><a href="#ips" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Registrar IP"><i class="material-icons">vpn_key</i></a></li>
-                    {% endif %}
-                {% else %}
-                    <li class="tab"><a href="#turnos" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Repartir horario de trabajo"><i class="material-icons">work</i></a></li>
-                    <li class="tab"><a href="#add" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Agregar Becas"><i class="material-icons">add</i></a></li>
-                    <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retardos"><i class="material-icons">view_list</i></a></li>
-                    <li class="tab"><a href="#ips" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar IP"><i class="material-icons">vpn_key</i></a></li>
-                {% endif %}
-
+                <li class="tab"><a href="#turnos" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Repartir horario de trabajo">Horario de trabajo</a></li>
+                <li class="tab"><a href="#add_beca" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Agregar Becas">Gestión de becas</a></li>
+                <li class="tab"><a href="#retardos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Retardos de Becas">Inasistencias</a></li>
+                <li class="tab"><a href="#ips" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Registrar IP">Gestión de IP</a></li>
+                <li class="tab"><a href="#create_Admin" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestión Admin">Gestión de admin</a></li>
             </ul>
         </div>
     </nav>
@@ -51,12 +40,8 @@
     <div class="container" ng-controller="BecasAdminContoller">
         <div class="card-panel">
             <div id="turnos" class="col s12">
-                {% if msg  and obcion == 2 %}
-                    <h4 class="accent-1 red-text">{{ msg }}</h4>
-                {% endif %}
-
                 <div class="row">
-                    <table class="bordered centered">
+                    <table class="bordered centered striped">
                         <thead>
                             <tr>
                                 <th data-field="id">Turno</th>
@@ -455,59 +440,28 @@
                         <div id="token">
                             {% csrf_token %}
                         </div>
-                        <div class="input-field col l3 offset-l2">
-                            <select required name="turno">
-                                <optgroup label="Lunes">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 0 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Lunes</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="Martes">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 1 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Martes</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="Miercoles">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 2 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Miercoles</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="Jueves">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 3 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Jueves</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="Viernes">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 4 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Viernes</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
-                                <optgroup label="Sabado">
-                                    {% for turno in turnos %}
-                                        {% if turno.dia == 5 %}
-                                            <option value="{{ turno.id }}">{{ turno.time_start }} a {{ turno.time_end }}-Sabado</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </optgroup>
+                        <div class="input-field col l2 offset-l1">
+                            <select required name="dia" id="dia_sala_turno">
+                                <option value="">Seleccione</option>
+                                <option value="0">Lunes</option>
+                                <option value="1">Martes</option>
+                                <option value="2">Miercoles</option>
+                                <option value="3">Jueves</option>
+                                <option value="4">Viernes</option>
+                                <option value="5">Sabado</option>
+                            </select>
+                            <label>Dia</label>
+                        </div>
+                        <div class="input-field col l3 ">
+
+                            <select required name="turno" id="turno_sala_turno">
+
                             </select>
                             <label>Turnos</label>
                         </div>
-                        <div class="input-field col l3">
-                            <select required name="beca">
-                              <option value="" disabled selected>Selleccione un beca</option>
-                                {% for beca in becas %}
-                                    <option value="{{ beca.id }}">{{ beca.nick }}</option>
-                                {% endfor %}
+                        <div class="input-field col l2">
+                            <select required name="beca" id="beca_asignar_turno">
+                                <option value="" disabled selected>Seleccione</option>
                             </select>
                             <label>Becas</label>
                         </div>
@@ -546,130 +500,74 @@
                 </div>
             </div>
 
-            <div id="add" class="col s12">
-                {% if msg  and obcion == 1 %}
-                    <h4 class="accent-1 red-text">{{ msg }}</h4>
-                {% endif %}
-                {% if opcion and opcion == 3 %}
-                    <form action="editar_beca" method="post">
-                        <input type="hidden" name="id" id="id" value="{{ beca.id }}">
-                        <div id="token">
-                            {% csrf_token %}
-                        </div>
-                        <div class="row">
-                            <div class="input-field col l3 offset-l3">
-                                <i class="material-icons prefix">credit_card</i>
-                                <input id="cc_prefix" type="text" class="validate" length="10" name="cc" required maxlength="10" value="{{ beca.cc }}">
-                                <label for="cc_prefix">Cc o Ce</label>
-                            </div>
-                            <div class="input-field col l3">
-                                <i class="material-icons prefix">person_pin</i>
-                                <input id="tel_prefix" type="text" class="validate"name="nombre" value="{{ beca.persona.user.first_name }}" required>
-                                <label for="tel_prefix">Nombre</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col l3 offset-l3">
-                                <i class="material-icons prefix">card_membership</i>
-                                <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" value="{{ beca.persona.user.username }}" required maxlength="7">
-                                <label for="codigo_prefix">Codigo</label>
-                            </div>
-                            <div class="input-field col l3">
-                                <i class="material-icons prefix">face</i>
-                                <input id="nick_prefix" type="text" class="validate" length="7" name="nick" value="{{ beca.nick }}" required maxlength="7">
-                                <label for="nick_prefix">Nick</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col l3 offset-l3">
-                                <i class="material-icons prefix">smartphone</i>
-                                <input id="tel_prefix" type="text" class="validate" name="tel" required value="{{ beca.tel }}">
-                                <label for="tel_prefix">Telefono</label>
-                            </div>
-                            <div class="input-field col l3">
-                                <i class="material-icons prefix">contact_mail</i>
-                                <input id="nick_prefix" type="email" class="validate"  name="correo" required value="{{ beca.persona.user.email }}">
-                                <label for="nick_prefix">Correo</label>
-                            </div>
-                        </div>
-                        <div class="row center">
-                            <div class="input-field col s6 l6 offset-s3 offset-l3">
-                                <button class="btn waves-effect waves-light" type="submit">Guardar
-                                    <i class="material-icons right">save</i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                {% else %}
-                    <form action="add_beca" method="post">
-                    <div id="token">
-                        {% csrf_token %}
-                    </div>
+            <div id="add_beca" class="col s12">
+                <form id="newFormBeca" ng-submit="false">
+                    <input type="hidden" name="id" id="id" ng-model="becaAdd.id">
                     <div class="row">
                         <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">credit_card</i>
-                            <input id="cc_prefix" type="text" class="validate" length="10" name="cc" required maxlength="10">
-                            <label for="cc_prefix">Cc o Ce</label>
+                            <input id="cc_prefix" type="text" placeholder="Cc, Ce o Ti" class="validate" length="10" name="cc" required maxlength="10" ng-model="becaAdd.cc">
+                            <label for="cc_prefix">Cc, Ce o Ti</label>
                         </div>
                         <div class="input-field col l3">
                             <i class="material-icons prefix">person_pin</i>
-                            <input id="tel_prefix" type="text" class="validate"name="nombre" required>
+                            <input id="tel_prefix" type="text" placeholder="Nombre Completo" class="validate"name="nombre" ng-model="becaAdd.persona.nombre" required>
                             <label for="tel_prefix">Nombre</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">card_membership</i>
-                            <input id="codigo_prefix" type="text" class="validate" length="7" name="codigo" required maxlength="7">
+                            <input id="codigo_prefix" type="text" placeholder="Codigo" class="validate" length="7" ng-model="becaAdd.persona.codigo" name="codigo"  required maxlength="7">
                             <label for="codigo_prefix">Codigo</label>
                         </div>
                         <div class="input-field col l3">
                             <i class="material-icons prefix">face</i>
-                            <input id="nick_prefix" type="text" class="validate" length="7" name="nick" required maxlength="7">
+                            <input id="nick_prefix" type="text" placeholder="Nombre corto" class="validate" length="7" name="nick" ng-model="becaAdd.nick" required maxlength="7">
                             <label for="nick_prefix">Nick</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col l3 offset-l3">
                             <i class="material-icons prefix">smartphone</i>
-                            <input id="tel_prefix" type="text" class="validate" name="tel" required>
+                            <input id="tel_prefix" type="text" placeholder="Telefono" class="validate" name="tel" required ng-model="becaAdd.tel">
                             <label for="tel_prefix">Telefono</label>
                         </div>
                         <div class="input-field col l3">
                             <i class="material-icons prefix">contact_mail</i>
-                            <input id="nick_prefix" type="email" class="validate"  name="correo" required>
+                            <input id="nick_prefix" type="email" placeholder="Correo"
+                                   class="validate"  name="correo" required ng-model="becaAdd.persona.email">
                             <label for="nick_prefix">Correo</label>
                         </div>
                     </div>
-                    <div class="row center">
-                        <div class="input-field col s6 l6 offset-s3 offset-l3">
-                            <button class="btn waves-effect waves-light" type="submit">Guardar
-                                <i class="material-icons right">save</i>
-                            </button>
+                    <div class="row">
+                        <div class="col l2 offset-l4">
+                            <input class="btn" type="submit" value="Guardar" ng-click="save_beca()">
+                        </div>
+                        <div class="col l2">
+                            <input class="btn" type="button" value="Borrar" ng-click="newBecaFunct()">
                         </div>
                     </div>
-
                 </form>
-                {% endif %}
 
                 <div class="row">
                     <ul class="collection">
-                        {% if becas %}
-                            {% for beca in becas %}
-                                <li class="collection-item ">{{ beca.persona.user.first_name }}, {{ beca.persona.user.username }}
-                                    <a class="btn-floating btn-floating waves-effect waves-light red secondary-content" onclick="delete_beca_admin({{ beca.id }})">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                    <a class="btn-floating btn-floating waves-effect waves-light red secondary-content" href="get_beca_edit_admin?id={{ beca.id }}">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                </li>
-                            {% endfor %}
-
-                        {% endif %}
+                        <li class="collection-item " ng-repeat="beca in listBecas">
+                            [[ beca.persona.nombre ]], [[ beca.persona.codigo ]]
+                            <a ng-show="beca.persona.is_active" class="btn-floating btn-floating waves-effect
+                            waves-light red secondary-content" ng-click="deactivate_beca_admin(beca.id)">
+                                <i class="material-icons">clear</i>
+                            </a>
+                            <a ng-show="!beca.persona.is_active" class="btn-floating btn-floating waves-effect
+                            waves-light green secondary-content" ng-click="active_beca_admin(beca.id)">
+                                <i class="material-icons">done</i>
+                            </a>
+                            <a class="btn-floating btn-floating waves-effect waves-light blue secondary-content"
+                               ng-click="editar_beca(beca)">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </li>
                     </ul>
-
                 </div>
             </div>
 
@@ -748,67 +646,97 @@
             </div>
 
             <div id="ips" class="col s12">
-            {% if msg  and obcion == 4 %}
-                <h4 class="accent-1 red-text">{{ msg }}</h4>
-            {% endif %}
-            {% if opcion and opcion == 5%}
-                <form action="get_edit_ip_admin" method="post">
-                    <input type="hidden" name="id" id="id" value="{{ ip.id }}">
-                    <div id="token">
-                        {% csrf_token %}
-                    </div>
+                <form ng-submit="false">
+                    <input type="hidden" name="id" id="id_ip" ng-model="ipAdd.id">
                     <div class="row center">
                         <div class="input-field col l4 offset-l4">
                             <i class="material-icons prefix">credit_card</i>
-                            <input id="ip_prefix" type="text" class="validate" name="ip_prefix" required value="{{ ip.ip }}">
+                            <input id="ip_prefix" placeholder="IP" type="text" class="validate" name="ip_prefix" required ng-model="ipAdd.ip">
                             <label for="ip_prefix">Ip</label>
                         </div>
                     </div>
-                    <div class="row center">
-                        <div class="input-field col s6 l6 offset-s3 offset-l3">
-                            <button class="btn waves-effect waves-light" type="submit">Guardar
-                                <i class="material-icons right">save</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            {% else %}
-                <form action="add_ip" method="post">
-                    <div id="token">
-                        {% csrf_token %}
-                    </div>
-                    <div class="row center">
-                        <div class="input-field col l4 offset-l4">
-                            <i class="material-icons prefix">credit_card</i>
-                            <input id="ip_prefix" type="text" class="validate" name="ip" required>
-                            <label for="ip_prefix">Ip</label>
-                        </div>
-                    </div>
-                    <div class="row center">
-                        <div class="input-field col s6 l6 offset-s3 offset-l3">
-                            <button class="btn waves-effect waves-light" type="submit">Guardar
-                                <i class="material-icons right">save</i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            {% endif %}
 
+                    <div class="row">
+                        <div class="col l2 offset-l4">
+                            <input class="btn" type="submit" value="Guardar" ng-click="save_ips()">
+                        </div>
+                        <div class="col l2">
+                            <input class="btn" type="button" value="Borrar" ng-click="newIpFunct()">
+                        </div>
+                    </div>
+                </form>
 
                 <div class="row">
                     <ul class="collection">
-                        {% if ips %}
-                            {% for ip in ips %}
-                                <li class="collection-item ">{{ ip.ip }}
-                                    <a class="btn-floating btn-floating waves-effect waves-light red secondary-content" onclick="delete_ip_admin({{ ip.id }})">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                    <a class="btn-floating btn-floating waves-effect waves-light red secondary-content" href="get_edit_ip_admin?id={{ ip.ip }}">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        {% endif %}
+                        <li class="collection-item " ng-repeat="ip in listIp">[[ ip.ip ]]
+                            <a ng-show="ip.estado" class="btn-floating btn-floating waves-effect
+                            waves-light red secondary-content" ng-click="deactivate_ip_admin(ip.id)" >
+                                <i class="material-icons">clear</i>
+                            </a>
+                            <a ng-show="!ip.estado" class="btn-floating btn-floating waves-effect
+                            waves-light green secondary-content" ng-click="activate_ip(ip.id)" >
+                                <i class="material-icons">done</i>
+                            </a>
+
+                            <a class="btn-floating btn-floating waves-effect waves-light blue secondary-content" ng-click="edit_ip_admin(ip)">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="create_Admin" class="col s12">
+                <form id="newFormBeca" ng-submit="false">
+                    <input type="hidden" name="id" ng-model="adminAdd.id">
+                    <div class="row">
+                        <div class="input-field col s3 offset-s3">
+                            <i class="material-icons prefix">credit_card</i>
+                            <input id="code_id" type="text" placeholder="Codigo" class="validate" length="10" name="codigo" required maxlength="10" ng-model="adminAdd.codigo">
+                            <label for="code_id">Codigo</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input id="tel_prefix" type="text" placeholder="Nombre Completo" class="validate" name="nombre" ng-model="adminAdd.nombre" required>
+                            <label for="tel_prefix">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6 offset-l3">
+                            <i class="material-icons prefix">credit_card</i>
+                            <input id="email_id" type="email" placeholder="Correo" class="validate" name="email" required ng-model="adminAdd.email">
+                            <label for="email_id">Correo</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col l2 offset-l4">
+                            <input class="btn" type="submit" value="Guardar" ng-click="save_admin()">
+                        </div>
+                        <div class="col l2">
+                            <input class="btn" type="button" value="Borrar" ng-click="newAdminFunct()">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <h5 ng-show="listAdmin.length == 0">No hay Administradores registrados</h5>
+                    <ul class="collection" ng-show="listAdmin.length > 0">
+                        <li class="collection-item " ng-repeat="admin in listAdmin">
+                            [[ admin.nombre ]], [[ admin.codigo ]]
+                            <a ng-show="admin.is_active" class="btn-floating btn-floating waves-effect
+                            waves-light red secondary-content" ng-click="deactivte_admin(admin.id, admin.is_active)">
+                                <i class="material-icons">clear</i>
+                            </a>
+                            <a ng-show="!admin.is_active" class="btn-floating btn-floating waves-effect
+                            waves-light green secondary-content" ng-click="deactivte_admin(admin.id, admin.is_active)">
+                                <i class="material-icons">done</i>
+                            </a>
+                            <a class="btn-floating btn-floating waves-effect waves-light blue secondary-content"
+                               ng-click="editar_admin(admin)">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -832,23 +760,5 @@
 
 
 {% block script %}
-    function delete_turno_beca(id){
-        var r = confirm("Desea eliminar el turno?");
-        if (r == true) {
-            document.location='/delete_turno_beca?id='+id
-        }
-    }
-    function delete_beca_admin(id){
-        var r = confirm("Desea desactivar el Beca-Trabajo?");
-        if (r == true) {
-            document.location='/desactivar_beca_admin?id='+id
-        }
-    }
 
-    function delete_ip_admin(id){
-        var r = confirm("Desea desactivar la IP, requerde que solo el WebMaster las puede activar?");
-        if (r == true) {
-            document.location='/desactivar_ip_admin?id='+id
-        }
-    }
 {% endblock %}

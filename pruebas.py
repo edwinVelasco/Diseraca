@@ -1,3 +1,22 @@
+import re
+
+cadena1 = "Edwin1004"
+cadena2 = "Edwin"
+cadena3 = "edwin"
+cadena4 = "edwin1004"
+
+patronMay = r"[A-Z]{1}"
+patronNum = r"\d{2}"
+
+if re.search(patronMay, cadena1) and re.search(patronNum, cadena1):
+    print "encuentra el patron"
+else:
+    print "No encuentra el patron"
+
+
+
+'''
+
 import datetime
 
 def dif_time(hora):
@@ -9,8 +28,6 @@ def dif_time(hora):
 
 dif_time(datetime.time(hour=17, minute=15, second=00))
 
-
-'''
 def ver_turnos():
     archivo = open('turnos_inicio.csv', 'r')
 

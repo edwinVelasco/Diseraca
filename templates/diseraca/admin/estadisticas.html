@@ -9,17 +9,25 @@
             <li>Admin: {{ admin.user.first_name }}</li>
             <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
             <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
-            <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+            <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
             <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
-            <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+            <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">school</i></a></li>
             <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li><a href="inicio">Prestamos</a></li>
+            <li><a href="horarios">Horarios</a></li>
+            <li><a href="view_becas">Becas</a></li>
+            <li><a href="estadisticas">Estadisticas</a></li>
+            <li><a href="view_docentes">Docentes</a></li>
+            <li><a href="cerrar">Cerrar Sesión</a></li>
         </ul>
     </div>
     <div class="nav-content container">
         <ul class="tabs tabs-transparent">
             <li class="tab"><a href="#utilizacion" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
             <li class="tab"><a href="#carrera" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
-            <li class="tab"><a href="#semestre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Semestres"><i class="material-icons">today</i></a></li>
+            <li class="tab"><a href="#semestre" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Semestres">semestres</a></li>
         </ul>
     </div>
 </nav>
@@ -53,8 +61,8 @@
                             </div>
                             <div class="row">
                                 <div class=" input-field col l4">
-                                    <input placeholder="Semestre" name="semestre" id="semestre" type="text" ng-model="NewSemester.semestre" class="validate" required>
-                                    <label for="semestre">Codigo del Docente</label>
+                                    <input placeholder="Semestre" name="semestre" id="semestre" type="text" ng-model="NewSemester.semestre" class="validate" required maxlength="6">
+                                    <label for="semestre">Semestre: ejemplo 2018-A</label>
                                 </div>
                                 <div class=" input-field col l4">
                                     <input placeholder="Fecha Inicio" name="fecha_inicio" id="fecha_inicio" type="text" ng-model="NewSemester.fecha_inicio" class="datepicker" required>
@@ -71,7 +79,7 @@
                                 </div>
                                 <div class="col l6">
                                     <button class="btn" ng-click="clearFormNewSemestre()">
-                                        Nuevo
+                                        Borrar
                                     </button>
                                 </div>
                             </div>

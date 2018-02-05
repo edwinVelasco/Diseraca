@@ -7,29 +7,41 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
-                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
-                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
                 <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
-                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">school</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="inicio">Prestamos</a></li>
+                <li><a href="horarios">Horarios</a></li>
+                <li><a href="view_becas">Becas</a></li>
+                <li><a href="estadisticas">Estadisticas</a></li>
+                <li><a href="view_docentes">Docentes</a></li>
+                <li><a href="cerrar">Cerrar Sesión</a></li>
             </ul>
         </div>
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#clase" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase"><i class="material-icons">work</i></a></li>
-                <li class="tab"><a href="#sustentacion" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones"><i class="material-icons">add</i></a></li>
-                <li class="tab"><a href="#cursos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones"><i class="material-icons">view_list</i></a></li>
+                <li class="tab"><a href="#clase" class="tooltipped active" data-position="bottom" data-delay="50" data-tooltip="Prestamos para clase">Clases</a></li>
+                <li class="tab"><a href="#sustentacion" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sustentaciones">Sustentaciones</a></li>
+                <li class="tab"><a href="#cursos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones">Cursos/reuniones</a></li>
+                <li class="tab"><a href="#cursos_masivos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cursos y reuniones Masivos">Cursos/reuniones Masivos</a></li>
             </ul>
         </div>
     </nav>
 {% endblock %}
 
 {% block contenido %}
-    <div class="container">
+    <div class="container" ng-controller="PrestamosAdminContoller">
         <div class="card-panel">
 
             <div id="clase" class="col s12">
+                <div class="row">
+                    <h5>Prestamos para Clase</h5>
+                </div>
                 <div class="row" id="msg">
                     {% if msg %}
                         <h4 class="accent-1 red-text">{{ msg }}</h4>
@@ -47,6 +59,9 @@
                         <input id="icon_prefix" type="text" class="validate" length="7" name="codigo"  >
                         <label for="icon_prefix">Codigo Docente</label>
                     </div>
+
+                </div>
+                <div class="row" id="name_docente">
 
                 </div>
 
@@ -93,6 +108,9 @@
             </div>
 
             <div id="sustentacion" class="col s12">
+                <div class="row">
+                    <h5>Prestamos para sustentaciones</h5>
+                </div>
                 <div class="row">
                     <div class="input-field col l5 offset-l1">
                         <i class="material-icons prefix">today</i>
@@ -159,6 +177,9 @@
 
             <div id="cursos" class="col s12">
                 <div class="row">
+                    <h5>Prestamos para cursos y/o reuniones</h5>
+                </div>
+                <div class="row">
                     <div class="input-field col l5 offset-l1">
                         <i class="material-icons prefix">today</i>
                         <input id="daterequire_cursos" type="text" class="datepicker" class="validate">
@@ -177,42 +198,48 @@
                             <input type="hidden" name="fecha_curso" value="" id="fecha_curso"  >
                             <input type="hidden" name="sala_turno_curso" id="sala_turno_curso" value=""  >
                         </div>
-                        <div class="input-field col s12 l5">
-                            <select name="carrera_cursos" id="carrera_cursos"  >
-                                {% if carreras %}
-                                    <option value="" disabled selected>Carrera</option>
-                                    {% for carrera in carreras %}
-                                        <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                            <label>Seleccione la carrera relacionada</label>
+                        <div class="row">
+                            <div class="input-field col s4 offset-s2">
+                                <select name="carrera_cursos" id="carrera_cursos"  >
+                                    {% if carreras %}
+                                        <option value="" disabled selected>Carrera</option>
+                                        {% for carrera in carreras %}
+                                            <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <label>Seleccione la carrera relacionada</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">person_pin</i>
+                                <input id="cc_prefix_curso" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
+                                <label for="cc_prefix_curso">Solicitante</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s4 offset-s2">
+                                <i class="material-icons prefix">comment</i>
+                                <input id="des_prefix_curso" type="text" class="validate" length="50" name="descripcion"   maxlength="50">
+                                <label for="des_prefix_curso">Descripción</label>
+                            </div>
+
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">phone_in_talk</i>
+                                <input id="tel_prefix_curso" type="text" class="validate" name="tel" maxlength="12"   length="12">
+                                <label for="tel_prefix_curso">Telefono</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s4 offset-s4">
+                                <select name="tipo"  >
+                                    <option value="" disabled selected>Curso/reunion</option>
+                                    <option value="2">Curso</option>
+                                    <option value="3">Reunion</option>
+                                </select>
+                                <label>Seleccione el tipo de prestamo</label>
+                            </div>
                         </div>
 
-                        <div class="input-field col l4 offset-l3">
-                            <i class="material-icons prefix">person_pin</i>
-                            <input id="cc_prefix_curso" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
-                            <label for="cc_prefix_curso">Solicitante</label>
-                        </div>
-                        <div class="input-field col l4 offset-l3">
-                            <i class="material-icons prefix">comment</i>
-                            <input id="des_prefix_curso" type="text" class="validate" length="50" name="descripcion"   maxlength="50">
-                            <label for="des_prefix_curso">Descripción</label>
-                        </div>
-
-                        <div class="input-field col l4">
-                            <i class="material-icons prefix">phone_in_talk</i>
-                            <input id="tel_prefix_curso" type="text" class="validate" name="tel" maxlength="12"   length="12">
-                            <label for="tel_prefix_curso">Telefono</label>
-                        </div>
-                        <div class="input-field col s12 l5">
-                            <select name="tipo"  >
-                                <option value="" disabled selected>Curso/reunion</option>
-                                <option value="2">Curso</option>
-                                <option value="3">Reunion</option>
-                            </select>
-                            <label>Seleccione el tipo de prestamo</label>
-                        </div>
 
                         <div class="input-field col s6 l6 offset-s3 offset-l3">
                             <button class="btn waves-effect waves-light" type="submit">Guardar
@@ -234,6 +261,112 @@
                     {% endif %}
                 </div>
             </div>
+
+            <div class="col s12" id="cursos_masivos">
+                <div class="row">
+                    <h5>Prestamos para cursos y/o reuniones masivos</h5>
+                </div>
+                <form id="formPrestamoMasivo" ng-submit="save_prestamo_masivo()">
+                    <div class="row">
+                        <div class="input-field col s3 offset-s3">
+                            <i class="material-icons prefix">today</i>
+                            <input id="fecha_inicial" name="fecha_inicial" type="text"
+                                   class="datepicker" ng-required="true">
+                            <label for="fecha_inicial">Fecha Inicial</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <i class="material-icons prefix">today</i>
+                            <input id="fecha_final" name="fecha_final" type="text"
+                                   class="datepicker" ng-required="true">
+                            <label for="fecha_final">Fecha Final</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s3 offset-l1">
+                            <select required name="edificio" id="edificio" class="validate">
+
+                            </select>
+                            <label>Edificios</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <select required name="sala" id="sala" class="validate">
+
+                            </select>
+                            <label>Salas</label>
+                        </div>
+                        <div class="input-field col l2 ">
+                            <select required name="dia" id="dia_sala_turno" >
+                                <option value="" disabled selected>Seleccione</option>
+                                <option value="0">Lunes</option>
+                                <option value="1">Martes</option>
+                                <option value="2">Miercoles</option>
+                                <option value="3">Jueves</option>
+                                <option value="4">Viernes</option>
+                                <option value="5">Sabado</option>
+                            </select>
+                            <label>Dia</label>
+                        </div>
+                        <div class="input-field col l3 ">
+                            <select required name="turno" id="turno_sala_turno" class="validate">
+
+                            </select>
+                            <label>Turnos</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s3">
+                            <select name="carrera_cursos_masivo" id="carrera_cursos_masivo"
+                                    ng-required="true" class="validate">
+                                {% if carreras %}
+                                    <option value="" disabled selected>Carrera</option>
+                                    {% for carrera in carreras %}
+                                        <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            <label>Carrera relacionada</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input required id="cc_prefix_curso" type="text" class="validate" name="solicitante"   maxlength="50">
+                            <label for="cc_prefix_curso">Solicitante</label>
+                        </div>
+                        <div class="input-field col s3">
+                            <i class="material-icons prefix">phone_in_talk</i>
+                            <input required id="tel_prefix_curso" type="text" class="validate" name="tel" maxlength="12">
+                            <label for="tel_prefix_curso">Telefono</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <select name="tipo" required class="validate">
+                                <option value="" disabled selected>Curso/reunion</option>
+                                <option value="2">Curso</option>
+                                <option value="3">Reunion</option>
+                            </select>
+                            <label>Tipo de prestamo</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s4 offset-s4">
+                            <i class="material-icons prefix">comment</i>
+                            <label for="descripcion_masiva">Descripción</label>
+                            <textarea name="descripcion" id="descripcion_masiva" required=""></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col l2 offset-l4">
+                            <input class="btn" type="submit" value="Guardar">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
         </div>
     </div>
 
@@ -242,6 +375,7 @@
 {% endblock %}
 
 {% block init %}
+    $('select').material_select();
   $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 1, // Creates a dropdown of 15 years to control year,
@@ -279,8 +413,6 @@
         }
         $('#fecha').val(fecha)
 
-        $('#carga').addClass('active');
-
         $.ajax({
             type: 'GET',
             url: 'buscar_salas_admin',
@@ -312,8 +444,9 @@
             url: 'get_carga_docente',
             data: {'docente': docente},
             success: function (data) {
-                $('#carga_docente').html(data);
+                $('#carga_docente').html(data.msg);
                 $('#carga').removeClass('active');
+                $('#name_docente').html('<h5>'+data.docente+'</h5>');
             },
             error: function(data) {
                 alert(data);

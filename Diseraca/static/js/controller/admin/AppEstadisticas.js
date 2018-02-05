@@ -55,6 +55,9 @@ app.controller('EstadisticaAdminContoller', function ($scope, $http) {
     $scope.clearFormNewSemestre = function () {
         $scope.NewSemester = {};
         $("#buttonNewSemestre").val("Guardar");
+        $("#fecha_inicio").val("");
+        $("#fecha_fin").val("");
+
     };
 
 });

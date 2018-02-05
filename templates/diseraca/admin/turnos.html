@@ -9,16 +9,24 @@
                 <li>Admin: {{ admin.user.first_name }}</li>
                 <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas/"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
-                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas"><i class="material-icons">supervisor_account</i></a></li>
+                <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
                 <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
-                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">directions_run</i></a></li>
+                <li><a href="view_docentes" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Docentes"><i class="material-icons">school</i></a></li>
                 <li><a href="cerrar" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Cerrar sesión"><i class="material-icons">exit_to_app</i></a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="inicio">Prestamos</a></li>
+                <li><a href="horarios">Horarios</a></li>
+                <li><a href="view_becas">Becas</a></li>
+                <li><a href="estadisticas">Estadisticas</a></li>
+                <li><a href="view_docentes">Docentes</a></li>
+                <li><a href="cerrar">Cerrar Sesión</a></li>
             </ul>
         </div>
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos"><i class="material-icons">event_seat</i></a></li>
                 <li class="tab"><a href="#horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestión de Horarios de Salas"><i class="material-icons">date_range</i></a></li>
+                <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos"><i class="material-icons">event_seat</i></a></li>
                 <li class="tab"><a href="#edificios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Edificios y Salas"><i class="material-icons">location_city</i></a></li>
                 <!--<li class="tab"><a href="#sala_turno" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Asignación de Turnos a Salas"><i class="material-icons">date_range</i></a></li>-->
             </ul>
@@ -70,7 +78,7 @@
                                 <input class="btn" type="submit" value="Guardar" ng-click="saveTurno()">
                             </div>
                             <div class="col l6">
-                                <input class="btn" type="submit" value="Nuevo" ng-click="newTurnoFrom()">
+                                <input class="btn" type="submit" value="Borrar" ng-click="newTurnoFrom()">
                             </div>
                         </div>
                     </form>
@@ -172,7 +180,7 @@
                                 <input class="btn" type="submit" value="Guardar" ng-click="saveSalaTurnoFrom()">
                             </div>
                             <div class="col l6">
-                                <input class="btn" type="submit" value="Nuevo" ng-click="newSalaTurnoFrom()">
+                                <input class="btn" type="submit" value="Borrar" ng-click="newSalaTurnoFrom()">
                             </div>
                         </div>
                     </form>
@@ -261,12 +269,15 @@
                                     <input class="btn" type="submit" value="Guardar" ng-click="saveEdif()">
                                 </div>
                                 <div class="col l4">
-                                    <input class="btn" type="button" value="Nuevo" ng-click="newEdifFunct()">
+                                    <input class="btn" type="button" value="Borrar" ng-click="newEdifFunct()">
                                 </div>
                             </div>
                         </form>
+                        <div class="row">
+                            <h5>Listado de edificios, click para ver las salas</h5>
+                        </div>
                         <div class="col s2" ng-repeat="edif in listEdif">
-                            <a class="btn-floating btn-large waves-effect waves-light red"  ng-click="get_salas(edif)">
+                            <a class="btn-floating btn-large waves-effect waves-light red" ng-click="get_salas(edif)">
                                 [[ edif.fields.codigo ]]
                             </a>
                         </div>
@@ -315,7 +326,7 @@
                                     <input class="btn" type="submit" value="Guardar" ng-click="save_sala()">
                                 </div>
                                 <div class="col l4">
-                                    <input class="btn" type="button" value="Nuevo" ng-click="newSalaFunct()">
+                                    <input class="btn" type="button" value="Borrar" ng-click="newSalaFunct()">
                                 </div>
                             </div>
                         </form>

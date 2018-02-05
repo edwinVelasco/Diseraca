@@ -1,7 +1,5 @@
 /.idea/
 /*.pyc
-/db.sqlite3
-/pruebas.py
 .idea/
 db.sqlite3
 pruebas.py

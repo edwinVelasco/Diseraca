@@ -20,6 +20,8 @@
       $scope.docenteCarga = "";
       $scope.cargaPk = 0;
       $scope.newCargaDocente = {};
+      $scope.preload = true;
+      $scope.docenteView = "";
 
       $scope.consultarTurnosDocente = function () {
           $scope.consultaTurnos.fecha_inicio = $("#fecha_inicio").val();
@@ -33,11 +35,11 @@
                 }
             }
             if (bool){
-                console.log($scope.consultaTurnos);
                 $http.get('get_turnos_docente?docente='+ $scope.consultaTurnos.docente+'&fecha_inicio='+$scope.consultaTurnos.fecha_inicio+'&fecha_fin='+$scope.consultaTurnos.fecha_fin)
                 .then(function(response) {
-                    $scope.listPrestamosDocente = response.data;
-                    if (response.data.length > 0)
+                    $scope.listPrestamosDocente = response.data.msg;
+                    $scope.docenteView = response.data.docente;
+                    if (response.data.msg.length > 0)
                     {
                         $scope.showTableTurnoDocente = true;
                     }
@@ -80,6 +82,8 @@
         $http.get('get_docentes')
             .then(function(response) {
                 $scope.listDocentes = response.data;
+                $scope.preload = false;
+                $('#msg_inicial').modal('close');
             }, function(response) {
                 //Second function handles error
                 $scope.content = "Something went wrong";
@@ -183,8 +187,8 @@
         $("#docente_carga").val($("#codigo_docente_buscar_carga").val());
          $http.get('buscar_carga_docente?docente='+$("#codigo_docente_buscar_carga").val())
             .then(function(response) {
-                console.log(response.data);
-                $scope.listCargaDocente = response.data;
+                $scope.docenteView = response.data.docente;
+                $scope.listCargaDocente = response.data.msg;
                 if (response.data.length == 0){
                     if ("Notification" in window){
                         let ask = Notification.requestPermission();
@@ -237,6 +241,7 @@
           $("#matriculados_materia").val(obj.matriculados);
           $scope.show_register_carga();
     };
+
 
 
 });

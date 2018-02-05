@@ -107,7 +107,6 @@ var app = angular.module('AppAdmin',[])
             });
     };
     $scope.saveEdif = function () {
-        console.log($scope.newEdif);
         $http.post("save_edificio", {edif: $scope.newEdif})
             .then( function(data){
                 $scope.newEdifFunct()
@@ -117,7 +116,7 @@ var app = angular.module('AppAdmin',[])
                         let ask = Notification.requestPermission();
                         ask.then(permission => {
                             if (permission ==='granted') {
-                                let msg = new Notification('bienvenido/a', {
+                                let msg = new Notification('Mensaje', {
                                     body: data.data,
                                     icon:"/static/img/ufps.jpg"
                                 });
