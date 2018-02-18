@@ -38,6 +38,7 @@
 
 {% block contenido %}
     <div class="container" ng-controller="BecasAdminContoller">
+
         <div class="card-panel">
             <div id="turnos" class="col s12">
                 <div class="row">
@@ -59,7 +60,7 @@
                                 <td>06:00 a 08:00</td>
                                 <td>{% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a>
                                             <br>
@@ -68,35 +69,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '06:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -107,7 +108,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -115,35 +116,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '08:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -154,7 +155,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -162,35 +163,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '10:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -201,7 +202,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -209,35 +210,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '12:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -248,7 +249,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -256,35 +257,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '14:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -295,7 +296,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -303,35 +304,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '16:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -342,7 +343,7 @@
                                 <td>
                                     {% for beca_turno in beca_turnos_lunes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 0 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -350,35 +351,35 @@
                                 </td>
                                 <td>{% for beca_turno in beca_turnos_martes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 1 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_miercoles %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 2 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_jueves %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 3 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_viernes %}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 4 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
                                     {% endfor %}</td>
                                 <td>{% for beca_turno in beca_turnos_sabado%}
                                         {% if beca_turno.turno.time_start|time:"H:i"  == '18:00' and beca_turno.turno.dia == 5 %}
-                                            <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                            <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                                 {{ beca_turno.beca.nick }}
                                             </a><br>
                                         {% endif %}
@@ -389,7 +390,7 @@
                         <td>
                             {% for beca_turno in beca_turnos_lunes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 0 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
@@ -397,35 +398,35 @@
                         </td>
                         <td>{% for beca_turno in beca_turnos_martes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 1 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
                         <td>{% for beca_turno in beca_turnos_miercoles %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 2 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
                         <td>{% for beca_turno in beca_turnos_jueves %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 3 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
                         <td>{% for beca_turno in beca_turnos_viernes %}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 4 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
                             {% endfor %}</td>
                         <td>{% for beca_turno in beca_turnos_sabado%}
                                 {% if beca_turno.turno.time_start|time:"H:i"  == '20:00' and beca_turno.turno.dia == 5 %}
-                                    <a onclick="delete_turno_beca({{ beca_turno.id }})" onclick="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
+                                    <a ng-click="delete_turno_beca({{ beca_turno.id }})" ng-click="delete_turno_beca({{ beca_turno.id }})" class="waves-effect waves-light btn red"><i class="material-icons right">clear</i>
                                         {{ beca_turno.beca.nick }}
                                     </a><br>
                                 {% endif %}
@@ -746,6 +747,21 @@
 {% endblock %}
 
 {% block init %}
+    {% if messages %}
+        {% for message in messages %}
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: "{{ message }}",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+        {% endfor %}
+    {% endif %}
     $('select').material_select();
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
@@ -756,6 +772,7 @@
         closeOnSelect: true, // Close upon selecting a date,
         format: 'yyyy-mm-dd'
       });
+
 {% endblock %}
 
 

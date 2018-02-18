@@ -98,9 +98,9 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
                 //Second function handles error
                 $scope.content = "Something went wrong";
             });
-    }
+    };
 
-    function delete_turno_beca(id){
+    $scope.delete_turno_beca = function(id){
         var r = confirm("Desea eliminar el turno?");
         if (r == true) {
             document.location='/delete_turno_beca?id='+id

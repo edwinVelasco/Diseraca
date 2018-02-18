@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -189,8 +191,8 @@ class Ip_Registro(models.Model):
 
 
 class Asistencia(models.Model):
-    beca_turno = models.ForeignKey('Beca_Turno')
-    ip = models.ForeignKey('Ip_Registro', null=True)
+    beca_turno = models.ForeignKey('Beca_Turno', models.PROTECT)
+    ip = models.ForeignKey('Ip_Registro', models.PROTECT, null=True)
     tipos = (
         (0, 'Sin Asistencia'),
         (1, 'Retardo'),
@@ -200,20 +202,35 @@ class Asistencia(models.Model):
     date_turno = models.DateField()
     datetime_registro = models.DateTimeField(null=True)
 
+    class Meta:
+        unique_together = (('beca_turno', 'date_turno'),)
+
     def __unicode__(self):
-        return str(self.beca_turno.turno.time_start)+' a '+str(self.beca_turno.turno.time_end)+', '
+        return "%s - %s" % (str(self.beca_turno.turno.time_start)[:5],
+                            str(self.beca_turno.turno.time_end)[:5])
 
 
 class Beca_Turno(models.Model):
-    beca = models.ForeignKey('Beca')
-    turno = models.ForeignKey('Turno')
+    beca = models.ForeignKey('Beca', models.PROTECT)
+    turno = models.ForeignKey('Turno', models.PROTECT)
+    status = models.BooleanField(default=True)
 
     def __unicode__(self):
         return str(self.turno)
 
+    class Meta:
+        unique_together = (('beca', 'turno'),)
+
+    def remove_asistencias(self):
+        now = datetime.datetime.now()
+        asistencias = Asistencia.objects.filter(beca_turno=self,
+                                                date_turno__gt=now)
+        for asistencia in asistencias:
+            asistencia.delete()
+
 
 class Sancion(models.Model):
-    profesor = models.ForeignKey('Profesor')
+    profesor = models.ForeignKey('Profesor', models.PROTECT)
     date_start = models.DateField()
     date_end = models.DateField()
     motivo = models.TextField()

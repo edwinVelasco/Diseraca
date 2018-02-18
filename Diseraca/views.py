@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
+import datetime
+import json
+import csv as csv
+import threading
+import re
+
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, \
     Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
 
-import datetime
-import json
-import csv as csv
-import threading
-import re
 
 def index(request):
 
@@ -800,12 +802,24 @@ def get_prestamos_activos_docente(request):
 def view_becas(request):
     if request.user.is_authenticated():
         turnos = Turno.objects.filter(id__lte=48, estado=0).order_by('time_start')
-        beca_turnos_lunes = Beca_Turno.objects.filter(turno__dia=0)
-        beca_turnos_martes = Beca_Turno.objects.filter(turno__dia=1)
-        beca_turnos_miercoles = Beca_Turno.objects.filter(turno__dia=2)
-        beca_turnos_jueves = Beca_Turno.objects.filter(turno__dia=3)
-        beca_turnos_viernes = Beca_Turno.objects.filter(turno__dia=4)
-        beca_turnos_sabado = Beca_Turno.objects.filter(turno__dia=5)
+        beca_turnos_lunes = Beca_Turno.objects.filter(turno__dia=0,
+                                        status=True,
+                                        beca__persona__user__is_active=True)
+        beca_turnos_martes = Beca_Turno.objects.filter(turno__dia=1,
+                                                       status=True,
+                                        beca__persona__user__is_active=True)
+        beca_turnos_miercoles = Beca_Turno.objects.filter(turno__dia=2,
+                                                          status=True,
+                                        beca__persona__user__is_active=True)
+        beca_turnos_jueves = Beca_Turno.objects.filter(turno__dia=3,
+                                                       status=True,
+                                        beca__persona__user__is_active=True)
+        beca_turnos_viernes = Beca_Turno.objects.filter(turno__dia=4,
+                                                        status=True,
+                                        beca__persona__user__is_active=True)
+        beca_turnos_sabado = Beca_Turno.objects.filter(turno__dia=5,
+                                                       status=True,
+                                        beca__persona__user__is_active=True)
 
         persona = Persona.objects.get(user__username=request.session['usuario'])
         ips = Ip_Registro.objects.filter(estado=True)
@@ -872,8 +886,7 @@ def asignar_turno_beca(request):
                     beca_turno.beca = Beca.objects.get(id=request.POST['beca'])
                     beca_turno.turno = Turno.objects.get(id=request.POST['turno'])
                     beca_turno.save()
-                    request.session['msg'] = 'Turno agregado con exito'
-                    request.session['opcion'] = 2
+                    messages.success(request, "Turno agregado con exito.")
                     return HttpResponseRedirect('view_becas')
                 except Beca.DoesNotExist or Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
@@ -888,11 +901,13 @@ def delete_turno_beca(request):
             if 'id' in request.GET:
                 try:
                     beca_turno = Beca_Turno.objects.get(id=request.GET['id'])
-                    beca_turno.delete()
-                    request.session['msg'] = 'Turno eliminado'
-                    request.session['opcion'] = 2
+                    beca_turno.status = False
+                    beca_turno.save()
+                    beca_turno.remove_asistencias()
+
+                    messages.success(request, "Turno eliminado.")
                     return HttpResponseRedirect('view_becas')
-                except Beca.DoesNotExist:
+                except Beca_Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
 
     else:
@@ -925,21 +940,27 @@ def asignar_asistencias_semestre(request):
         fecha_ini = ahora + datetime.timedelta(days=-5)
         """
         date = request.POST['fecha_start'].split('-')
-        fecha_ini = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha_ini = datetime.date(day=int(date[2]), month=int(date[1]),
+                                  year=int(date[0]))
 
         for i in range(0, 6):
-            beca_turnos = Beca_Turno.objects.filter(turno__dia=i)
+            beca_turnos = Beca_Turno.objects.filter(turno__dia=i,
+                                                    status=True)
             fecha_ini2 = fecha_ini + datetime.timedelta(days=i)
 
             for beca_turno in beca_turnos:
                 fecha = fecha_ini2 #lunea
-                for i in range(1, int(request.POST['semanas'])):
-                    asistencia = Asistencia()
-                    asistencia.beca_turno = beca_turno
-                    asistencia.date_turno = fecha
-                    asistencia.save()
-                    fecha = fecha + datetime.timedelta(days=7)
+                for i in range(0, int(request.POST['semanas'])):
+                    try:
+                        asistencia = Asistencia()
+                        asistencia.beca_turno = beca_turno
+                        asistencia.date_turno = fecha
+                        asistencia.save()
+                        fecha = fecha + datetime.timedelta(days=7)
+                    except Exception as e:
+                        print(e)
 
+        messages.success(request, "Las asistencias se registraron exitosamente.")
         return HttpResponseRedirect('view_becas')
 
 
