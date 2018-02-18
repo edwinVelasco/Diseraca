@@ -1700,7 +1700,8 @@ def background_carga_docente(file):
     add = 0
     update = 0
     imposible = 0
-    for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, MATRICULADOS in data:
+    for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, \
+        MATRICULADOS in data:
         try:
             carrera = Carrera.objects.get(codigo=COD_CARRERA)
             carga = Carga.objects.get(carrera=carrera,
