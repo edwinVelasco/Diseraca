@@ -882,26 +882,22 @@ def asignar_turno_beca(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             if 'turno' in request.POST and 'beca' in request.POST:
+
                 try:
                     beca = Beca.objects.get(id=request.POST['beca'])
                     turno = Turno.objects.get(id=request.POST['turno'])
-                    beca_turno = Beca_Turno.objects.filter(beca=beca,
-                                                           turno=turno)
-                    if beca_turno:
-                        beca_turno[0].status = True
-                        beca_turno[0].save()
-                        print(beca_turno[0].status)
+                    try:
+                        beca_turno = Beca_Turno.objects.get(beca=beca,
+                                                            turno=turno)
+                    except Beca_Turno.DoesNotExist:
+                        beca_turno = Beca_Turno()
+                    finally:
+                        beca_turno.status = True
+                        beca_turno.save()
+                        print(beca_turno.status)
                         messages.success(request,
                                          "Turno agregado con exito.")
                         return HttpResponseRedirect('view_becas')
-
-                    beca_turno = Beca_Turno()
-                    beca_turno.beca = beca
-                    beca_turno.turno = turno
-                    beca_turno.status = True
-                    beca_turno.save()
-                    messages.success(request, "Turno agregado con exito.")
-                    return HttpResponseRedirect('view_becas')
                 except Beca.DoesNotExist or Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
 
