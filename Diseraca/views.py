@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.utils import IntegrityError
 
 from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, \
     Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
@@ -882,14 +883,29 @@ def asignar_turno_beca(request):
         if request.method == 'POST':
             if 'turno' in request.POST and 'beca' in request.POST:
                 try:
+                    beca = Beca.objects.get(id=request.POST['beca'])
+                    turno = Turno.objects.get(id=request.POST['turno'])
+                    beca_turno = Beca_Turno.objects.filter(beca=beca,
+                                                           turno=turno)
+                    if beca_turno:
+                        beca_turno[0].status = True
+                        beca_turno[0].save()
+                        print(beca_turno[0].status)
+                        messages.success(request,
+                                         "Turno agregado con exito.")
+                        return HttpResponseRedirect('view_becas')
+
                     beca_turno = Beca_Turno()
-                    beca_turno.beca = Beca.objects.get(id=request.POST['beca'])
-                    beca_turno.turno = Turno.objects.get(id=request.POST['turno'])
+                    beca_turno.beca = beca
+                    beca_turno.turno = turno
+                    beca_turno.status = True
                     beca_turno.save()
                     messages.success(request, "Turno agregado con exito.")
                     return HttpResponseRedirect('view_becas')
                 except Beca.DoesNotExist or Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
+
+
     else:
         return HttpResponseRedirect('/')
 
@@ -904,7 +920,6 @@ def delete_turno_beca(request):
                     beca_turno.status = False
                     beca_turno.save()
                     beca_turno.remove_asistencias()
-
                     messages.success(request, "Turno eliminado.")
                     return HttpResponseRedirect('view_becas')
                 except Beca_Turno.DoesNotExist:
@@ -1910,8 +1925,10 @@ def get_inasistencias_beca(request):
             hoy = datetime.datetime.now().date()
             beca = Beca.objects.get(id=request.GET['id'])
             asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy, tipo=0)
-            msg = [{'date_turno': str(w.date_turno), 'datetime_registro': str(w.datetime_registro),
-                    'ip': w.ip, 'turno': u"{0}-{1}".format(str(w.beca_turno.turno.time_start)[:5],
+            msg = msg = [{'date_turno': str(w.date_turno),
+                          'datetime_registro': str(w.datetime_registro),
+                        'ip': w.ip, 'turno': u"{0}-{1}".format(str(
+                    w.beca_turno.turno.time_start)[:5],
                                                            str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
@@ -1929,10 +1946,14 @@ def get_asistencias_tarde(request):
         try:
             hoy = datetime.datetime.now().date()
             beca = Beca.objects.get(id=request.GET['id'])
-            asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy, tipo=1)
-            msg = [{'date_turno': str(w.date_turno), 'datetime_registro': str(w.datetime_registro),
-                    'ip': w.ip, 'turno': u"{0}-{1}".format(str(w.beca_turno.turno.time_start)[:5],
-                                                           str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca,
+                                                    date_turno__lt=hoy, tipo=1)
+            msg = [{'date_turno': str(w.date_turno),
+                    'datetime_registro': str(w.datetime_registro),
+                    'ip': w.ip, 'turno': u"{0}-{1}".format(
+                    str(w.beca_turno.turno.time_start)[:5],
+                    str(w.beca_turno.turno.time_end)[:5])} for w in
+                   asistencias]
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
