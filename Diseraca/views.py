@@ -892,16 +892,15 @@ def asignar_turno_beca(request):
                     except Beca_Turno.DoesNotExist:
                         beca_turno = Beca_Turno()
                     finally:
+                        beca_turno.beca = beca
+                        beca_turno.turno = turno
                         beca_turno.status = True
                         beca_turno.save()
-                        print(beca_turno.status)
                         messages.success(request,
                                          "Turno agregado con exito.")
                         return HttpResponseRedirect('view_becas')
                 except Beca.DoesNotExist or Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
-
-
     else:
         return HttpResponseRedirect('/')
 
@@ -1897,7 +1896,8 @@ def get_report_becas(request):
         for beca in becas:
             inasistencias = 0
             tardes = 0
-            asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy)
+            asistencias = Asistencia.objects.filter(beca_turno__beca=beca,
+                                                    date_turno__lt=hoy)
             for asis in asistencias:
                 if asis.tipo == 0:
                     inasistencias += 1
@@ -1943,10 +1943,11 @@ def get_asistencias_tarde(request):
             hoy = datetime.datetime.now().date()
             beca = Beca.objects.get(id=request.GET['id'])
             asistencias = Asistencia.objects.filter(beca_turno__beca=beca,
-                                                    date_turno__lt=hoy, tipo=1)
+                                                    date_turno__lte=hoy,
+                                                    tipo=1)
             msg = [{'date_turno': str(w.date_turno),
-                    'datetime_registro': str(w.datetime_registro),
-                    'ip': w.ip, 'turno': u"{0}-{1}".format(
+                    'datetime_registro': str(w.datetime_registro)[:16],
+                    'ip': w.ip.ip, 'turno': u"{0}-{1}".format(
                     str(w.beca_turno.turno.time_start)[:5],
                     str(w.beca_turno.turno.time_end)[:5])} for w in
                    asistencias]
@@ -1954,7 +1955,7 @@ def get_asistencias_tarde(request):
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
             #print e.message
-            res = json.dumps({'code': 404, 'msg': "error"})
+            res = json.dumps({'code': 404, 'msg': e.message})
             return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')

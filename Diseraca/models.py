@@ -206,8 +206,9 @@ class Asistencia(models.Model):
         unique_together = (('beca_turno', 'date_turno'),)
 
     def __unicode__(self):
-        return "%s - %s" % (str(self.beca_turno.turno.time_start)[:5],
-                            str(self.beca_turno.turno.time_end)[:5])
+        return "%s - %s - %s" % (str(self.beca_turno.turno.time_start)[:5],
+                            str(self.beca_turno.turno.time_end)[:5], \
+               self.beca_turno.beca.nick)
 
 
 class Beca_Turno(models.Model):
