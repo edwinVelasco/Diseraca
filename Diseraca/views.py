@@ -1921,11 +1921,11 @@ def get_inasistencias_beca(request):
             hoy = datetime.datetime.now().date()
             beca = Beca.objects.get(id=request.GET['id'])
             asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy, tipo=0)
-            msg = msg = [{'date_turno': str(w.date_turno),
-                          'datetime_registro': str(w.datetime_registro),
-                        'ip': w.ip, 'turno': u"{0}-{1}".format(str(
+            msg = [{'date_turno': str(w.date_turno),
+                          'datetime_registro': str(w.datetime_registro)[:16],
+                        'ip': str(w.ip.ip), 'turno': u"{0}-{1}".format(str(
                     w.beca_turno.turno.time_start)[:5],
-                                                           str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
+                    str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
@@ -1947,7 +1947,7 @@ def get_asistencias_tarde(request):
                                                     tipo=1)
             msg = [{'date_turno': str(w.date_turno),
                     'datetime_registro': str(w.datetime_registro)[:16],
-                    'ip': w.ip.ip, 'turno': u"{0}-{1}".format(
+                    'ip': str(w.ip.ip), 'turno': u"{0}-{1}".format(
                     str(w.beca_turno.turno.time_start)[:5],
                     str(w.beca_turno.turno.time_end)[:5])} for w in
                    asistencias]
