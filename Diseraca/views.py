@@ -1710,7 +1710,8 @@ def background_carga_docente(file):
     add = 0
     update = 0
     imposible = 0
-    for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, MATRICULADOS in data:
+    for COD_CARRERA, COD_DPTO, COD_MATERIA, NOMMATE, GRUPO, COD_PROFESOR, \
+        MATRICULADOS, NOM_CARRERA in data:
         try:
             carrera = Carrera.objects.get(codigo=COD_CARRERA)
             carga = Carga.objects.get(carrera=carrera,
@@ -1732,7 +1733,7 @@ def background_carga_docente(file):
                 carrera.codigo = COD_CARRERA
                 dpto = Departamento.objects.get(codigo=COD_DPTO)
                 carrera.departamento = dpto
-                carrera.nombre = COD_CARRERA.lower()
+                carrera.nombre = NOM_CARRERA.lower()
                 carrera.save()
                 carga = Carga()
                 carga.carrera = carrera
@@ -1955,7 +1956,7 @@ def get_asistencias_tarde(request):
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
             #print e.message
-            res = json.dumps({'code': 404, 'msg': e.message})
+            res = json.dumps({'code': 404, 'msg': e})
             return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
