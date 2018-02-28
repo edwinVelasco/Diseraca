@@ -1668,7 +1668,7 @@ def background_docente(file):
             user = User()
             user.username = str(COD_PROFESOR)
             user.email = EMAIL.lower()
-            user.first_name = NOMBRES[:33].lower()
+            user.first_name = NOMBRES[:29].lower()
             user.set_password(str(COD_PROFESOR))
             user.save()
             persona = Persona()
