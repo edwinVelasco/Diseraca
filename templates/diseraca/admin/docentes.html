@@ -359,18 +359,20 @@
         format: 'yyyy-mm-dd'
       });
 
-    {% if msg %}
-        if ("Notification" in window){
-            let ask = Notification.requestPermission();
-            ask.then(permission => {
-                if (permission ==='granted') {
-                    let msg = new Notification('Mensaje', {
-                        body: "{{ msg }}",
-                        icon:"/static/img/ufps.jpg"
-                    });
-                }
-            });
-        }
+    {% if messages %}
+        {% for message in messages %}
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: "{{ message }}",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+        {% endfor %}
     {% endif %}
     $('.modal').modal();
     $('#msg_inicial').modal('open');

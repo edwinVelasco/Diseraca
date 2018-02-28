@@ -1401,7 +1401,9 @@ def get_turno_sala(request):
 @login_required(login_url='/')
 def get_turno_dia_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
-        x = Turno_Sala.objects.filter(sala_id=request.GET["sala"], turno__dia=request.GET['dia'])
+        x = Turno_Sala.objects.filter(sala_id=request.GET["sala"],
+                                      turno__dia=request.GET[
+                                          'dia']).order_by('turno__time_start')
         t = [{"id": w.id, "time_start": str(w.turno.time_start), "time_end": str(w.turno.time_end)} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
@@ -1612,9 +1614,8 @@ def save_docente_csv(request):
         h = threading.Thread(target=background_docente,
                              args=(request.FILES.get('file_docente'),))
         h.start()
-
-        #request.session['msg'] = "Se enviara un correo a %s cuando termine el procedimiento" % request.user.email
-
+        messages.success(request, 'Se esta procesando el archivo en '
+                                  'background')
         return HttpResponseRedirect('view_docentes')
     else:
         return HttpResponseRedirect('/')
@@ -1667,7 +1668,7 @@ def background_docente(file):
             user = User()
             user.username = str(COD_PROFESOR)
             user.email = EMAIL.lower()
-            user.first_name = NOMBRES.lower()
+            user.first_name = NOMBRES[:33].lower()
             user.set_password(str(COD_PROFESOR))
             user.save()
             persona = Persona()
@@ -1702,6 +1703,8 @@ def save_carga_docentes_csv(request):
         h = threading.Thread(target=background_carga_docente,
                              args=(request.FILES.get('file_carga_docente'),))
         h.start()
+        messages.success(request, 'Se esta procesando el archivo en '
+                                  'background')
         return HttpResponseRedirect('view_docentes')
     else:
         return HttpResponseRedirect('/')
