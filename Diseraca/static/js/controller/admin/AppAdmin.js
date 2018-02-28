@@ -20,6 +20,8 @@ var app = angular.module('AppAdmin',[])
     $scope.newSalaTurno = {"pk": 0, "fields": {"estado": "", "hasta": null, "sala": {"codigo": "", "edificio": "", "pk": ""},
                             "turno": {"time_start": "", "time_end": "", "dia": "", "pk": ""}}};
 
+    $scope.turn_day_sala = 0;
+
     $scope.get_turn_day = function (day) {
         $http.get('get_turno_dia?dia='+day)
             .then(function(response) {
@@ -242,7 +244,7 @@ var app = angular.module('AppAdmin',[])
         $http.get('get_turno_sala?sala='+sala)
             .then(function(response) {
                 $scope.listTurnosSala = response.data;
-
+                $scope.get_turn_day_sala(0);
             }, function(response) {
                 //Second function handles error
                 $scope.content = "Something went wrong";
@@ -295,6 +297,17 @@ var app = angular.module('AppAdmin',[])
         $('#turno_sala_turno').material_select('destroy');
         $('#turno_sala_turno').val($scope.newSalaTurno.fields.turno.pk);
         $('#turno_sala_turno').material_select();
+    };
+
+    $scope.get_turn_day_sala = function (day) {
+        $scope.turn_day_sala = day;
+        $("#pag_turn_day_sala_0").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_1").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_2").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_3").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_4").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_5").removeAttr('class', 'active');
+        $("#pag_turn_day_sala_"+day).attr('class', 'active');
     };
 
     $scope.saveSalaTurnoFrom = function () {

@@ -1335,7 +1335,7 @@ def view_turnos(request):
 @login_required(login_url='/')
 def get_turno_dia(request):
     if request.user.is_authenticated() and 'dia' in request.GET:
-        turnos = Turno.objects.filter(dia=request.GET['dia'])
+        turnos = Turno.objects.filter(dia=request.GET['dia']).order_by('time_start')
         data = serializers.serialize('json', turnos, fields=('time_start', 'time_end', 'estado', 'dia'))
         return HttpResponse(data, content_type='application/json')
     else:
@@ -1386,9 +1386,11 @@ def view_docentes(request):
 def get_turno_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
         x = Turno_Sala.objects.filter(sala_id=request.GET["sala"])
-        t = [{"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta), "sala": {"codigo": w.sala.codigo,
-                                                                         "edificio": w.sala.edificio_id, "pk": w.sala_id},
-              "turno": {"time_start": str(w.turno.time_start), "time_end": str(w.turno.time_end), "dia": w.turno.dia,
+        t = [{"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta)
+            , "sala": {"codigo": w.sala.codigo, "edificio":
+                w.sala.edificio_id, "pk": w.sala_id},
+                "turno": {"time_start": str(w.turno.time_start),
+                "time_end": str(w.turno.time_end), "dia": w.turno.dia,
                         "pk": w.turno_id}}} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
