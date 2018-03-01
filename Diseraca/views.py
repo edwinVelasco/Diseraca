@@ -1738,6 +1738,8 @@ def background_carga_docente(file):
         MATRICULADOS, NOM_CARRERA in data:
         try:
             carrera = Carrera.objects.get(codigo=COD_CARRERA)
+            carrera.nombre = NOM_CARRERA
+            carrera.save()
             carga = Carga.objects.get(carrera=carrera,
                                       codigo=COD_MATERIA
                                       , grupo=GRUPO.lower())
@@ -1795,34 +1797,41 @@ def background_carga_docente(file):
 @login_required(login_url='/')
 def save_carga_docente(request):
     if request.user.is_authenticated() and request.method == 'POST':
+        print(request.POST, 'post')
         try:
-            carga = Carga.objects.get(id=request.POST['pk_carga'])
-            carga.carrera_id = request.POST['carreras_carga_docente']
+            carga = Carga.objects.get(id=request.POST['id'])
+            carga.carrera = Carrera.objects.get(codigo=request.POST['carrera'])
             docente = Profesor.objects.get(
-                persona__user__username=request.POST['docente_carga'])
+                persona__user__username=request.POST['profesor'])
             carga.profesor = docente
-            carga.codigo = request.POST['codigo_materia']
-            carga.nombre = request.POST['nombre_materia']
-            carga.grupo = request.POST['grupo_materia']
-            carga.matriculados = request.POST['matriculados_materia']
+            carga.codigo = request.POST['codigo']
+            carga.nombre = request.POST['nombre']
+            carga.grupo = request.POST['grupo']
+            carga.matriculados = request.POST['matriculados']
             carga.save()
-            request.session['msg'] = 'Carga registrada exitosamente'
-            #print 'Carga registrada exitosamente'
+            data = json.dumps({'type': 200,
+                               'msg': 'Carga editada exitosamente'})
+            return HttpResponse(data, content_type='application/json')
+
         except (Carga.DoesNotExist, ValueError):
             carga = Carga()
-            carga.carrera_id = request.POST['carreras_carga_docente']
+            carga.carrera = Carrera.objects.get(codigo=request.POST['carrera'])
             docente = Profesor.objects.get(
-                persona__user__username=request.POST['docente_carga'])
+                persona__user__username=request.POST['profesor'])
             #print docente
             carga.profesor = docente
-            carga.codigo = request.POST['codigo_materia']
-            carga.nombre = request.POST['nombre_materia']
-            carga.grupo = request.POST['grupo_materia']
-            carga.matriculados = request.POST['matriculados_materia']
+            carga.codigo = request.POST['codigo']
+            carga.nombre = request.POST['nombre']
+            carga.grupo = request.POST['grupo']
+            carga.matriculados = request.POST['matriculados']
             carga.save()
-            request.session['msg'] = 'Carga editada exitosamente'
-            #print 'erer'
-        return HttpResponseRedirect('view_docentes')
+            data = json.dumps({'type': 200, 'msg': 'Carga creada '
+                                                   'exitosamente'})
+            return HttpResponse(data, content_type='application/json')
+        except Carrera.DoesNotExist:
+            data = json.dumps({'type': 200, 'msg': 'La carrera no existe'})
+            return HttpResponse(data, content_type='application/json')
+
     else:
         return HttpResponseRedirect('/')
 
