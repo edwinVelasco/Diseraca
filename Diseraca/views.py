@@ -4,6 +4,7 @@ import json
 import csv as csv
 import threading
 import re
+from ipware import ip as lib_ipware
 
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -12,13 +13,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.db.utils import IntegrityError
+
 
 from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, \
     Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
 
 
 def index(request):
+    print(request.META['REMOTE_ADDR'])
+    #print(request.GET['hola'])
 
     if request.method == 'GET':
         if 'msg' in request.session:
@@ -180,7 +183,7 @@ def inicio(request):
                                                              'docente': persona, 'fecha': fecha, 'cargas': cargas,
                                                              'opcion': 'c'})
         elif persona.tipo == 1:
-            ip = request.META['REMOTE_ADDR']
+            ip = lib_ipware.get_ip(request)
             print(ip)
             b = Beca.objects.get(persona=persona)
             edificios = Edificio.objects.all().order_by('codigo')
@@ -545,7 +548,8 @@ def registrar_asistencia(request):
         #print request.META['REMOTE_ADDR']
         beca = Beca.objects.get(persona__user__username=request.session['usuario'])
         ahora = datetime.datetime.now()
-        asistencia = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
+        asistencia = Asistencia.objects.filter(date_turno=ahora.date(),
+                                               beca_turno__beca=beca,
                                                beca_turno__turno__time_start__lt=ahora.time(),
                                                beca_turno__turno__time_end__gt=ahora.time(), tipo=0)
 
