@@ -988,6 +988,7 @@ def desactivar_beca_admin(request):
             beca.persona.user.is_active = False
             beca.persona.user.save()
             beca.delete_asistencias()
+            beca.delete_turnos()
 
             #'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
 

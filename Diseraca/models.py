@@ -178,9 +178,14 @@ class Beca(models.Model):
         return self.persona.user.username+', '+self.persona.user.first_name
 
     def delete_asistencias(self):
-        asistencias = Asistencia.objects.filter(beca_turno__beca=this)
+        asistencias = Asistencia.objects.filter(beca_turno__beca=self)
         for asis in asistencias:
             asis.delete()
+
+    def delete_turnos(self):
+        beca_turnos = Beca_Turno.objects.filter(beca=self)
+        for turnos in beca_turnos:
+            turnos.delete()
 
 
 class Ip_Registro(models.Model):
