@@ -91,7 +91,7 @@
     };
 
     $scope.getDepartamentos = function () {
-          $http.get('get_dptos')
+        $http.get('get_dptos')
             .then(function(response) {
                 $scope.listDptos = response.data;
                 $('#dpto_docente').html('');
@@ -126,16 +126,16 @@
         }
         else{
             if ("Notification" in window){
-                    let ask = Notification.requestPermission();
-                    ask.then(permission => {
-                        if (permission ==='granted') {
-                            let msg = new Notification('Mensaje', {
-                                body: 'El docente no se encuentra registrado',
-                                icon:"/static/img/ufps.jpg"
-                            });
-                        }
-                    });
-                }
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: 'El docente no se encuentra registrado',
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
         }
     };
 
@@ -157,17 +157,20 @@
         $http.post("save_docente", {data: $scope.newDocente})
             .then( function(data){
                 $scope.newDocenteFunct();
+                $scope.getDocentes();
+                $scope.preload = true;
                 if ("Notification" in window){
-                        let ask = Notification.requestPermission();
-                        ask.then(permission => {
-                            if (permission ==='granted') {
-                                let msg = new Notification('Mensaje', {
-                                    body: data.data,
-                                    icon:"/static/img/ufps.jpg"
-                                });
-                            }
-                        });
-                    }
+                    let ask = Notification.requestPermission();
+                    ask.then(permission => {
+                        if (permission ==='granted') {
+                            let msg = new Notification('Mensaje', {
+                                body: data.data,
+                                icon:"/static/img/ufps.jpg"
+                            });
+                        }
+                    });
+                }
+
             }, function(err){
                 console.log(err);
             })
@@ -202,7 +205,6 @@
                         });
                     }
                 }
-
                 $scope.listCargaDocenteShow = true;
             }, function(response) {
                 //Second function handles error

@@ -185,7 +185,7 @@
                         <tbody id="tablaTurnos">
                             <tr ng-repeat="carga in listCargaDocente">
                                 <td>
-                                    [[carga.carrera]][[ carga.codigo ]]-[[ carga.grupo ]]
+                                    [[ carga.codigo ]]-[[ carga.grupo | uppercase ]]
                                 </td>
                                 <td>
                                     [[ carga.nombre ]]
@@ -230,6 +230,10 @@
                                 <div class=" input-field col l6">
                                     <input placeholder="Correo" name="email_docente" id="email_docente" type="email" ng-model="newDocente.persona.email" class="validate" required>
                                     <label for="email_docente">Correo</label>
+                                </div>
+                                <div class=" input-field col l6">
+                                    <input placeholder="Telefono" name="tel_docente" id="tel_docente" type="text" ng-model="newDocente.tel" class="validate" required>
+                                    <label for="tel_docente">Telefono</label>
                                 </div>
                             </div>
                             <div class="row">

@@ -1586,14 +1586,33 @@ def save_docente(request):
             return HttpResponse('Profesor Editado exitosamente')
 
         except Profesor.DoesNotExist:
-            docente = Profesor()
-            docente.persona.user.username = request.POST['data[persona][codigo]']
-            docente.tel = request.POST['data[tel]']
-            docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
-            docente.persona.user.email = request.POST['data[persona][email]'].lower()
-            docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
-            docente.persona.user.save()
-            docente.save()
+            try:
+                docente = Profesor()
+                docente.persona.user.username = request.POST['data[persona][codigo]']
+                docente.tel = request.POST['data[tel]']
+                docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
+                docente.persona.user.email = request.POST['data[persona][email]'].lower()
+                docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
+                docente.persona.user.save()
+                docente.save()
+            except (User.DoesNotExist, Persona.DoesNotExist):
+                user = User()
+                user.username = request.POST['data[persona][codigo]']
+                user.first_name = request.POST[
+                    'data[persona][nombre]'].lower()
+                user.email = request.POST['data[persona][email]'].lower()
+                user.save()
+                persona = Persona()
+                persona.user = user
+                persona.tipo = 0
+                persona.save()
+
+                profesor = Profesor()
+                profesor.persona = persona
+                profesor.departamento_id = request.POST['data[dpto][codigo_dpto]']
+                profesor.tel = request.POST['data[tel]']
+                profesor.save()
+
             return HttpResponse('Profesor Guardado exitosamente')
 
     else:
