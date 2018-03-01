@@ -180,6 +180,8 @@ def inicio(request):
                                                              'docente': persona, 'fecha': fecha, 'cargas': cargas,
                                                              'opcion': 'c'})
         elif persona.tipo == 1:
+            ip = request.META['REMOTE_ADDR']
+            print(ip)
             b = Beca.objects.get(persona=persona)
             edificios = Edificio.objects.all().order_by('codigo')
             turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1), time_start__lte=ahora.time(),
@@ -193,11 +195,13 @@ def inicio(request):
             if 'msg' in request.session:
                 msg = request.session['msg']
                 del request.session['msg']
-                return render(request, 'diseraca/beca/beca.html', {'edificios': edificios, 'beca': b, 'msg': msg,
-                                                              'prestamos': prestamos_turnos})
+                return render(request, 'diseraca/beca/beca.html',
+                              {'edificios': edificios, 'beca': b, 'msg': msg,
+                               'prestamos': prestamos_turnos, 'ip': ip})
 
-            return render(request, 'diseraca/beca/beca.html', {'edificios': edificios, 'beca': b,
-                                                            'prestamos': prestamos_turnos})
+            return render(request, 'diseraca/beca/beca.html',
+                          {'edificios': edificios, 'beca': b,
+                           'prestamos': prestamos_turnos, 'ip': ip})
         elif persona.tipo == 2:
             edificios = Edificio.objects.all().order_by('codigo')
             carreras = Carrera.objects.all().order_by('codigo')
@@ -823,7 +827,9 @@ def view_becas(request):
                                         beca__persona__user__is_active=True)
 
         persona = Persona.objects.get(user__username=request.session['usuario'])
-        ips = Ip_Registro.objects.filter(estado=True)
+        #ips = Ip_Registro.objects.filter(estado=True)
+
+
 
         return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
                                                              'beca_turnos_lunes': beca_turnos_lunes,
@@ -981,6 +987,8 @@ def desactivar_beca_admin(request):
             beca = Beca.objects.get(id=request.GET['id'])
             beca.persona.user.is_active = False
             beca.persona.user.save()
+            beca.delete_asistencias()
+
             #'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
 
             res = json.dumps({'code': 200, 'msg': "Beca desactivado"})
@@ -2001,7 +2009,7 @@ def mis_turnos(request):
     if request.user.is_authenticated():
         persona = Persona.objects.get(user__username=request.session['usuario'])
         beca = Beca.objects.get(persona=persona)
-        turnos = Beca_Turno.objects.filter(beca=beca)
+        turnos = Beca_Turno.objects.filter(beca=beca, status=True)
         hoy = datetime.datetime.now().date()
         asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy).exclude(tipo=2)
         return render(request, 'diseraca/beca/turnos.html', {'beca': beca, 'turnos': turnos, 'asistencias': asistencias})

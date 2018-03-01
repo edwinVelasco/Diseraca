@@ -177,6 +177,11 @@ class Beca(models.Model):
     def __unicode__(self):
         return self.persona.user.username+', '+self.persona.user.first_name
 
+    def delete_asistencias(self):
+        asistencias = Asistencia.objects.filter(beca_turno__beca=this)
+        for asis in asistencias:
+            asis.delete()
+
 
 class Ip_Registro(models.Model):
     ip = models.GenericIPAddressField(unique=True)
