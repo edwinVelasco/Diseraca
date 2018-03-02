@@ -177,6 +177,16 @@ class Beca(models.Model):
     def __unicode__(self):
         return self.persona.user.username+', '+self.persona.user.first_name
 
+    def delete_asistencias(self):
+        asistencias = Asistencia.objects.filter(beca_turno__beca=self)
+        for asis in asistencias:
+            asis.delete()
+
+    def delete_turnos(self):
+        beca_turnos = Beca_Turno.objects.filter(beca=self)
+        for turnos in beca_turnos:
+            turnos.delete()
+
 
 class Ip_Registro(models.Model):
     ip = models.GenericIPAddressField(unique=True)
@@ -206,8 +216,9 @@ class Asistencia(models.Model):
         unique_together = (('beca_turno', 'date_turno'),)
 
     def __unicode__(self):
-        return "%s - %s" % (str(self.beca_turno.turno.time_start)[:5],
-                            str(self.beca_turno.turno.time_end)[:5])
+        return "%s - %s - %s" % (str(self.beca_turno.turno.time_start)[:5],
+                            str(self.beca_turno.turno.time_end)[:5], \
+               self.beca_turno.beca.nick)
 
 
 class Beca_Turno(models.Model):
@@ -216,7 +227,7 @@ class Beca_Turno(models.Model):
     status = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return str(self.turno)
+        return str(self.turno) + str(self.beca)
 
     class Meta:
         unique_together = (('beca', 'turno'),)

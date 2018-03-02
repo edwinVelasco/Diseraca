@@ -7,7 +7,7 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
-                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas/"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
                 <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
@@ -25,9 +25,9 @@
         </div>
         <div class="nav-content container">
             <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestión de Horarios de Salas"><i class="material-icons">date_range</i></a></li>
-                <li class="tab"><a href="#turnos" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Turnos"><i class="material-icons">event_seat</i></a></li>
-                <li class="tab"><a href="#edificios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Admin de Edificios y Salas"><i class="material-icons">location_city</i></a></li>
+                <li class="tab"><a href="#horarios" >Gestion de Horarios de Salas</a></li>
+                <li class="tab"><a href="#turnos" >Admin de Turnos</a></li>
+                <li class="tab"><a href="#edificios" >Admin de Edificios y Salas</a></li>
                 <!--<li class="tab"><a href="#sala_turno" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Asignación de Turnos a Salas"><i class="material-icons">date_range</i></a></li>-->
             </ul>
         </div>
@@ -214,7 +214,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tablaSalaTurnos">
-                                <tr ng-repeat="dataTurno in listTurnosSala">
+                                <tr ng-repeat="dataTurno in listTurnosSala" ng-if="dataTurno.fields.turno.dia==turn_day_sala">
                                     <td>
                                         [[ dataTurno.fields.turno.time_start ]] a [[ dataTurno.fields.turno.time_end]] ([[ lisDias[dataTurno.fields.turno.dia] ]])
                                     </td>
@@ -232,15 +232,14 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <ul class="pagination" ng-show="listTurnosSala.length > 0">
-                            <li class="disabled"><a href="#!" ng-click="showPagination=[showPagination[0]-10, showPagination[1]-10]"><i class="material-icons">chevron_left</i></a></li>
-                            <li class="active"><a href="#!">1</a></li>
-                            <li class="waves-effect" ng-show="listTurnosSala.length > 10" ><a href="#!" ng-click="showPagination = [10, 19]">2</a></li>
-                            <li class="waves-effect" ng-show="listTurnosSala.length > 20" ><a href="#!" ng-click="showPagination = [20, 29]">3</a></li>
-                            <li class="waves-effect" ng-show="listTurnosSala.length > 30" ><a href="#!" ng-click="showPagination = [30, 39]">4</a></li>
-                            <li class="waves-effect" ng-show="listTurnosSala.length > 40" ><a href="#!" ng-click="showPagination = [40, 49]">5</a></li>
-                            <li class="waves-effect" ng-show="listTurnosSala.length > 50" ><a href="#!" ng-click="showPagination = [50, 59]">5</a></li>
-                            <li class="waves-effect"><a href="#!" ng-click="showPagination=[showPagination[0]+10, showPagination[1]+10]"><i class="material-icons">chevron_right</i></a></li>
+                        <ul class="pagination">
+                            <li class="waves-effect active" id="pag_turn_day_sala_0"><a ng-click="get_turn_day_sala(0)">Lunes</a></li>
+                            <li class="waves-effect" id="pag_turn_day_sala_1"><a ng-click="get_turn_day_sala(1)">Martes</a></li>
+                            <li class="waves-effect" id="pag_turn_day_sala_2"><a ng-click="get_turn_day_sala(2)">Miercoles</a></li>
+                            <li class="waves-effect" id="pag_turn_day_sala_3"><a ng-click="get_turn_day_sala(3)">Jueves</a></li>
+                            <li class="waves-effect" id="pag_turn_day_sala_4"><a ng-click="get_turn_day_sala(4)">Viernes</a></li>
+                            <li class="waves-effect" id="pag_turn_day_sala_5"><a ng-click="get_turn_day_sala(5)">Sabado</a></li>
+                        </ul>
                         </ul>
                     </div>
                 </div>

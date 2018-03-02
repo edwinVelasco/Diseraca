@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce631d71-ef4c-46cd-b192-d71ce84a5a4e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/urls.py" afterPath="$PROJECT_DIR$/Diseraca/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Diseraca/views.py" afterPath="$PROJECT_DIR$/Diseraca/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" afterPath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
+      <change beforePath="$PROJECT_DIR$/.idea/diseraca.iml" afterPath="$PROJECT_DIR$/.idea/diseraca.iml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" afterPath="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
+      <change beforePath="$PROJECT_DIR$/Diseraca/views.py" afterPath="$PROJECT_DIR$/Diseraca/views.py" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change beforePath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" afterPath="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,6 +21,7 @@
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
     <option name="GROUP_SCHEMA" value="true" />
     <option name="GROUP_CONTENTS" value="false" />
     <option name="SORT_POSITIONED" value="false" />
@@ -29,13 +30,13 @@
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
     <expand>
       <path>
-        <item name="" type="eadb38e5:DatabaseStructure$Root" />
-        <item name="db.sqlite3" type="e3449647:DbNodeDescriptor" />
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
-        <item name="" type="eadb38e5:DatabaseStructure$Root" />
-        <item name="db.sqlite3" type="e3449647:DbNodeDescriptor" />
-        <item name="schema #1" type="e3449647:DbNodeDescriptor" />
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db.sqlite3" type="feb32156:DbDataSourceImpl" />
+        <item name="#1: schema" type="90513b60:SqliteImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -47,13 +48,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
+            <state relative-caret-position="171">
+              <caret line="1607" column="30" lean-forward="false" selection-start-line="1607" selection-start-column="30" selection-end-line="1607" selection-end-column="30" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#6237#11570#0" expanded="false" />
+                <element signature="e#11606#12503#0" expanded="false" />
+                <element signature="e#27413#30764#0" expanded="false" />
+                <element signature="e#30865#36164#0" expanded="false" />
+                <element signature="e#36234#37017#0" expanded="false" />
+                <element signature="e#43610#45121#0" expanded="false" />
+                <element signature="e#91580#92657#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -62,79 +69,11 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="10" />
+            <state relative-caret-position="216">
+              <caret line="164" column="5" lean-forward="false" selection-start-line="164" selection-start-column="5" selection-end-line="164" selection-end-column="5" />
               <folding>
-                <element signature="e#605#1003#0" expanded="false" />
-                <element signature="e#1040#1192#0" expanded="false" />
-                <element signature="e#1225#2064#0" expanded="false" />
-                <element signature="e#2098#2831#0" expanded="false" />
-                <element signature="e#2870#3359#0" expanded="false" />
-                <element signature="e#3396#4961#0" expanded="false" />
-                <element signature="e#4997#5310#0" expanded="false" />
-                <element signature="e#5347#5597#0" expanded="false" />
-                <element signature="e#5630#5898#0" expanded="false" />
-                <element signature="e#5938#6179#0" expanded="false" />
-                <element signature="e#6218#6687#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="1576" column="46" lean-forward="true" selection-start-line="1576" selection-start-column="46" selection-end-line="1576" selection-end-column="46" />
-              <folding>
-                <element signature="e#24#69#0" expanded="true" />
-                <element signature="e#614#1131#0" expanded="false" />
-                <element signature="e#1158#1400#0" expanded="false" />
-                <element signature="e#1436#1494#0" expanded="false" />
-                <element signature="e#65979#66623#0" expanded="false" />
-                <element signature="e#66685#67019#0" expanded="false" />
-                <element signature="e#67081#68109#0" expanded="false" />
-                <element signature="e#68177#69205#0" expanded="false" />
-                <element signature="e#69278#70302#0" expanded="false" />
-                <element signature="e#70367#70940#0" expanded="false" />
-                <element signature="e#71011#72053#0" expanded="false" />
-                <element signature="e#72115#72410#0" expanded="false" />
-                <element signature="e#72475#73682#0" expanded="false" />
-                <element signature="e#73751#75896#0" expanded="false" />
-                <element signature="e#75973#76121#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AppDocente.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-              <folding>
-                <element signature="e#740#3209#0" expanded="false" />
-                <element signature="e#3249#3539#0" expanded="false" />
-                <element signature="e#3584#4273#0" expanded="false" />
-                <element signature="e#4321#5441#0" expanded="false" />
-                <element signature="e#5544#5892#0" expanded="false" />
-                <element signature="e#5932#6756#0" expanded="false" />
-                <element signature="e#6803#7970#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="273" column="57" lean-forward="false" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="57" />
-              <folding>
-                <element signature="e#2407#5985#0#HTML" expanded="false" />
-                <element signature="e#4454#5966#0#HTML" expanded="false" />
-                <element signature="e#10358#16048#0#HTML" expanded="false" />
-                <element signature="n#block#2;n#!!top" expanded="false" />
+                <element signature="e#3413#5029#0" expanded="false" />
+                <element signature="e#5065#5378#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -143,8 +82,60 @@
       <file leaf-file-name="turnos.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="83" column="28" lean-forward="true" selection-start-line="83" selection-start-column="28" selection-end-line="87" selection-end-column="34" />
+            <state relative-caret-position="184">
+              <caret line="222" column="41" lean-forward="false" selection-start-line="222" selection-start-column="41" selection-end-line="222" selection-end-column="41" />
+              <folding>
+                <element signature="e#68#2578#0#HTML" expanded="false" />
+                <element signature="e#2773#5546#0#HTML" expanded="false" />
+                <element signature="e#7873#11604#0#HTML" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppDocente.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="219">
+              <caret line="153" column="0" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+              <folding>
+                <element signature="e#925#3414#0" expanded="false" />
+                <element signature="e#3879#4566#0" expanded="false" />
+                <element signature="e#4614#5694#0" expanded="false" />
+                <element signature="e#7094#7309#0" expanded="false" />
+                <element signature="e#7356#8525#0" expanded="false" />
+                <element signature="e#8566#9300#0" expanded="false" />
+                <element signature="e#9476#9820#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="docentes.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="234" column="112" lean-forward="false" selection-start-line="234" selection-start-column="112" selection-end-line="234" selection-end-column="112" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="run_python.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run_python.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="25" lean-forward="false" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="becas.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/becas.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="347">
+              <caret line="764" column="15" lean-forward="false" selection-start-line="750" selection-start-column="4" selection-end-line="764" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -164,26 +155,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>body</find>
-      <find>&lt;link rel=&quot;stylesheet&quot; href=&quot;{% static 'css/materialize.css' %}&quot;&gt;</find>
-      <find>config</find>
-      <find>{{</find>
-      <find>get_turno_dia</find>
-      <find>edif</find>
-      <find>get_edi</find>
-      <find>get_edif</find>
-      <find>&quot;&quot;</find>
-      <find>get_</find>
-      <find>get_tu</find>
-      <find>get_salas</find>
-      <find>get_turno</find>
-      <find>turno</find>
-      <find>turno_</find>
-      <find>get_turn</find>
-      <find>edit_sala_turno</find>
-      <find>Gestion de Horarios</find>
-      <find>saveSalaTurnoFrom</find>
-      <find>hasta</find>
       <find>buscar_salas_ad</find>
       <find>datepicker</find>
       <find>nav-wrapper</find>
@@ -194,6 +165,26 @@
       <find>nav {</find>
       <find>footer</find>
       <find>each</find>
+      <find>waves-effect waves-light btn red</find>
+      <find>get_inasistencias_beca</find>
+      <find>docente</find>
+      <find>asignar_turno_beca</find>
+      <find>BooleanField</find>
+      <find>get_report_becas</find>
+      <find>get_asistencias_tarde</find>
+      <find>beca_turno</find>
+      <find>agr</find>
+      <find>get_asistencias</find>
+      <find>signar_turno_beca</find>
+      <find>registrar_as</find>
+      <find>carga_doce</find>
+      <find>get_turno_sala</find>
+      <find>get_turn_day</find>
+      <find>get_turn_day_</find>
+      <find>get_turno_dia</find>
+      <find>carga</find>
+      <find>get_turn_sala</find>
+      <find>save_docente</find>
     </findStrings>
     <replaceStrings>
       <replace>06</replace>
@@ -212,6 +203,7 @@
       <replace />
       <replace>&lt;link rel=&quot;stylesheet&quot; href=&quot;{% static 'css/materialize2.css' %}&quot;&gt;</replace>
       <replace>null</replace>
+      <replace>waves-effect waves-light red white-text</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -247,8 +239,6 @@
         <option value="$PROJECT_DIR$/Diseraca/static/js/angular.js" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/becas.js" />
         <option value="$PROJECT_DIR$/templates/diseraca/login.html" />
-        <option value="$PROJECT_DIR$/templates/diseraca/admin/becas.html" />
-        <option value="$PROJECT_DIR$/templates/diseraca/admin/estadisticas.html" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/turnosController.js" />
         <option value="$PROJECT_DIR$/pruebas.py" />
         <option value="$PROJECT_DIR$/Diseraca/static/css/materialize.css" />
@@ -259,16 +249,19 @@
         <option value="$PROJECT_DIR$/Diseraca/static/html/turno/listTurnos.html" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/login.js" />
         <option value="$PROJECT_DIR$/templates/diseraca/admin/salas.html" />
-        <option value="$PROJECT_DIR$/templates/diseraca/admin/prestamos.html" />
-        <option value="$PROJECT_DIR$/templates/diseraca/admin/turnos.html" />
         <option value="$PROJECT_DIR$/templates/diseraca/admin/base_admin.html" />
         <option value="$PROJECT_DIR$/Diseraca/static/css/materialize2.css" />
-        <option value="$PROJECT_DIR$/Diseraca/models.py" />
         <option value="$PROJECT_DIR$/templates/diseraca/base_index.html" />
-        <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js" />
         <option value="$PROJECT_DIR$/Diseraca/urls.py" />
-        <option value="$PROJECT_DIR$/Diseraca/views.py" />
+        <option value="$PROJECT_DIR$/templates/diseraca/admin/becas.html" />
+        <option value="$PROJECT_DIR$/templates/diseraca/admin/estadisticas.html" />
+        <option value="$PROJECT_DIR$/templates/diseraca/admin/prestamos.html" />
+        <option value="$PROJECT_DIR$/Diseraca/models.py" />
+        <option value="$PROJECT_DIR$/run_python.txt" />
+        <option value="$PROJECT_DIR$/templates/diseraca/admin/turnos.html" />
+        <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js" />
         <option value="$PROJECT_DIR$/templates/diseraca/admin/docentes.html" />
+        <option value="$PROJECT_DIR$/Diseraca/views.py" />
         <option value="$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js" />
       </list>
     </option>
@@ -309,6 +302,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -320,6 +315,36 @@
               <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
               <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
               <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="Diseraca" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Diseraca" type="b2602c69:ProjectViewProjectNode" />
@@ -343,8 +368,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -389,14 +412,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Django server.diseraca">
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
+  <component name="RunManager">
+    <configuration name="diseraca" type="Python.DjangoServer" factoryName="Django server">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="diseraca.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
     </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -524,76 +562,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_regexPattern" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="diseraca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;.&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -614,28 +582,80 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration name="diseraca" type="Python.DjangoServer" factoryName="Django server">
+    <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="diseraca.settings" />
-      </envs>
+      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="diseraca" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
-      <option name="host" value="" />
-      <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="" />
-      <option name="runTestServer" value="false" />
-      <option name="runNoReload" value="false" />
-      <option name="useCustomRunCommand" value="false" />
-      <option name="customRunCommand" value="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="diseraca" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -644,6 +664,9 @@
   <component name="StructuralSearchPlugin">
     <replaceConfiguration name="user defined" created="1486411062561" text="delete_turno_beca?id={{ beca_turno.id }}" recursive="false" caseInsensitive="true" type="HTML" reformatAccordingToStyle="true" shortenFQN="true" useStaticImport="true" replacement="delete_turno_beca({{ beca_turno.id }})" history="1" />
     <replaceConfiguration name="user defined" created="1486411053474" text="delete_turno_beca?id={{ beca_turno.id }}" recursive="false" caseInsensitive="false" type="HTML" reformatAccordingToStyle="true" shortenFQN="true" useStaticImport="true" replacement="delete_turno_beca({{ beca_turno.id }})" history="1" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -660,33 +683,91 @@
       <option name="project" value="LOCAL" />
       <updated>1511788660273</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="cambios al modulo de becas">
+      <created>1519761883099</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1519761883099</updated>
+    </task>
+    <task id="LOCAL-00003" summary="cambios al modulo de becas">
+      <created>1519763867856</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1519763867856</updated>
+    </task>
+    <task id="LOCAL-00004" summary="cambios al modulo de becas">
+      <created>1519768316459</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1519768316459</updated>
+    </task>
+    <task id="LOCAL-00005" summary="cambios al modulo de becas">
+      <created>1519773119100</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1519773119100</updated>
+    </task>
+    <task id="LOCAL-00006" summary="cambios al modulo de becas">
+      <created>1519826735736</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1519826735736</updated>
+    </task>
+    <task id="LOCAL-00007" summary="acomodado los turnos de salas en Gestion de Horarios de salas">
+      <created>1519850399483</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1519850399483</updated>
+    </task>
+    <task id="LOCAL-00008" summary="modificación de tamaño del nombre del docente">
+      <created>1519858504189</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1519858504189</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modificación de tamaño del nombre del docente">
+      <created>1519858563813</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1519858563814</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19372128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34979972" sideWeight="0.50513476" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29096478" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34446397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34979972" sideWeight="0.50513476" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3813708" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34797892" sideWeight="0.4948652" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31852987" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25344563" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34852546" sideWeight="0.4948652" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994638" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967743" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977304" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6435247" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977304" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6435247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967743" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -697,7 +778,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="comienzo de la carga academica de los docentes" />
-    <option name="LAST_COMMIT_MESSAGE" value="comienzo de la carga academica de los docentes" />
+    <MESSAGE value="cambios al modulo de becas" />
+    <MESSAGE value="acomodado los turnos de salas en Gestion de Horarios de salas" />
+    <MESSAGE value="modificación de tamaño del nombre del docente" />
+    <option name="LAST_COMMIT_MESSAGE" value="modificación de tamaño del nombre del docente" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -713,17 +797,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user_user_permissions" />
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_ip_registro" />
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca_turno" />
-    <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_asistencia" />
-    <entry file="file://$PROJECT_DIR$/Diseraca/archivos/turnos_inicio.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="46" column="9" lean-forward="true" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -792,25 +865,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/becas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/28d50587/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca" />
     <entry file="file://$PROJECT_DIR$/templates/diseraca/beca.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="176" lean-forward="false" selection-start-line="15" selection-start-column="167" selection-end-line="15" selection-end-column="176" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/estadisticas.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="187" lean-forward="false" selection-start-line="9" selection-start-column="187" selection-end-line="9" selection-end-column="187" />
         </state>
       </provider>
     </entry>
@@ -978,24 +1037,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5219">
-          <caret line="307" column="8" lean-forward="false" selection-start-line="307" selection-start-column="8" selection-end-line="323" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/diseraca/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/prestamos.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3453">
-          <caret line="18" column="24" lean-forward="false" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1018,7 +1063,95 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user">
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/docente.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="183" column="34" lean-forward="true" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="65" column="17" lean-forward="false" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/becas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="16" lean-forward="false" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/estadisticas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="140" lean-forward="false" selection-start-line="9" selection-start-column="140" selection-end-line="9" selection-end-column="140" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/diseraca/lib/python2.7/site-packages/django/contrib/auth/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="305" column="22" lean-forward="true" selection-start-line="305" selection-start-column="22" selection-end-line="305" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_beca_turno">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppBecas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="115" column="20" lean-forward="false" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_asistencia">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/prestamos.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6283">
+          <caret line="9" column="144" lean-forward="false" selection-start-line="9" selection-start-column="144" selection-end-line="9" selection-end-column="144" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/becas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="764" column="15" lean-forward="false" selection-start-line="750" selection-start-column="4" selection-end-line="764" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run_python.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="25" lean-forward="false" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_profesor">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -1032,116 +1165,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/Diseraca_profesor">
+    <entry file="das://table:/2caf69a7/7f8f1f6d-8035-4e8a-9c7d-23e938629812/auth_user">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/becas.html">
+    <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppAdmin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="187" lean-forward="false" selection-start-line="10" selection-start-column="187" selection-end-line="10" selection-end-column="187" />
+        <state relative-caret-position="120">
+          <caret line="246" column="44" lean-forward="false" selection-start-line="246" selection-start-column="44" selection-end-line="246" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/docente.html">
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="183" column="34" lean-forward="true" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Diseraca/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="69" column="43" lean-forward="false" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
+        <state relative-caret-position="184">
+          <caret line="222" column="41" lean-forward="false" selection-start-line="222" selection-start-column="41" selection-end-line="222" selection-end-column="41" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#68#2578#0#HTML" expanded="false" />
+            <element signature="e#2773#5546#0#HTML" expanded="false" />
+            <element signature="e#7873#11604#0#HTML" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="234" column="112" lean-forward="false" selection-start-line="234" selection-start-column="112" selection-end-line="234" selection-end-column="112" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="10" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="10" />
+        <state relative-caret-position="216">
+          <caret line="164" column="5" lean-forward="false" selection-start-line="164" selection-start-column="5" selection-end-line="164" selection-end-column="5" />
           <folding>
-            <element signature="e#605#1003#0" expanded="false" />
-            <element signature="e#1040#1192#0" expanded="false" />
-            <element signature="e#1225#2064#0" expanded="false" />
-            <element signature="e#2098#2831#0" expanded="false" />
-            <element signature="e#2870#3359#0" expanded="false" />
-            <element signature="e#3396#4961#0" expanded="false" />
-            <element signature="e#4997#5310#0" expanded="false" />
-            <element signature="e#5347#5597#0" expanded="false" />
-            <element signature="e#5630#5898#0" expanded="false" />
-            <element signature="e#5938#6179#0" expanded="false" />
-            <element signature="e#6218#6687#0" expanded="false" />
+            <element signature="e#3413#5029#0" expanded="false" />
+            <element signature="e#5065#5378#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="1576" column="46" lean-forward="true" selection-start-line="1576" selection-start-column="46" selection-end-line="1576" selection-end-column="46" />
+        <state relative-caret-position="171">
+          <caret line="1607" column="30" lean-forward="false" selection-start-line="1607" selection-start-column="30" selection-end-line="1607" selection-end-column="30" />
           <folding>
-            <element signature="e#24#69#0" expanded="true" />
-            <element signature="e#614#1131#0" expanded="false" />
-            <element signature="e#1158#1400#0" expanded="false" />
-            <element signature="e#1436#1494#0" expanded="false" />
-            <element signature="e#65979#66623#0" expanded="false" />
-            <element signature="e#66685#67019#0" expanded="false" />
-            <element signature="e#67081#68109#0" expanded="false" />
-            <element signature="e#68177#69205#0" expanded="false" />
-            <element signature="e#69278#70302#0" expanded="false" />
-            <element signature="e#70367#70940#0" expanded="false" />
-            <element signature="e#71011#72053#0" expanded="false" />
-            <element signature="e#72115#72410#0" expanded="false" />
-            <element signature="e#72475#73682#0" expanded="false" />
-            <element signature="e#73751#75896#0" expanded="false" />
-            <element signature="e#75973#76121#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/turnos.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="83" column="28" lean-forward="true" selection-start-line="83" selection-start-column="28" selection-end-line="87" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/diseraca/admin/docentes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="273" column="57" lean-forward="false" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="57" />
-          <folding>
-            <element signature="e#2407#5985#0#HTML" expanded="false" />
-            <element signature="e#4454#5966#0#HTML" expanded="false" />
-            <element signature="e#10358#16048#0#HTML" expanded="false" />
-            <element signature="n#block#2;n#!!top" expanded="false" />
+            <element signature="e#6237#11570#0" expanded="false" />
+            <element signature="e#11606#12503#0" expanded="false" />
+            <element signature="e#27413#30764#0" expanded="false" />
+            <element signature="e#30865#36164#0" expanded="false" />
+            <element signature="e#36234#37017#0" expanded="false" />
+            <element signature="e#43610#45121#0" expanded="false" />
+            <element signature="e#91580#92657#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Diseraca/static/js/controller/admin/AppDocente.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+        <state relative-caret-position="219">
+          <caret line="153" column="0" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
           <folding>
-            <element signature="e#740#3209#0" expanded="false" />
-            <element signature="e#3249#3539#0" expanded="false" />
-            <element signature="e#3584#4273#0" expanded="false" />
-            <element signature="e#4321#5441#0" expanded="false" />
-            <element signature="e#5544#5892#0" expanded="false" />
-            <element signature="e#5932#6756#0" expanded="false" />
-            <element signature="e#6803#7970#0" expanded="false" />
+            <element signature="e#925#3414#0" expanded="false" />
+            <element signature="e#3879#4566#0" expanded="false" />
+            <element signature="e#4614#5694#0" expanded="false" />
+            <element signature="e#7094#7309#0" expanded="false" />
+            <element signature="e#7356#8525#0" expanded="false" />
+            <element signature="e#8566#9300#0" expanded="false" />
+            <element signature="e#9476#9820#0" expanded="false" />
           </folding>
         </state>
       </provider>

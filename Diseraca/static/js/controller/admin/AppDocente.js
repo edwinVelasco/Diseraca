@@ -16,6 +16,7 @@
       $scope.showTableTurnoDocente = false;
       $scope.listCargaDocente = [];
       $scope.listCargaDocenteShow = false;
+      $scope.edit_carga_obj = {"carrera": "", "codigo": "", "grupo": "", "id": 0, "matriculados": 0, "nombre": ""};
       $scope.listCarreras = [];
       $scope.docenteCarga = "";
       $scope.cargaPk = 0;
@@ -91,7 +92,7 @@
     };
 
     $scope.getDepartamentos = function () {
-          $http.get('get_dptos')
+        $http.get('get_dptos')
             .then(function(response) {
                 $scope.listDptos = response.data;
                 $('#dpto_docente').html('');
@@ -126,16 +127,16 @@
         }
         else{
             if ("Notification" in window){
-                    let ask = Notification.requestPermission();
-                    ask.then(permission => {
-                        if (permission ==='granted') {
-                            let msg = new Notification('Mensaje', {
-                                body: 'El docente no se encuentra registrado',
-                                icon:"/static/img/ufps.jpg"
-                            });
-                        }
-                    });
-                }
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: 'El docente no se encuentra registrado',
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
         }
     };
 
@@ -157,25 +158,45 @@
         $http.post("save_docente", {data: $scope.newDocente})
             .then( function(data){
                 $scope.newDocenteFunct();
+                $scope.getDocentes();
+                $scope.preload = true;
                 if ("Notification" in window){
-                        let ask = Notification.requestPermission();
-                        ask.then(permission => {
-                            if (permission ==='granted') {
-                                let msg = new Notification('Mensaje', {
-                                    body: data.data,
-                                    icon:"/static/img/ufps.jpg"
-                                });
-                            }
-                        });
-                    }
+                    let ask = Notification.requestPermission();
+                    ask.then(permission => {
+                        if (permission ==='granted') {
+                            let msg = new Notification('Mensaje', {
+                                body: data.data,
+                                icon:"/static/img/ufps.jpg"
+                            });
+                        }
+                    });
+                }
+
             }, function(err){
                 console.log(err);
             })
     };
 
-    $scope.save_carga_docente = function () {
-        $http.post("save_carga_docente", {data: $("#formRegisterCarcaDocente").serialize()})
+    $scope.saveCargaDocente = function () {
+        //$scope.edit_carga_obj.carrera = $("#carreras_carga_docente").val();
+        $('#register_carga_docente').modal('close');
+        $http.post("save_carga_docente", $scope.edit_carga_obj)
             .then( function(data){
+                console.log(data);
+                if ("Notification" in window){
+                    let ask = Notification.requestPermission();
+                    ask.then(permission => {
+                        if (permission ==='granted') {
+                            let msg = new Notification('Mensaje', {
+                                body: data.data.msg,
+                                icon:"/static/img/ufps.jpg"
+                            });
+                        }
+                    });
+                }
+                $scope.buscarCargaDocente();
+                $scope.edit_carga_obj = {"carrera": "", "codigo": "",
+                    "grupo": "", "id": 0, "matriculados": 0, "nombre": ""};
 
             }, function(err){
                 console.log(err);
@@ -202,7 +223,6 @@
                         });
                     }
                 }
-
                 $scope.listCargaDocenteShow = true;
             }, function(response) {
                 //Second function handles error
@@ -228,17 +248,30 @@
     };
     $scope.get_carreras();
 
+    $scope.new_register_carga = function () {
+          $scope.edit_carga_obj = {"carrera": "", "codigo": "",
+                    "grupo": "", "id": 0, "matriculados": 0, "nombre": "",
+            "profesor": $("#codigo_docente_buscar_carga").val()};
+          $scope.show_register_carga()
+      };
+
     $scope.show_register_carga = function () {
         $('#register_carga_docente').modal('open');
     };
 
     $scope.edit_carga = function (obj) {
-          $("#pk_carga").val(obj.id);
-          $("#carreras_carga_docente").val(obj.carrera);
-          $("#codigo_materia").val(obj.codigo);
-          $("#nombre_materia").val(obj.nombre);
-          $("#grupo_materia").val(obj.grupo);
-          $("#matriculados_materia").val(obj.matriculados);
+        //console.log(obj);
+        $scope.edit_carga_obj = obj;
+        $scope.edit_carga_obj.profesor = $("#codigo_docente_buscar_carga").val();
+        //console.log($scope.edit_carga_obj);
+        //console.log($scope.edit_carga_obj.id);
+        //console.log($scope.edit_carga_obj.carrera);
+          //$("#pk_carga").val(obj.id);
+          //$("#carreras_carga_docente").val(obj.carrera);
+          //$("#codigo_materia").val(obj.codigo);
+          //$("#nombre_materia").val(obj.nombre);
+          //$("#grupo_materia").val(obj.grupo);
+          //$("#matriculados_materia").val(obj.matriculados);
           $scope.show_register_carga();
     };
 

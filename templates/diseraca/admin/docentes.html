@@ -7,7 +7,7 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>Admin: {{ admin.user.first_name }}</li>
-                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Horarios"><i class="material-icons">add_alarm</i></a></li>
+                <li><a href="horarios" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Gestion de Turnos/Edificios/Salas"><i class="material-icons">add_alarm</i></a></li>
                 <li><a href="inicio" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Prestamo de salas"><i class="material-icons">playlist_add</i></a></li>
                 <li><a href="view_becas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Becas/Admin"><i class="material-icons">supervisor_account</i></a></li>
                 <li><a href="estadisticas" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Estadisticas"><i class="material-icons">insert_chart</i></a></li>
@@ -165,7 +165,7 @@
                 <div class="row" ng-show="listCargaDocenteShow">
                     <div class="row">
                         <div class="col s4">
-                            <button class="btn" ng-click="show_register_carga()">Registrar Carga</button>
+                            <button class="btn" ng-click="new_register_carga()">Registrar Carga</button>
                         </div>
                         <div class="col s6">
                             <h5>[[ docenteView ]]</h5>
@@ -185,7 +185,7 @@
                         <tbody id="tablaTurnos">
                             <tr ng-repeat="carga in listCargaDocente">
                                 <td>
-                                    [[carga.carrera]][[ carga.codigo ]]-[[ carga.grupo ]]
+                                    [[ carga.codigo ]]-[[ carga.grupo | uppercase ]]
                                 </td>
                                 <td>
                                     [[ carga.nombre ]]
@@ -230,6 +230,10 @@
                                 <div class=" input-field col l6">
                                     <input placeholder="Correo" name="email_docente" id="email_docente" type="email" ng-model="newDocente.persona.email" class="validate" required>
                                     <label for="email_docente">Correo</label>
+                                </div>
+                                <div class=" input-field col l6">
+                                    <input placeholder="Telefono" name="tel_docente" id="tel_docente" type="text" ng-model="newDocente.tel" class="validate" required>
+                                    <label for="tel_docente">Telefono</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -292,48 +296,49 @@
                 </div>
             </div>
         </div>
-    </div>
     <div class="modal" id="register_carga_docente">
         <div class="modal-content">
-            <form name="" id="" method="post" action="save_carga_docente">
+            <form id="register_carga_docente_form" ng-submit="false">
                 <div>
                     <h5 class="center-align">Registrar carga academica del docente</h5>
                     <input type="hidden" name="docente_carga" id="docente_carga" ng-model="newCargaDocente.profesor">
-                    <input type="hidden" name="pk_carga" id="pk_carga">
+                    <input type="hidden" name="pk_carga" id="pk_carga" ng-value="edit_carga_obj.id">
                     {% csrf_token %}
                 </div>
                 <div class="row">
                     <div class="input-field col l6">
-                        <select id="carreras_carga_docente" name="carreras_carga_docente" required class="validate" ng-required="true">
+                        <select id="carreras_carga_docente" name="carreras_carga_docente" required class="validate" ng-required="true" ng-model="edit_carga_obj.carrera">
 
                         </select>
                         <label for="edif">Seleccione una carrera</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="text" class="validate" required ng-required="true" >
+                        <input placeholder="Codigo" name="codigo_materia" id="codigo_materia" type="text" required ng-required="true" ng-model="edit_carga_obj.codigo">
                         <label for="codigo_materia">Codigo</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true" >
+                        <input placeholder="nombre" name="nombre_materia" id="nombre_materia" type="text" class="validate" required ng-required="true" ng-model="edit_carga_obj.nombre">
                         <label for="nombre_materia">Nombre</label>
                     </div>
                     <div class="input-field col l3">
-                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true" >
+                        <input placeholder="Grupo" name="grupo_materia" id="grupo_materia" type="text" class="validate" required maxlength="1" ng-required="true" ng-model="edit_carga_obj.grupo">
                         <label for="grupo_materia">Grupo</label>
                     </div>
                     <div class="input-field col l6">
-                        <input placeholder="Matriculados" name="matriculados_materia" id="matriculados_materia" type="number" class="validate" required ng-required="true">
+                        <input placeholder="Matriculados" name="matriculados_materia" id="matriculados_materia" type="number" class="validate" required ng-required="true" ng-model="edit_carga_obj.matriculados">
                         <label for="grupo_materia">Matriculados</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col l4">
-                        <input class="btn modal-action" type="submit" value="Guardar">
+                        <input class="btn modal-action" type="submit" value="Guardar" ng-click="saveCargaDocente()">
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    </div>
+
 
     <div class="modal" id="msg_inicial">
         <div class="modal-content" >
@@ -359,23 +364,24 @@
         format: 'yyyy-mm-dd'
       });
 
-    {% if msg %}
-        if ("Notification" in window){
-            let ask = Notification.requestPermission();
-            ask.then(permission => {
-                if (permission ==='granted') {
-                    let msg = new Notification('Mensaje', {
-                        body: "{{ msg }}",
-                        icon:"/static/img/ufps.jpg"
-                    });
-                }
-            });
-        }
+    {% if messages %}
+        {% for message in messages %}
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: "{{ message }}",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+        {% endfor %}
     {% endif %}
     $('.modal').modal();
     $('#msg_inicial').modal('open');
 {% endblock %}
 
 {% block script %}
-
 {% endblock %}

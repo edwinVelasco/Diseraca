@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 
 # Register your models here.
 
-from Diseraca.models import Departamento, Carrera, Edificio, Turno, Sala, Turno_Sala, Profesor, Prestamo, Carga\
-    , Persona, Beca, Ip_Registro, Semestre
+from Diseraca.models import Departamento, Carrera, Edificio, Turno, Sala, \
+    Turno_Sala, Profesor, Prestamo, Carga, Persona, Beca, \
+    Ip_Registro, Semestre, Beca_Turno
 # Register your models here.
 
 admin.site.register(Departamento)
@@ -21,6 +22,7 @@ admin.site.register(Beca)
 admin.site.register(Persona)
 admin.site.register(Ip_Registro)
 admin.site.register(Semestre)
+admin.site.register(Beca_Turno)
 
 
 class PersonaInline(admin.StackedInline):

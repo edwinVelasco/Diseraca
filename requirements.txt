@@ -1,4 +1,5 @@
 Django==1.9.6
 reportlab==3.4.0
-psycopg2==2.7.1
+psycopg2
 setuptools==35.0.1
+django-ip==1.0.2
