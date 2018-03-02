@@ -4,7 +4,6 @@ import json
 import csv as csv
 import threading
 import re
-from ipware import ip as lib_ipware
 
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -20,7 +19,7 @@ from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Perso
 
 
 def index(request):
-    print(request.META['REMOTE_ADDR'])
+    print(request.client_ip)
     #print(request.GET['hola'])
     print(request.client_ip)
 
@@ -32,8 +31,7 @@ def index(request):
 
         if 'id' in request.GET:
             request.session['tmp'] = request.GET['id']
-        return render(request, 'diseraca/login.html',
-                      {'ip1': request.META['REMOTE_ADDR'], 'ip2': request.client_ip})
+        return render(request, 'diseraca/login.html', {})
 
 
 def disponibilidad(request):
@@ -185,8 +183,7 @@ def inicio(request):
                                                              'docente': persona, 'fecha': fecha, 'cargas': cargas,
                                                              'opcion': 'c'})
         elif persona.tipo == 1:
-            ip = lib_ipware.get_ip(request)
-            print(ip)
+            ip = request.client_ip
             b = Beca.objects.get(persona=persona)
             edificios = Edificio.objects.all().order_by('codigo')
             turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1),
@@ -237,7 +234,6 @@ def iniciar_sesion(request):
                 request.session['usuario'] = username
                 if request.POST['password'] == request.POST['codigo']:
                     return HttpResponseRedirect('view_init_password')
-
 
                 return HttpResponseRedirect('inicio')
 
@@ -436,7 +432,7 @@ def add_prestamo_docente(request):
             prestamo.turno_sala = turno_sala
             prestamo.date_turno = fecha
             prestamo.matriculados = carga.matriculados
-            prestamo.ip = request.META['REMOTE_ADDR']
+            prestamo.ip = request.client_ip
             prestamo.usuario = Profesor.objects.get(persona__user__username=request.session['usuario']).\
                 persona.user.first_name
             prestamo.save()
@@ -551,7 +547,7 @@ def ver_horario_edificio(request):
 @login_required(login_url='/')
 def registrar_asistencia(request):
     if request.user.is_authenticated() and 'usuario' in request.session:
-        #print request.META['REMOTE_ADDR']
+        #print request.client_ip
         beca = Beca.objects.get(persona__user__username=request.session['usuario'])
         ahora = datetime.datetime.now()
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(),
@@ -569,7 +565,7 @@ def registrar_asistencia(request):
             if datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00) < ahora.time() \
                     < datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=50, second=00):
                 try:
-                    ip = Ip_Registro.objects.get(ip=request.META['REMOTE_ADDR'])
+                    ip = Ip_Registro.objects.get(ip=request.client_ip)
                     if not ip.estado:
                         request.session['msg'] = 'IP desactivada, no se registro la llegada'
                         return HttpResponseRedirect('inicio')
@@ -586,7 +582,7 @@ def registrar_asistencia(request):
                     return HttpResponseRedirect('inicio')
             elif ahora.time() < datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00):
                 try:
-                    ip = Ip_Registro.objects.get(ip=request.META['REMOTE_ADDR'])
+                    ip = Ip_Registro.objects.get(ip=request.client_ip)
                     asistencia[0].ip = ip
                     asistencia[0].tipo = 2
                     asistencia[0].datetime_registro = ahora
@@ -599,7 +595,7 @@ def registrar_asistencia(request):
                     return HttpResponseRedirect('inicio')
             else:
                 try:
-                    ip = Ip_Registro.objects.get(ip=request.META['REMOTE_ADDR'])
+                    ip = Ip_Registro.objects.get(ip=request.client_ip)
                     asistencia[0].ip = ip
                     asistencia[0].datetime_registro = ahora
                     asistencia[0].save()
@@ -751,7 +747,7 @@ def add_prestamo_docente_admin(request):
             prestamo.turno_sala = turno_sala
             prestamo.date_turno = fecha
             prestamo.matriculados = carga.matriculados
-            prestamo.ip = request.META['REMOTE_ADDR']
+            prestamo.ip = request.client_ip
             prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
             prestamo.save()
 
@@ -1240,7 +1236,7 @@ def add_prestamo_sustentacion_admin(request):
         prestamo.carrera = carrera
         prestamo.turno_sala = turno_sala
         prestamo.date_turno = fecha
-        prestamo.ip = request.META['REMOTE_ADDR']
+        prestamo.ip = request.client_ip
         prestamo.solicitante = request.POST['solicitante']
         prestamo.tel = request.POST['tel']
         prestamo.tipo = 1
@@ -1267,7 +1263,7 @@ def add_prestamo_cursos_admin(request):
         prestamo.carrera = carrera
         prestamo.turno_sala = turno_sala
         prestamo.date_turno = fecha
-        prestamo.ip = request.META['REMOTE_ADDR']
+        prestamo.ip = request.client_ip
         prestamo.detalle = request.POST['descripcion']
         prestamo.solicitante = request.POST['solicitante']
         prestamo.tel = request.POST['tel']
@@ -1313,7 +1309,7 @@ def save_prestamo_masivo(request):
                 prestamo.carrera = carrera
                 prestamo.turno_sala = turno_sala
                 prestamo.date_turno = fecha_inicial
-                prestamo.ip = request.META['REMOTE_ADDR']
+                prestamo.ip = request.client_ip
                 prestamo.detalle = request.POST['descripcion']
                 prestamo.solicitante = request.POST['solicitante']
                 prestamo.tel = request.POST['tel']
