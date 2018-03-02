@@ -187,11 +187,15 @@ def inicio(request):
             print(ip)
             b = Beca.objects.get(persona=persona)
             edificios = Edificio.objects.all().order_by('codigo')
-            turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1), time_start__lte=ahora.time(),
-                                          time_end__gt=ahora.time())
+            turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1),
+                                          time_start__lte=ahora.time(),
+                                          time_end__gt=ahora.time(),
+                                          estado=0)
             prestamos_turnos = list()
             for turno in turnos:
-                prestamos = Prestamo.objects.filter(turno_sala__turno=turno, date_turno__gte=ahora.date())
+                prestamos = Prestamo.objects.filter(turno_sala__turno=turno,
+                                                    date_turno__gte=ahora.date(),
+                                                    estado=0)
                 #print prestamos
                 for pres in prestamos:
                     prestamos_turnos.append(pres)
