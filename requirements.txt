@@ -3,3 +3,4 @@ reportlab==3.4.0
 psycopg2==2.7.1
 setuptools==35.0.1
 django-ipware==2.0.1
+django-ip==1.0.2

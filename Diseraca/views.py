@@ -22,6 +22,7 @@ from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Perso
 def index(request):
     print(request.META['REMOTE_ADDR'])
     #print(request.GET['hola'])
+    print(request.client_ip)
 
     if request.method == 'GET':
         if 'msg' in request.session:
@@ -31,7 +32,8 @@ def index(request):
 
         if 'id' in request.GET:
             request.session['tmp'] = request.GET['id']
-        return render(request, 'diseraca/login.html', {})
+        return render(request, 'diseraca/login.html',
+                      {'ip1': request.META['REMOTE_ADDR'], 'ip2': request.client_ip})
 
 
 def disponibilidad(request):
