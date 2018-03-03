@@ -86,8 +86,10 @@ class Turno(models.Model):
     # dia lunes -> 0, martes ->1, miercoles ->2, jueves ->3, viernes ->4 y sabado ->5.
     dia = models.IntegerField(choices=days)
     estado = models.IntegerField(default=0, help_text='activo --> 0, desactivado --> 1', choices=estados)
+
     def __unicode__(self):
-        return str(self.time_start)+' a '+str(self.time_end)+'. '+['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'][self.dia]
+        return str(self.time_start)+' a '+str(self.time_end)+'. '+['lunes',
+                                                                   'martes', 'miercoles', 'jueves', 'viernes', 'sabado'][self.dia]
 
 
 class Turno_Sala(models.Model):
@@ -227,7 +229,7 @@ class Beca_Turno(models.Model):
     status = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return str(self.turno) + str(self.beca)
+        return "{0}-{1}".format(str(self.turno), self.beca.nick)
 
     class Meta:
         unique_together = (('beca', 'turno'),)
