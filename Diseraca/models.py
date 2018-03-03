@@ -229,7 +229,7 @@ class Beca_Turno(models.Model):
     status = models.BooleanField(default=True)
 
     def __unicode__(self):
-        salida = u'{0}'.format(self.beca.nick)
+        salida = u'{0}-{1}'.format(self.turno, self.beca.nick)
         return salida.encode('utf-8')
 
     class Meta:
