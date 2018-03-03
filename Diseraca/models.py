@@ -4,7 +4,6 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-
 class Departamento(models.Model):
     codigo = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=70)
@@ -158,7 +157,8 @@ class Persona(models.Model):
     tipo = models.IntegerField(default=0, choices=tipos)
 
     def __unicode__(self):
-        return self.user.username+[', Prefesor', ', Beca', ', Admin'][self.tipo]
+        return u'%s - %s' % (self.user.username,
+                             ['Profesor', 'Beca', 'Admin'][self.tipo])
 
 
 class Profesor(models.Model):
