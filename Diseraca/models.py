@@ -229,7 +229,8 @@ class Beca_Turno(models.Model):
     status = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return "{0}-{1}".format(str(self.turno), self.beca.nick)
+        return "{0}-{1}".format(str(self.turno).encode('utf-8'),
+                                self.beca.nick.encode('utf-8'))
 
     class Meta:
         unique_together = (('beca', 'turno'),)
