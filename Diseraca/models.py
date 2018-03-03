@@ -234,6 +234,8 @@ class Beca_Turno(models.Model):
 
     class Meta:
         unique_together = (('beca', 'turno'),)
+        verbose_name = 'Turno de beca'
+        verbose_name_plural = 'Turnos de beca'
 
     def remove_asistencias(self):
         now = datetime.datetime.now()
