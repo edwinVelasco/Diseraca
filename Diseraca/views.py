@@ -2019,7 +2019,10 @@ def mis_turnos(request):
         turnos = Beca_Turno.objects.filter(beca=beca, status=True)
         hoy = datetime.datetime.now().date()
         asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy).exclude(tipo=2)
-        return render(request, 'diseraca/beca/turnos.html', {'beca': beca, 'turnos': turnos, 'asistencias': asistencias})
+        return render(request, 'diseraca/beca/turnos.html',
+                      {'beca': beca, 'turnos': turnos,
+                       'asistencias': asistencias,
+                       'ip': request.client_ip})
     else:
         return HttpResponseRedirect('/')
 
