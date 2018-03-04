@@ -75,7 +75,7 @@ def get_salas_disponibilidad(request):
                 <div class="col s4">
                 <table class="card centered highlight" border>
                     <thead>
-                        <tr class="red lighten-4">
+                        <tr class="red darken-1 white-text">
                             <th colspan=2>%s (%s)</th>
                         </tr>
                         <tr>
@@ -83,7 +83,7 @@ def get_salas_disponibilidad(request):
                             <th>Detalle</th>                            
                         </tr>
                     </thead>
-                """ % (s.codigo, s.capacidad)
+                """ % (s.codigo.upper(), s.capacidad)
             sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
                 turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
@@ -141,40 +141,40 @@ def get_salas_disponibilidad(request):
                         else:
                             if prestamos[0].tipo == 1:
                                 tr += """
-                                <tr>
+                                <tr class="green lighten-5">
                                     <td>%s a %s</td>
                                     <td>Sust. de %s de %s</td>
                                 </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante,
-                                            prestamos[0].carrera.nombre)
+                                            prestamos[0].solicitante.lower(),
+                                            prestamos[0].carrera.nombre.lower())
                             elif prestamos[0].tipo == 2:
                                 tr += """
-                                <tr>
+                                <tr class="green lighten-5">
                                     <td>%s a %s</td>
                                     <td>Curso de %s  %s</td>
                                 </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante,
-                                            prestamos[0].detalle)
+                                            prestamos[0].solicitante.lower(),
+                                            prestamos[0].detalle.lower())
                             elif prestamos[0].tipo == 3:
                                 tr += '''
-                                <tr>
+                                <tr class="green lighten-5">
                                     <td>%s a %s</td>
                                     <td>Reunion de %s  %s</td>
                                 </tr>''' % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante,
-                                            prestamos[0].detalle)
+                                            prestamos[0].solicitante.lower(),
+                                            prestamos[0].detalle.lower())
                             else:
                                 tr += """
-                                <tr>
+                                <tr class="green lighten-5">
                                     <td>%s a %s</td>
-                                    <td>%s / %s, G-%s</td>
+                                    <td>%s / %s-%s</td>
                                 </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
-                                            prestamos[0].profesor.persona.user.first_name,
-                                            prestamos[0].nombre,
+                                            prestamos[0].profesor.persona.user.first_name.lower(),
+                                            prestamos[0].nombre.lower(),
                                             prestamos[0].grupo.upper())
 
                 body = """
@@ -186,7 +186,7 @@ def get_salas_disponibilidad(request):
                 """ % tr
                 tablas += head + body
             conta_tablas += 1
-        if conta_tablas % 4 != 0:
+        if conta_tablas % 3 != 0:
             tablas += "</div>"
         return HttpResponse(tablas.encode('utf-8'))
 
@@ -391,7 +391,7 @@ def buscar_salas_horario_docente(request):
                 estado=2).order_by('tipo')
             if len(salas) == 0:
                 text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
-                edificio.nombre)
+                edificio.nombre.lower())
                 return HttpResponse(text)
 
             p = Profesor.objects.get(
@@ -404,7 +404,7 @@ def buscar_salas_horario_docente(request):
                     <i class="material-icons">info_outline</i>
                 </a>
                 <div class="row">''' % (
-            edificio.nombre, fecha)
+            edificio.nombre.upper(), fecha)
             fecha_p = fecha - datetime.timedelta(days=7)
             fecha_s = fecha + datetime.timedelta(days=7)
 
@@ -545,6 +545,9 @@ def buscar_salas_horario_docente(request):
                     """ % tr
                     tablas += head + body
                 conta_tablas += 1
+
+            if conta_tablas % 4 != 0:
+                tablas += "</div>"
 
             return HttpResponse(tablas.encode('utf-8'))
     else:
@@ -812,36 +815,53 @@ def buscar_salas_admin(request):
             edificio.nombre)
             return HttpResponse(text)
 
-        ul = '<h3 class="accent-1 red-text">%s, %s</h3><ul class="collapsible" data-collapsible="accordion">' % (
-            edificio.nombre, fecha)
-
+        tablas = """
+            <h3 class="accent-1 red-text">%s, %s</h3>
+        <div class="row">
+        """ % (edificio.nombre, fecha)
+        conta_tablas = 0
         for s in salas:
-            ul += '''
-                    <li>
-                        <div class="collapsible-header"><span class="badge">%s, Max %s</span>%s</div>
-                        <div class="collapsible-body">
-                              <table class="highlight centered responsive-table">
-                                <thead>
-                                  <tr>
-                                      <th data-field="id">Turno</th>
-                                      <th data-field="name">Detalle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-            ''' % (
-            ['Sala Audiovisuales', 'Aula virtual', 'Auditorio'][s.tipo],
-            str(s.capacidad), s.codigo)
+            if conta_tablas % 3 == 0:
+                tablas += """
+                    </div>
+                    <div class="row">
+                """
+            head = """
+                <div class="col s4">
+                <table class="card centered highlight" border>
+                    <thead>
+                        <tr class="red darken-1 white-text">
+                            <th colspan=2>%s (%s), %s</th>
+                        </tr>
+                        <tr>
+                            <th>Turno</th>
+                            <th>Detalle</th>                            
+                        </tr>
+                    </thead>
+                """ % (s.codigo, s.capacidad, ['Audiovisuales',
+                                               'Aula virtual',
+                                               'Auditorio'][s.tipo])
 
             sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
                 turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
 
             if len(sala_turnos) == 0:
-                ul += '''<tr>
-                        <td>None</td>
-                        <td>Sala sin turnos, contactenos para mas detalles</td>
-                        </tr>'''
+                body = """
+                    <tbody>
+                        <tr>
+                            <td colspan=2>Sala sin turnos, 
+                                Contectenos para mas detalles
+                            </td>                                
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                """
+                tablas += head + body
             else:
+                tr = ""
                 for st in sala_turnos:
                     if (
                             st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
@@ -851,50 +871,66 @@ def buscar_salas_admin(request):
 
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
-                                ul += '''<tr>
+                                tr += """
+                                <tr>
                                     <td>%s a %s</td>
-                                    <td>Libre
-                                    <a onclick="ver_form('%s')" class="waves-effect waves-circle
-                                    waves-light btn-floating secondary-content">
-                                    <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5],
-                                                str(st.turno.time_end)[:5],
-                                                str(st.id))
-                        else:
-                            if prestamos[0].tipo == 1:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
-                                str(st.turno.time_start)[:5],
-                                str(st.turno.time_end)[:5],
-                                u'Sustentación de %s de %s '
-                                % (prestamos[0].solicitante,
-                                   prestamos[0].carrera.nombre)
-                                )
-                            elif prestamos[0].tipo == 2:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
-                                str(st.turno.time_start)[:5],
-                                str(st.turno.time_end)[:5],
-                                'Curso'
-                                )
-                            elif prestamos[0].tipo == 3:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
-                                str(st.turno.time_start)[:5],
-                                str(st.turno.time_end)[:5],
-                                u'Reunión'
-                                )
-                            else:
-                                ul += '''<tr>
-                                <td>%s a %s</td>
-                                <td>%s</td>
-                                </tr>''' % (str(st.turno.time_start)[:5],
+                                    <td>
+                                        Libre
+                                        <a onclick="ver_form('%s')" 
+                                        class="waves-effect waves-circle
+                                        waves-light btn-floating secondary-content">
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                    </td>
+                                </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
-                                            prestamos[
-                                                                                      0].profesor.persona.user.first_name + ' / ' +
-                                            prestamos[0].nombre
-                                            + ', G-' + prestamos[0].grupo)
+                                            str(st.id))
+                        else:
+                            if prestamos[0].tipo == 0:
+                                tr += """
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>%s, %s-%s</td>
+                                    </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                       str(st.turno.time_end)[:5],
+                                       prestamos[0].profesor.persona.user.first_name.lower(),
+                                       prestamos[0].nombre.lower(),
+                                       prestamos[0].grupo.upper())
+                            elif prestamos[0].tipo == 1:
+                                tr += u"""
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>Sustentación de %s, %s</td>
+                                </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                       str(st.turno.time_end)[:5],
+                                       prestamos[0].solicitante.lower(),
+                                       prestamos[0].carrera.nombre.lower())
+                            else:
+                                tr += """
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>%s de %s, %s</td>
+                                    </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                      str(st.turno.time_end)[:5],
+                                      ["Sustentacion", "Curso", u"Reunión"][st.sala.tipo],
+                                      prestamos[0].solicitante.lower(),
+                                      prestamos[0].detalle.lower())
 
-            ul += '</tbody></table></div></li>'
-        ul += '</ul>'
-        return HttpResponse(ul.encode('utf-8'))
+                body = """
+                    <tbody>
+                        %s
+                    </tbody>
+                </table>
+                </div>                
+                """ % tr
+                tablas += head + body
+            conta_tablas += 1
+        if conta_tablas % 3 != 0:
+            tablas += "</div>"
+        return HttpResponse(tablas.encode('utf-8'))
 
 
 @login_required(login_url='/')
@@ -906,12 +942,12 @@ def get_carga_docente(request):
             carga = Carga.objects.filter(profesor=profesor)
             data = '''<option value="" disabled selected>Seleccione</option>'''
             for c in carga:
-                data += '''<option value="%s">%s-%s-%s, Matriculados: %s</option>''' % (
-                c.id, c.nombre, c.codigo, c.grupo,
+                data += '''<option value="%s">%s, %s-%s, Matriculados: %s</option>''' % (
+                c.id, c.nombre.lower(), c.codigo.upper(), c.grupo.upper(),
                 c.matriculados)
 
             data = json.dumps({'code': 200, 'msg': data,
-                               'docente': profesor.persona.user.first_name.upper()})
+                               'docente': profesor.persona.user.first_name.lower()})
             return HttpResponse(data, content_type='application/json')
 
         except Profesor.DoesNotExist:
@@ -1347,38 +1383,58 @@ def buscar_salas_admin_sustentacion(request):
 
         if len(salas) == 0:
             text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
-            edificio.nombre)
+            edificio.codigo.upper())
             return HttpResponse(text)
 
-        ul = '<h3 class="accent-1 red-text">%s, %s</h3><ul class="collapsible" data-collapsible="accordion">' % (
-            edificio.nombre, fecha)
+        tablas = """
+            <h3 class="accent-1 red-text">%s, %s</h3>
+            <div class="row">
+        """ % (edificio.codigo.upper(), fecha)
+        conta_tablas = 0
 
         for s in salas:
-            ul += '''
-                <li>
-                    <div class="collapsible-header"><span class="badge">%s, Max %s</span>%s</div>
-                    <div class="collapsible-body">
-                          <table class="highlight centered responsive-table">
-                            <thead>
-                              <tr>
-                                  <th data-field="id">Turno</th>
-                                  <th data-field="name">Detalle</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-            ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo],
-                   str(s.capacidad), s.codigo)
+            if conta_tablas % 3 == 0:
+                tablas += """
+                    </div>
+                    <div class="row">
+                """
+
+            head = """
+                <div class="col s4">
+                <table class="card centered highlight" border>
+                    <thead>
+                        <tr class="red darken-1 white-text">
+                            <th colspan=2>%s (%s), %s</th>
+                        </tr>
+                        <tr>
+                            <th>Turno</th>
+                            <th>Detalle</th>                            
+                        </tr>
+                    </thead>
+                """ % (s.codigo, s.capacidad, ['Audiovisuales',
+                                               'Aula virtual',
+                                               'Auditorio'][s.tipo])
 
             sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
                 turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
 
             if len(sala_turnos) == 0:
-                ul += '''<tr>
-                            <td>None</td>
-                            <td>Sala sin turnos, contactenos para mas detalles</td>
-                            </tr>'''
+                body = """
+                    <tbody>
+                        <tr>
+                            <td colspan=2>
+                                Sala sin turnos, Contectenos para mas detalles
+                            </td>                            
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                """
+                tablas += head + body
             else:
+                tr = ""
                 for st in sala_turnos:
                     if (
                             st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
@@ -1389,72 +1445,113 @@ def buscar_salas_admin_sustentacion(request):
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
                                 # la opcion viene de buscar salas para prestamos de cursos/reuniones
                                 if 'opcion' in request.GET:
-                                    ul += '''<tr>
-                                    <td>%s a %s</td>
-                                    <td>Libre
-                                    <a onclick="ver_form_cursos('%s')" class="waves-effect waves-circle
-                                    waves-light btn-floating secondary-content">
-                                    <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                    tr += """
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>
+                                        Libre
+                                            <a onclick="ver_form_cursos('%s')" 
+                                            class="waves-effect waves-circle
+                                            waves-light btn-floating secondary-content">
+                                                <i class="material-icons">add</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    """ % (str(st.turno.time_start)[:5],
                                                 str(st.turno.time_end)[:5],
                                                 str(st.id))
                                 else:
-                                    ul += '''<tr>
-                                    <td>%s a %s</td>
-                                    <td>Libre
-                                    <a onclick="ver_form_sustentacion('%s')" class="waves-effect waves-circle
-                                    waves-light btn-floating secondary-content">
-                                    <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                    tr += """
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>
+                                            Libre
+                                            <a onclick="ver_form_sustentacion('%s')" 
+                                            class="waves-effect waves-circle
+                                            waves-light btn-floating 
+                                            secondary-content">
+                                                <i class="material-icons">add</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    """ % (str(st.turno.time_start)[:5],
                                                 str(st.turno.time_end)[:5],
                                                 str(st.id))
                         else:
                             # la opcion viene de buscar salas para prestamos de cursos/reuniones
-                            if prestamos[
-                                0].tipo == 1 and not 'opcion' in request.GET:
-                                ul += '''<tr>
-                                <td>%s a %s</td>
-                                <td>Sustentacion de %s de %s
-                                <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
-                                waves-light btn-floating secondary-content red">
-                                <i class="material-icons">delete</i></a></td>
-                                </tr>''' % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante,
-                                            prestamos[0].carrera.nombre,
-                                            prestamos[0].id)
+                            if prestamos[0].tipo == 1 and not 'opcion' in request.GET:
+                                tr += u"""
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>
+                                        Sustentación de %s de %s
+                                        <a onclick="desactivar_prestamo_docente('%s')"
+                                        class="waves-effect waves-circle 
+                                        waves-light btn-floating 
+                                        secondary-content red">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                       str(st.turno.time_end)[:5],
+                                       prestamos[0].solicitante,
+                                       prestamos[0].carrera.nombre,
+                                       prestamos[0].id)
                             elif 'opcion' in request.GET:
                                 # curso
                                 if prestamos[0].tipo == 2:
-                                    ul += '''<tr>
+                                    tr += """
+                                    <tr>
                                         <td>%s a %s</td>
-                                        <td>Curso de %s de %s
-                                        <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
-                                        waves-light btn-floating secondary-content red">
-                                        <i class="material-icons">delete</i></a></td>
-                                        </tr>''' % (
-                                    str(st.turno.time_start)[:5],
-                                    str(st.turno.time_end)[:5],
-                                    prestamos[0].solicitante,
-                                    prestamos[0].carrera.nombre,
-                                    prestamos[0].id)
+                                        <td>
+                                            Curso de %s de %s
+                                            <a onclick="desactivar_prestamo_docente('%s')" 
+                                            class="waves-effect waves-circle
+                                            waves-light btn-floating 
+                                            secondary-content red">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                       str(st.turno.time_end)[:5],
+                                       prestamos[0].solicitante,
+                                       prestamos[0].carrera.nombre,
+                                       prestamos[0].id)
                                 # reunion
                                 elif prestamos[0].tipo == 3:
-                                    ul += u'''<tr>
+                                    tr += u"""
+                                    <tr>
                                         <td>%s a %s</td>
-                                        <td>Reunión de %s para %s
-                                        <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
-                                        waves-light btn-floating secondary-content red">
-                                        <i class="material-icons">delete</i></a></td>
-                                        </tr>''' % (
-                                    str(st.turno.time_start)[:5],
-                                    str(st.turno.time_end)[:5],
-                                    prestamos[0].solicitante,
-                                    prestamos[0].detalle, prestamos[0].id)
+                                        <td>
+                                            Reunión de %s para %s
+                                            <a onclick="desactivar_prestamo_docente('%s')" 
+                                            class="waves-effect waves-circle 
+                                            waves-light btn-floating 
+                                            secondary-content red">
+                                            <i class="material-icons">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    """ % (str(st.turno.time_start)[:5],
+                                           str(st.turno.time_end)[:5],
+                                           prestamos[0].solicitante,
+                                           prestamos[0].detalle,
+                                           prestamos[0].id)
 
-            ul += '</tbody></table></div></li>'
-        ul += '</ul>'
-        return HttpResponse(ul.encode('utf-8'))
+                body = """
+                    <tbody>
+                        %s
+                    </tbody>
+                </table>
+                </div>                
+                """ % tr
+                tablas += head + body
+            conta_tablas += 1
+        if conta_tablas % 3 != 0:
+            tablas += "</div>"
+        return HttpResponse(tablas.encode('utf-8'))
     else:
         return HttpResponseRedirect('/')
 

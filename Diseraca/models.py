@@ -47,7 +47,7 @@ class Sala(models.Model):
         estado = activo --> 0, mantenimiento --> 1, fuera de servicio --> 2
     '''
     tipos = (
-        (0, 'Sala de clase'),
+        (0, 'Audiovisuales'),
         (1, 'Aula virtual'),
         (2, 'Auditorio'),
     )

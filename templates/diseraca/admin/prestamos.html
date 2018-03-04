@@ -74,22 +74,29 @@
                 </div>
 
                 <div class="row hiddendiv" id="form_add_prestamo">
-                    <form  action="add_prestamo_docente_admin" method="post">
+                    <form  class="col s6 offset-s3" action="add_prestamo_docente_admin" method="post">
                         <div>
                             {% csrf_token %}
                             <input type="hidden" name="fecha" id="fecha" value="" id="fecha"  >
                             <input type="hidden" name="sala_turno" id="sala_turno" value=""  >
                         </div>
-                        <div class="input-field col s12">
-                            <select name="carga" id="carga_docente"  >
+                        <div class="row">
+                            <div class="col s4">
+                                <h5>Seleccione la materia</h5>
+                            </div>
+                            <div class="input-field col s8">
+                                <select name="carga" id="carga_docente"  >
 
-                            </select>
-                            <label>Seleccione la materia</label>
+                                </select>
+                                <label>Materia</label>
+                            </div>
                         </div>
-                        <div class="input-field col s6 l6 offset-s3 offset-l3">
-                            <button class="btn waves-effect waves-light" type="submit">Guardar
-                                <i class="material-icons right">send</i>
-                            </button>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3 ">
+                                <button class="btn waves-effect waves-light" type="submit">Guardar
+                                    <i class="material-icons right">save</i>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -124,39 +131,45 @@
                 </div>
 
                 <div class="row hiddendiv" id="form_add_prestamo_sustentacion">
-                    <form  action="add_prestamo_sustentacion_admin" method="post">
+                    <form  class="col s8 offset-s2" action="add_prestamo_sustentacion_admin" method="post">
                         <div>
                             {% csrf_token %}
                             <input type="hidden" name="fecha_sustentacion" value="" id="fecha_sustentacion"  >
                             <input type="hidden" name="sala_turno_sustentacion" id="sala_turno_sustentacion" value=""  >
                         </div>
-                        <div class="input-field col s12 l5">
-                            <select name="carrera" id="carrera_sustentacion"  >
-                                {% if carreras %}
-                                    <option value="" disabled selected>Carrera</option>
-                                    {% for carrera in carreras %}
-                                        <option value="{{ carrera.codigo }}">{{ carrera.nombre }}</option>
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                            <label>Seleccione la carrera</label>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">person_pin</i>
+                                <input id="soli_prefix" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
+                                <label for="soli_prefix">Solicitante</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone_in_talk</i>
+                                <input id="tel_prefix" type="text" class="validate" name="tel" maxlength="12"   length="12">
+                                <label for="tel_prefix">Telefono</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s8 offset-s2">
+                                <select name="carrera" id="carrera_sustentacion"  >
+                                    {% if carreras %}
+                                        <option value="" disabled selected>Carrera</option>
+                                        {% for carrera in carreras %}
+                                            <option value="{{ carrera.codigo }}">{{ carrera.nombre|lower }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <label>Seleccione la carrera</label>
+                            </div>
                         </div>
 
-                        <div class="input-field col l4 offset-l3">
-                            <i class="material-icons prefix">person_pin</i>
-                            <input id="soli_prefix" type="text" class="validate" length="50" name="solicitante"   maxlength="50">
-                            <label for="soli_prefix">Solicitante</label>
-                        </div>
-                        <div class="input-field col l4">
-                            <i class="material-icons prefix">phone_in_talk</i>
-                            <input id="tel_prefix" type="text" class="validate" name="tel" maxlength="12"   length="12">
-                            <label for="tel_prefix">Telefono</label>
-                        </div>
-
-                        <div class="input-field col s6 l6 offset-s3 offset-l3">
-                            <button class="btn waves-effect waves-light" type="submit">Guardar
-                                <i class="material-icons right">save</i>
-                            </button>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s3">
+                                <button class="btn waves-effect waves-light" type="submit">Guardar
+                                    <i class="material-icons right">save</i>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -460,6 +473,7 @@
         $('#sala_turno').val(sala_turno);
         $('#form_add_prestamo').removeClass('hiddendiv');
         $('select').material_select();
+        document.location = "#form_add_prestamo";
     }
 
     function get_salas_sustentacion(id){
@@ -506,6 +520,7 @@
         $('#sala_turno_sustentacion').val(sala_turno);
         $('#form_add_prestamo_sustentacion').removeClass('hiddendiv');
         $('select').material_select();
+        document.location = "#form_add_prestamo_sustentacion";
     }
 
     function get_salas_cursos(id){
@@ -551,6 +566,7 @@
         $('#sala_turno_curso').val(sala_turno);
         $('#form_add_prestamo_cursos').removeClass('hiddendiv');
         $('select').material_select();
+        document.location = "#form_add_prestamo_cursos";
     }
 
     function desactivar_prestamo_docente(id){
