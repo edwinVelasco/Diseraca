@@ -73,7 +73,7 @@ def get_salas_disponibilidad(request):
 
             head = """
                 <div class="col s4">
-                <table class="card centered highlight" border>
+                <table class="card centered bordered" border>
                     <thead>
                         <tr class="red darken-1 white-text">
                             <th colspan=2>%s (%s)</th>
@@ -91,8 +91,7 @@ def get_salas_disponibilidad(request):
                 body = """
                     <tbody>
                         <tr>
-                            <td>Sala sin turnos</td>
-                            <td>Contectenos para mas detalles</td>                            
+                            <td colspan=2>Sala sin turnos, Contectenos para mas detalles</td>                            
                         </tr>
                     </tbody>
                 </table>
@@ -140,10 +139,10 @@ def get_salas_disponibilidad(request):
                                                 str(st.turno.time_end)[:5])
                         else:
                             if prestamos[0].tipo == 1:
-                                tr += """
+                                tr += u"""
                                 <tr class="green lighten-5">
                                     <td>%s a %s</td>
-                                    <td>Sust. de %s de %s</td>
+                                    <td>Sustentación de %s de %s</td>
                                 </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
                                             prestamos[0].solicitante.lower(),
@@ -170,11 +169,12 @@ def get_salas_disponibilidad(request):
                                 tr += """
                                 <tr class="green lighten-5">
                                     <td>%s a %s</td>
-                                    <td>%s / %s-%s</td>
+                                    <td>%s, %s, %s-%s</td>
                                 </tr>""" % (str(st.turno.time_start)[:5],
                                             str(st.turno.time_end)[:5],
                                             prestamos[0].profesor.persona.user.first_name.lower(),
                                             prestamos[0].nombre.lower(),
+                                            prestamos[0].codigo.lower(),
                                             prestamos[0].grupo.upper())
 
                 body = """

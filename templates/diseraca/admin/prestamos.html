@@ -61,6 +61,18 @@
                     </div>
 
                 </div>
+                <div class="row" id="container_edificios">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_admin({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
                 <div class="row" id="name_docente">
 
                 </div>
@@ -68,10 +80,11 @@
                 <div class="row" id="container_prestamos_activos">
 
                 </div>
-
                 <div class="row" id="container_salas">
 
                 </div>
+
+
 
                 <div class="row hiddendiv" id="form_add_prestamo">
                     <form  class="col s6 offset-s3" action="add_prestamo_docente_admin" method="post">
@@ -101,17 +114,7 @@
                     </form>
                 </div>
 
-                <div class="row" id="container_edificios">
-                    {% if edificios %}
-                        {% for edificio in edificios %}
-                            <div class="col s1">
-                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_admin({{ edificio.id }})">
-                                    {{ edificio.codigo }}
-                                </a>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+
             </div>
 
             <div id="sustentacion" class="col s12">
@@ -125,11 +128,20 @@
                         <label for="daterequire_sustentacion">Fecha requerida</label>
                     </div>
                 </div>
-
+                <div class="row" id="container_edificios_sustentacion">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_sustentacion({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <div class="row" id="container_salas_sustentacion">
 
                 </div>
-
                 <div class="row hiddendiv" id="form_add_prestamo_sustentacion">
                     <form  class="col s8 offset-s2" action="add_prestamo_sustentacion_admin" method="post">
                         <div>
@@ -174,17 +186,7 @@
                     </form>
                 </div>
 
-                <div class="row" id="container_edificios_sustentacion">
-                    {% if edificios %}
-                        {% for edificio in edificios %}
-                            <div class="col s1">
-                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_sustentacion({{ edificio.id }})">
-                                    {{ edificio.codigo }}
-                                </a>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+
 
             </div>
 
@@ -199,7 +201,17 @@
                         <label for="daterequire_cursos">Fecha requerida</label>
                     </div>
                 </div>
-
+                <div class="row" id="container_edificios_cursos">
+                    {% if edificios %}
+                        {% for edificio in edificios %}
+                            <div class="col s1">
+                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_cursos({{ edificio.id }})">
+                                    {{ edificio.codigo }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <div class="row" id="container_salas_cursos">
 
                 </div>
@@ -262,17 +274,7 @@
                     </form>
                 </div>
 
-                <div class="row" id="container_edificios_cursos">
-                    {% if edificios %}
-                        {% for edificio in edificios %}
-                            <div class="col s1">
-                                <a class="btn-floating btn-large waves-effect waves-light red" onclick="get_salas_cursos({{ edificio.id }})">
-                                    {{ edificio.codigo }}
-                                </a>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+
             </div>
 
             <div class="col s12" id="cursos_masivos">
