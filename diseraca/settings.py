@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'diseraca.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -93,7 +93,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
+'''
 
 
 # Internationalization
@@ -117,4 +117,4 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/wolf/Diseraca/Diseraca/static/'
+#STATIC_ROOT = '/home/wolf/Diseraca/Diseraca/static/'

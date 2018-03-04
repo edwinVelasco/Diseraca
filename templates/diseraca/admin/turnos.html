@@ -129,61 +129,61 @@
                 <div class="row">
                     <div class="col s6 offset-s3">
                         <form name="newFormHorarioSala" id="newFormHorarioSala" ng-submit="false">
-                        <div>
-                            <h5 class="center-align">Gestion de Horarios</h5>
-                            <input type="hidden" name="pk" id="pk" ng-model="newSalaTurno.pk" ng-value="newSalaTurno.pk">
-                        </div>
-                        <div class="row">
-                            <div class="input-field col l6">
-                                <select id="edif_sala_turno" name="edif_sala_turno" required class="validate">
-                                </select>
-                                <label for="edif">Edificio</label>
+                            <div>
+                                <h5 class="center-align">Gestion de Horarios</h5>
+                                <input type="hidden" name="pk" id="pk" ng-model="newSalaTurno.pk" ng-value="newSalaTurno.pk">
                             </div>
-                            <div class="input-field col l6">
-                                <select id="sala_sala_turno" name="sala_sala_turno" required class="validate">
-                                </select>
-                                <label for="edif">Sala</label>
+                            <div class="row">
+                                <div class="input-field col l6">
+                                    <select id="edif_sala_turno" name="edif_sala_turno" required class="validate">
+                                    </select>
+                                    <label for="edif">Edificio</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select id="sala_sala_turno" name="sala_sala_turno" required class="validate">
+                                    </select>
+                                    <label for="edif">Sala</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select id="dia_sala_turno" name="dia_sala_turno" required>
+                                        <option value="" disabled selected>Seleccione Dia</option>
+                                        <option value=0>Lunes</option>
+                                        <option value=1>Martes</option>
+                                        <option value=2>Miercoles</option>
+                                        <option value=3>Jueves</option>
+                                        <option value=4>Viernes</option>
+                                        <option value=5>Sabado</option>
+                                    </select>
+                                    <label for="dia">Dia de la Semana</label>
+                                </div>
+                                <div class="input-field col l6">
+                                    <select name="turno_sala_turno" id="turno_sala_turno">
+                                    </select>
+                                    <label for="edif">Turno</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <select name="estado_sala_turno" id="estado_sala_turno" required>
+                                        <option value="" disabled selected>Seleccione</option>
+                                        <option value="0">Activado</option>
+                                        <option value="1">Desactivado</option>
+                                        <option value="2">Temporal</option>
+                                    </select>
+                                    <label for="edif">Estado</label>
+                                </div>
+                                <div class=" input-field col l6">
+                                    <input placeholder="Fecha" name="hasta_sala_turno" id="hasta_sala_turno" type="text" ng-model="newSalaTurno.fields.hasta" class="datepicker">
+                                    <label for="time_start">Hasta cuando?</label>
+                                </div>
                             </div>
-                            <div class="input-field col l6">
-                                <select id="dia_sala_turno" name="dia_sala_turno" required>
-                                    <option value="" disabled selected>Seleccione Dia</option>
-                                    <option value=0>Lunes</option>
-                                    <option value=1>Martes</option>
-                                    <option value=2>Miercoles</option>
-                                    <option value=3>Jueves</option>
-                                    <option value=4>Viernes</option>
-                                    <option value=5>Sabado</option>
-                                </select>
-                                <label for="dia">Dia de la Semana</label>
+                            <div class="row">
+                                <div class="col l6">
+                                    <input class="btn" type="submit" value="Guardar" ng-click="saveSalaTurnoFrom()">
+                                </div>
+                                <div class="col l6">
+                                    <input class="btn" type="submit" value="Borrar" ng-click="newSalaTurnoFrom()">
+                                </div>
                             </div>
-                            <div class="input-field col l6">
-                                <select name="turno_sala_turno" id="turno_sala_turno">
-                                </select>
-                                <label for="edif">Turno</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <select name="estado_sala_turno" id="estado_sala_turno" required>
-                                    <option value="" disabled selected>Seleccione</option>
-                                    <option value="0">Activado</option>
-                                    <option value="1">Desactivado</option>
-                                    <option value="2">Temporal</option>
-                                </select>
-                                <label for="edif">Estado</label>
-                            </div>
-                            <div class=" input-field col l6">
-                                <input placeholder="Fecha" name="hasta_sala_turno" id="hasta_sala_turno" type="text" ng-model="newSalaTurno.fields.hasta" class="datepicker">
-                                <label for="time_start">Hasta cuando?</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col l6">
-                                <input class="btn" type="submit" value="Guardar" ng-click="saveSalaTurnoFrom()">
-                            </div>
-                            <div class="col l6">
-                                <input class="btn" type="submit" value="Borrar" ng-click="newSalaTurnoFrom()">
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
 
@@ -214,7 +214,8 @@
                                 </tr>
                             </thead>
                             <tbody id="tablaSalaTurnos">
-                                <tr ng-repeat="dataTurno in listTurnosSala" ng-if="dataTurno.fields.turno.dia==turn_day_sala">
+                                <tr ng-repeat="dataTurno in listTurnosSala"
+                                    ng-if="dataTurno.fields.turno.dia==turn_day_sala">
                                     <td>
                                         [[ dataTurno.fields.turno.time_start ]] a [[ dataTurno.fields.turno.time_end]] ([[ lisDias[dataTurno.fields.turno.dia] ]])
                                     </td>

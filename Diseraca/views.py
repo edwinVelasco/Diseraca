@@ -13,14 +13,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-
-from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, Persona, Beca, Turno, \
+from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, \
+    Persona, Beca, Turno, \
     Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
 
 
 def index(request):
     print(request.client_ip)
-    #print(request.GET['hola'])
+    # print(request.GET['hola'])
     print(request.client_ip)
 
     if request.method == 'GET':
@@ -41,7 +41,8 @@ def disponibilidad(request):
 def get_edificios(request):
     edificios = Edificio.objects.all().order_by('codigo')
 
-    data = serializers.serialize('json', edificios, fields=('codigo', 'nombre'))
+    data = serializers.serialize('json', edificios,
+                                 fields=('codigo', 'nombre'))
     return HttpResponse(data, content_type='application/json')
 
 
@@ -49,120 +50,195 @@ def get_salas_disponibilidad(request):
     if 'id' in request.GET and 'fecha' in request.GET:
 
         edificio = Edificio.objects.get(id=request.GET['id'])
-        salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
+        salas = Sala.objects.filter(edificio=edificio).exclude(
+            estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
         date = request.GET['fecha'].split('-')
-        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                              year=int(date[0]))
 
         if len(salas) == 0:
-            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (edificio.nombre)
+            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
+            edificio.nombre)
             return HttpResponse(text)
 
-        ul = '<h3 class="accent-1 red-text">%s, %s</h3><ul class="collapsible" data-collapsible="accordion">' % (
-            edificio.nombre, fecha)
-
+        tablas = """<div class="row">"""
+        conta_tablas = 0
         for s in salas:
-            ul += '''
-                    <li class="active">
-                        <div class="collapsible-header active"><span class="badge">%s, Max %s</span>%s</div>
-                        <div class="collapsible-body">
-                              <table class="highlight centered responsive-table">
-                                <thead>
-                                  <tr>
-                                      <th data-field="id">Turno</th>
-                                      <th data-field="name">Detalle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-            ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
+            if conta_tablas%3 == 0:
+                tablas += """
+                    </div>
+                    <div class="row">
+                """
 
-            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(turno__dia=(fecha.isoweekday() - 1)).exclude(
+            head = """
+                <div class="col s4">
+                <table class="card centered highlight" border>
+                    <thead>
+                        <tr class="red lighten-4">
+                            <th colspan=2>%s (%s)</th>
+                        </tr>
+                        <tr>
+                            <th>Turno</th>
+                            <th>Detalle</th>                            
+                        </tr>
+                    </thead>
+                """ % (s.codigo, s.capacidad)
+            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
+                turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
-
             if len(sala_turnos) == 0:
-                ul += '''<tr>
-                        <td>None</td>
-                        <td>Sala sin turnos, contactenos para mas detalles</td>
-                        </tr>'''
+                body = """
+                    <tbody>
+                        <tr>
+                            <td>Sala sin turnos</td>
+                            <td>Contectenos para mas detalles</td>                            
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                """
+                tablas += head + body
             else:
+                tr = ""
                 for st in sala_turnos:
-                    if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                        prestamos = Prestamo.objects.filter(date_turno=fecha).filter(turno_sala=st).filter(estado=0)
+                    if (st.estado == 2 and not st.hasta and fecha > st.hasta) \
+                            or st.estado == 0:
+
+                        prestamos = Prestamo.objects.filter(
+                            date_turno=fecha).filter(turno_sala=st).filter(
+                            estado=0)
                         if len(prestamos) == 0:
-                            if st.turno.time_start > ahora.time() or fecha > ahora.date():
-                                ul += '''<tr>
-                                    <td>%s a %s</td>
-                                    <td>Libre
-                                    <a onclick="add_login('%s','%s')" class="waves-effect waves-circle
-                                    waves-light btn-floating secondary-content">
-                                    <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                                    request.GET['fecha'], str(st.id))
-                            else:
-                                ul += '''<tr>
+                            if st.turno.time_start > ahora.time() \
+                                    or fecha > ahora.date():
+                                tr += """
+                                    <tr>
                                         <td>%s a %s</td>
-                                        <td>No fue utilizado
+                                        <td>
+                                            Libre
+                                            <!--<a onclick="add_login('%s', 
+                                            '%s')" 
+                                            class="waves-effect waves-circle
+                                            waves-light btn-floating 
+                                            secondary-content">
+                                                <i class="material-icons">
+                                                    add
+                                                </i>
+                                            </a>
+                                            -->
                                         </td>
-                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5])
+                                    </tr>""" % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5],
+                                            request.GET['fecha'], str(st.id))
+                            else:
+                                tr += '''
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>No fue utilizado</td>
+                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5])
                         else:
                             if prestamos[0].tipo == 1:
-                                ul += '''<tr><td>%s a %s</td><td>Sust. de %s de %s</td></tr>''' % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5], prestamos[0].solicitante, prestamos[0].carrera.nombre)
+                                tr += """
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>Sust. de %s de %s</td>
+                                </tr>""" % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[0].solicitante,
+                                            prestamos[0].carrera.nombre)
                             elif prestamos[0].tipo == 2:
-                                ul += '''<tr><td>%s a %s</td><td>Curso de %s  %s</td></tr>''' % (
-                                str(st.turno.time_start)[:5],
-                                str(st.turno.time_end)[:5], prestamos[0].solicitante, prestamos[0].detalle)
+                                tr += """
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>Curso de %s  %s</td>
+                                </tr>""" % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[0].solicitante,
+                                            prestamos[0].detalle)
                             elif prestamos[0].tipo == 3:
-                                ul += '''<tr><td>%s a %s</td><td>Reunion de %s  %s</td></tr>''' % (
-                                    str(st.turno.time_start)[:5],
-                                    str(st.turno.time_end)[:5], prestamos[0].solicitante, prestamos[0].detalle)
+                                tr += '''
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>Reunion de %s  %s</td>
+                                </tr>''' % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[0].solicitante,
+                                            prestamos[0].detalle)
                             else:
-                                ul += '<tr><td>%s a %s</td><td>%s</td></tr>' % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5], prestamos[0].profesor.persona.user.first_name +
-                                                                                ' / ' + prestamos[0].nombre + ', G-' +prestamos[0].grupo)
+                                tr += """
+                                <tr>
+                                    <td>%s a %s</td>
+                                    <td>%s / %s, G-%s</td>
+                                </tr>""" % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[0].profesor.persona.user.first_name,
+                                            prestamos[0].nombre,
+                                            prestamos[0].grupo.upper())
 
-            ul += '</tbody></table></div></li>'
-        ul += '</ul>'
-        return HttpResponse(ul.encode('utf-8'))
+                body = """
+                    <tbody>
+                        %s
+                    </tbody>
+                </table>
+                </div>                
+                """ % tr
+                tablas += head + body
+            conta_tablas += 1
+        if conta_tablas % 4 != 0:
+            tablas += "</div>"
+        return HttpResponse(tablas.encode('utf-8'))
 
 
 @login_required(login_url='/')
 def inicio(request):
     if request.user.is_authenticated():
-        persona = Persona.objects.get(user__username=request.session['usuario'])
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
         ahora = datetime.datetime.now()
         # 0 docente, 1 beca, 2 admin
         if persona.tipo == 0:
             p = Profesor.objects.get(persona=persona)
-            prestamos = Prestamo.objects.filter(profesor=p, estado=0, date_turno__gte=ahora.date())
+            prestamos = Prestamo.objects.filter(profesor=p, estado=0,
+                                                date_turno__gte=ahora.date())
 
             edificios = Edificio.objects.all().order_by('codigo')
             cargas = Carga.objects.filter(profesor=p)
 
             if 'tmp' in request.session:
-                #print 'tmp', request.session['tmp']
+                # print 'tmp', request.session['tmp']
                 tmp = request.session['tmp'].split('.')
                 del request.session['tmp']
                 date = tmp[0].split('-')
-                f = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+                f = datetime.date(day=int(date[2]), month=int(date[1]),
+                                  year=int(date[0]))
                 fecha_p = f - datetime.timedelta(days=7)
                 fecha_s = f + datetime.timedelta(days=7)
 
                 # prestamos pasados
                 turno_sala = Turno_Sala.objects.get(id=tmp[1])
-                p_p = Prestamo.objects.filter(profesor=p, date_turno=fecha_p, turno_sala__turno=turno_sala.turno)
-                p_s = Prestamo.objects.filter(profesor=p, date_turno=fecha_s, turno_sala__turno=turno_sala.turno)
-                p_d = Prestamo.objects.filter(profesor=p, date_turno=f, turno_sala__turno=turno_sala.turno)
+                p_p = Prestamo.objects.filter(profesor=p, date_turno=fecha_p,
+                                              turno_sala__turno=turno_sala.turno)
+                p_s = Prestamo.objects.filter(profesor=p, date_turno=fecha_s,
+                                              turno_sala__turno=turno_sala.turno)
+                p_d = Prestamo.objects.filter(profesor=p, date_turno=f,
+                                              turno_sala__turno=turno_sala.turno)
 
                 if len(p_s) == 0 and len(p_p) == 0 and len(p_d) == 0:
                     return render(request, 'diseraca/docente.html',
-                                  {'edificios': edificios, 'prestamos': prestamos,
-                                   'fecha': str(tmp[0]), 'sala_turno': tmp[1],
-                                   'docente': persona, 'opcion': 'a', 'cargas': cargas})
+                                  {'edificios': edificios,
+                                   'prestamos': prestamos,
+                                   'fecha': str(tmp[0]),
+                                   'sala_turno': tmp[1],
+                                   'docente': persona, 'opcion': 'a',
+                                   'cargas': cargas})
                 else:
                     # aca es porque el turno no es valido
                     return render(request, 'diseraca/docente.html',
-                                  {'edificios': edificios, 'prestamos': prestamos, 'docente': persona, 'opcion': 'b',
+                                  {'edificios': edificios,
+                                   'prestamos': prestamos,
+                                   'docente': persona, 'opcion': 'b',
                                    'fecha': '', 'cargas': cargas})
 
             fecha = '%s-%s-%s' % (ahora.year, ahora.month, ahora.day)
@@ -170,18 +246,26 @@ def inicio(request):
             if 'msg' in request.session:
                 msg = request.session['msg']
                 del request.session['msg']
-                return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
-                                                             'docente': persona, 'fecha': fecha, 'cargas': cargas,
-                                                             'opcion': 'c', 'msg': msg})
+                return render(request, 'diseraca/docente.html',
+                              {'edificios': edificios,
+                               'prestamos': prestamos,
+                               'docente': persona, 'fecha': fecha,
+                               'cargas': cargas,
+                               'opcion': 'c', 'msg': msg})
             if len(prestamos) == 3:
-                return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
-                                                                 'docente': persona, 'fecha': fecha, 'cargas': cargas,
-                                                                 'opcion': 'c',
-                                                                 'msg': 'ya tiene los turnos activos permitidos'})
+                return render(request, 'diseraca/docente.html',
+                              {'edificios': edificios,
+                               'prestamos': prestamos,
+                               'docente': persona, 'fecha': fecha,
+                               'cargas': cargas,
+                               'opcion': 'c',
+                               'msg': 'ya tiene los turnos activos permitidos'})
 
-            return render(request, 'diseraca/docente.html', {'edificios': edificios, 'prestamos': prestamos,
-                                                             'docente': persona, 'fecha': fecha, 'cargas': cargas,
-                                                             'opcion': 'c'})
+            return render(request, 'diseraca/docente.html',
+                          {'edificios': edificios, 'prestamos': prestamos,
+                           'docente': persona, 'fecha': fecha,
+                           'cargas': cargas,
+                           'opcion': 'c'})
         elif persona.tipo == 1:
             ip = request.client_ip
             b = Beca.objects.get(persona=persona)
@@ -195,7 +279,7 @@ def inicio(request):
                 prestamos = Prestamo.objects.filter(turno_sala__turno=turno,
                                                     date_turno__gte=ahora.date(),
                                                     estado=0)
-                #print prestamos
+                # print prestamos
                 for pres in prestamos:
                     prestamos_turnos.append(pres)
             if 'msg' in request.session:
@@ -214,11 +298,13 @@ def inicio(request):
             if 'msg' in request.session:
                 msg = request.session['msg']
                 del request.session['msg']
-                return render(request, 'diseraca/admin/prestamos.html', {'edificios': edificios, 'admin': persona,
-                                                                         'msg': msg, 'carreras': carreras})
+                return render(request, 'diseraca/admin/prestamos.html',
+                              {'edificios': edificios, 'admin': persona,
+                               'msg': msg, 'carreras': carreras})
 
-            return render(request, 'diseraca/admin/prestamos.html', {'edificios': edificios, 'admin': persona,
-                                                                     'carreras': carreras})
+            return render(request, 'diseraca/admin/prestamos.html',
+                          {'edificios': edificios, 'admin': persona,
+                           'carreras': carreras})
     else:
         return HttpResponseRedirect('/')
 
@@ -259,32 +345,36 @@ def cerrar(request):
 def view_init_password(request):
     if request.method == 'GET':
         return render(request, 'diseraca/cambiar_password.html',
-                      {'correo': request.user.email, 'msg': u'Cambiar contraseña inicial y correo'})
+                      {'correo': request.user.email,
+                       'msg': u'Cambiar contraseña inicial y correo'})
 
     if request.method == 'POST':
         if request.POST['password1'] == request.POST['password2']:
             patronMay = r"[A-Z]{1}"
             patronNum = r"\d{2}"
-            if re.search(patronMay, request.POST['password1']) and re.search(patronNum, request.POST['password1']) and \
-                len(request.POST['password1']) >= 8:
+            if re.search(patronMay, request.POST['password1']) and re.search(
+                    patronNum, request.POST['password1']) and \
+                    len(request.POST['password1']) >= 8:
                 user = request.user
                 user.email = request.POST['email']
                 user.set_password(request.POST['password1'])
                 user.save()
                 del request.session['usuario']
                 logout(request)
-                request.session['msg'] = "Contraseña y correo cambiado exitosamente"
+                request.session[
+                    'msg'] = "Contraseña y correo cambiado exitosamente"
                 return HttpResponseRedirect('/')
             else:
                 return render(request, 'diseraca/cambiar_password.html',
-                              {'correo': request.POST['email'], 'msg': u'La nueva contraseña no cumple con el patron requerido'})
+                              {'correo': request.POST['email'],
+                               'msg': u'La nueva contraseña no cumple con el patron requerido'})
         else:
             return render(request, 'diseraca/cambiar_password.html',
                           {'correo': request.POST['email'],
                            'msg': u'La nueva contraseña no coincide'})
 
 
-#--------------def Docentes-------------------
+# --------------def Docentes-------------------
 
 
 @login_required(login_url='/')
@@ -292,114 +382,171 @@ def buscar_salas_horario_docente(request):
     if request.user.is_authenticated():
         if 'id' in request.GET and 'fecha' in request.GET:
             date = request.GET['fecha'].split('-')
-            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                                  year=int(date[0]))
 
             ahora = datetime.datetime.now()
             edificio = Edificio.objects.get(id=request.GET['id'])
-            salas = Sala.objects.filter(edificio=edificio, tipo=0).exclude(estado=2).order_by('tipo')
+            salas = Sala.objects.filter(edificio=edificio, tipo=0).exclude(
+                estado=2).order_by('tipo')
             if len(salas) == 0:
-                text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (edificio.nombre)
+                text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
+                edificio.nombre)
                 return HttpResponse(text)
 
-            p = Profesor.objects.get(persona__user__username=request.session['usuario'])
-            ul = '''<h3 class="accent-1 red-text">%s, %s</h3>
-                 Solo se muestran las salas y turnos disponibles para usted <a target="_blank"  href="informacion"
-                 class=""><i class="material-icons">info_outline</i></a>
-                 <ul class="collapsible" data-collapsible="accordion">''' % (edificio.nombre, fecha)
+            p = Profesor.objects.get(
+                persona__user__username=request.session['usuario'])
+            tablas = '''
+                <h3 class="accent-1 red-text">%s, %s</h3>
+                Solo se muestran las salas y turnos disponibles para 
+                usted 
+                <a target="_blank"  href="informacion" class="">
+                    <i class="material-icons">info_outline</i>
+                </a>
+                <div class="row">''' % (
+            edificio.nombre, fecha)
             fecha_p = fecha - datetime.timedelta(days=7)
             fecha_s = fecha + datetime.timedelta(days=7)
+
+            conta_tablas = 0
             for s in salas:
-                ul += '''<li>
-                    <div class="collapsible-header"><span class="badge">%s, Max %s</span>%s</div>
-                    <div class="collapsible-body">
-                        <table class="highlight centered responsive-table">
-                            <thead>
-                              <tr>
-                                  <th data-field="id">Turno</th>
-                                  <th data-field="name">Detalle</th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                        ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
-
+                if conta_tablas % 4 == 0:
+                    tablas += """
+                            </div>
+                            <div class="row">
+                        """
+                head = """
+                    <div class="col s3">
+                    <table class="card centered highlight" border>
+                        <thead>
+                            <tr class="red darken-1 white-text">
+                                <th colspan=2>Sala %s (%s)</th>
+                            </tr>
+                            <tr>
+                                <th>Turno</th>
+                                <th>Detalle</th>                            
+                            </tr>
+                        </thead>
+                    """ % (s.codigo, s.capacidad)
 
                 if fecha > ahora.date():
-                    sala_turnos = Turno_Sala.objects.filter(sala=s, turno__dia=(fecha.isoweekday() - 1)).exclude(
-                                            estado=1).order_by('turno__time_start')
+                    sala_turnos = Turno_Sala.objects.filter(sala=s,
+                                                            turno__dia=(
+                                                                    fecha.isoweekday() - 1)).exclude(
+                        estado=1).order_by('turno__time_start')
                 else:
-                    sala_turnos = Turno_Sala.objects.filter(sala=s, turno__dia=(fecha.isoweekday() - 1),
-                                                            turno__time_start__gte=ahora.time())\
-                                    .exclude(estado=1).order_by('turno__time_start')
+                    sala_turnos = Turno_Sala.objects.filter(sala=s,
+                                                            turno__dia=(
+                                                                    fecha.isoweekday() - 1),
+                                                            turno__time_start__gte=ahora.time()) \
+                        .exclude(estado=1).order_by('turno__time_start')
 
                 if len(sala_turnos) == 0:
-                    ul += '''<tr>
-                            <td>None</td>
-                            <td>Sala sin turnos, contactenos para mas detalles</td>
-                            </tr>'''
+                    body = """
+                        <tbody>
+                            <tr>
+                                <td>Sala sin turnos</td>
+                                <td>Contectenos para mas detalles</td>                            
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+
+                    """
+                    tablas += head + body
                 else:
+                    tr = ""
                     j = 0
 
                     for st in sala_turnos:
-                        if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
+                        if (st.estado == 2 and st.hasta
+                            and fecha > st.hasta) or st.estado == 0:
 
                             # prestamos pasados
-                            p_turno = Prestamo.objects.filter(date_turno=fecha, turno_sala=st).exclude(estado=2)
-                            p_p1 = Prestamo.objects.filter(profesor=p, date_turno=fecha_p,
-                                                          turno_sala__turno__time_start=st.turno.time_end)\
+                            p_turno = Prestamo.objects.filter(
+                                date_turno=fecha, turno_sala=st).exclude(
+                                estado=2)
+                            p_p1 = Prestamo.objects.filter(profesor=p,
+                                                        date_turno=fecha_p,
+                                                        turno_sala__turno__time_start=st.turno.time_end) \
                                 .exclude(estado=2)
-                            p_p = Prestamo.objects.filter(profesor=p, date_turno=fecha_p, turno_sala__turno=st.turno) \
+                            p_p = Prestamo.objects.filter(profesor=p,
+                                                          date_turno=fecha_p,
+                                                          turno_sala__turno=st.turno) \
                                 .exclude(estado=2)
-                            p_p2 = Prestamo.objects.filter(profesor=p, date_turno=fecha_p,
-                                                          turno_sala__turno__time_end=st.turno.time_start)\
+                            p_p2 = Prestamo.objects.filter(profesor=p,
+                                                           date_turno=fecha_p,
+                                                           turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
                             # prestamos siguientes
-                            p_s1 = Prestamo.objects.filter(profesor=p, date_turno=fecha_s,
-                                                           turno_sala__turno__time_start=st.turno.time_end)\
+                            p_s1 = Prestamo.objects.filter(profesor=p,
+                                                           date_turno=fecha_s,
+                                                           turno_sala__turno__time_start=st.turno.time_end) \
                                 .exclude(estado=2)
-                            p_s = Prestamo.objects.filter(profesor=p, date_turno=fecha_s, turno_sala__turno=st.turno) \
+                            p_s = Prestamo.objects.filter(profesor=p,
+                                                          date_turno=fecha_s,
+                                                          turno_sala__turno=st.turno) \
                                 .exclude(estado=2)
-                            p_s2 = Prestamo.objects.filter(profesor=p, date_turno=fecha_s,
-                                                           turno_sala__turno__time_end=st.turno.time_start)\
+                            p_s2 = Prestamo.objects.filter(profesor=p,
+                                                           date_turno=fecha_s,
+                                                           turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
 
                             # prestamos para el dia del prestamo
-                            p_d1 = Prestamo.objects.filter(profesor=p, date_turno=fecha,
-                                                          turno_sala__turno__time_end=st.turno.time_start)\
+                            p_d1 = Prestamo.objects.filter(profesor=p,
+                                                           date_turno=fecha,
+                                                           turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
-                            p_d = Prestamo.objects.filter(profesor=p, date_turno=fecha, turno_sala__turno=st.turno) \
+                            p_d = Prestamo.objects.filter(profesor=p,
+                                                          date_turno=fecha,
+                                                          turno_sala__turno=st.turno) \
                                 .exclude(estado=2)
-                            p_d2 = Prestamo.objects.filter(profesor=p, date_turno=fecha,
-                                                          turno_sala__turno__time_end=st.turno.time_start)\
+                            p_d2 = Prestamo.objects.filter(profesor=p,
+                                                           date_turno=fecha,
+                                                           turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
-
 
                             # prestamos siguientes
 
-                            if len(p_p1) == 0 and len(p_p2) == 0 and len(p_s1) == 0 and len(p_s2) == 0 and \
-                                            len(p_d1) == 0 and len(p_d2) == 0 and len(p_s) == 0 and len(p_p) == 0 and \
-                                            len(p_d) == 0 and len(p_turno) == 0:
-                                ul += '''<tr>
-                                    <td>%s a %s</td>
-                                    <td>Libre
-                                          <a onclick="add_form_prestamo_docente('%s','%s')"
-                                          class="waves-effect waves-circle waves-light btn-floating secondary-content">
-                                            <i class="material-icons">add</i>
-                                          </a>
-                                    </td>
-                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                                    request.GET['fecha'], str(st.id))
+                            if len(p_p1) == 0 and len(p_p2) == 0 and len(
+                                    p_s1) == 0 and len(p_s2) == 0 and \
+                                    len(p_d1) == 0 and len(
+                                p_d2) == 0 and len(p_s) == 0 and len(
+                                p_p) == 0 and \
+                                    len(p_d) == 0 and len(p_turno) == 0:
+                                tr += """
+                                    <tr>
+                                        <td>%s a %s</td>
+                                        <td>
+                                            Libre
+                                            <a onclick="add_form_prestamo_docente('%s','%s')"
+                                                class="waves-effect waves-circle 
+                                                waves-light btn-floating secondary-content">
+                                                <i class="material-icons">add</i>
+                                            </a>
+                                        </td>
+                                    </tr>""" % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5],
+                                                request.GET['fecha'], str(st.id))
                                 j += 1
 
                     if j == 0:
-                        ul += '''<tr>
-                            <td></td>
-                            <td>Sala sin turnos para usted, contactenos para mas detalles</td>
-                            </tr>'''
+                        tr += """
+                        <tr>                            
+                            <td colspan=2>Sala sin turnos, contactenos para mas detalles</td>
+                        </tr>"""
 
-                ul += '</tbody></table></div></li>'
-            ul += '</ul>'
-            return HttpResponse(ul.encode('utf-8'))
+                    body = """
+                        <tbody>
+                            %s
+                        </tbody>
+                    </table>
+                    </div>                
+                    """ % tr
+                    tablas += head + body
+                conta_tablas += 1
+
+            return HttpResponse(tablas.encode('utf-8'))
     else:
         return HttpResponseRedirect('/')
 
@@ -409,18 +556,23 @@ def add_prestamo_docente(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             date = request.POST['fecha'].split('-')
-            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                                  year=int(date[0]))
             ahora = datetime.datetime.now()
             carga = Carga.objects.get(id=request.POST['carga'])
-            turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno'])
+            turno_sala = Turno_Sala.objects.get(
+                id=request.POST['sala_turno'])
 
             if carga.matriculados > turno_sala.sala.capacidad:
                 request.session['msg'] = 'supera la capacidad de la sala'
                 return HttpResponseRedirect('inicio')
 
-            prestamos_activos = Prestamo.objects.filter(profesor=carga.profesor, estado=0, date_turno__gte=ahora.date())
+            prestamos_activos = Prestamo.objects.filter(
+                profesor=carga.profesor, estado=0,
+                date_turno__gte=ahora.date())
             if len(prestamos_activos) == 3:
-                request.session['msg'] = 'ya tiene los turnos activos permitidos, 3'
+                request.session[
+                    'msg'] = 'ya tiene los turnos activos permitidos, 3'
                 return HttpResponseRedirect('inicio')
 
             prestamo = Prestamo()
@@ -433,7 +585,8 @@ def add_prestamo_docente(request):
             prestamo.date_turno = fecha
             prestamo.matriculados = carga.matriculados
             prestamo.ip = request.client_ip
-            prestamo.usuario = Profesor.objects.get(persona__user__username=request.session['usuario']).\
+            prestamo.usuario = Profesor.objects.get(
+                persona__user__username=request.session['usuario']). \
                 persona.user.first_name
             prestamo.save()
             request.session['msg'] = 'prestamo registrado con exito'
@@ -454,17 +607,18 @@ def desactivar_prestamo_docente(request):
         return HttpResponseRedirect('/')
 
 
-#-------------------end def Docentes--------------
+# -------------------end def Docentes--------------
 
 
-#--------------def Becas-------------------
+# --------------def Becas-------------------
 @login_required(login_url='/')
 def llegada_docente(request):
     if request.user.is_authenticated():
         if 'id' in request.GET:
             prestamo = Prestamo.objects.get(id=request.GET['id'])
             prestamo.estado = 1
-            prestamo.beca = Beca.objects.get(persona__user__username=request.session['usuario'])
+            prestamo.beca = Beca.objects.get(
+                persona__user__username=request.session['usuario'])
             prestamo.save()
         return HttpResponseRedirect('inicio')
     else:
@@ -477,11 +631,14 @@ def ver_horario_edificio(request):
         if 'id' in request.GET:
             edificio = Edificio.objects.get(id=request.GET['id'])
             ahora = datetime.datetime.now()
-            turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1), time_start__lte=ahora.time(),
+            turnos = Turno.objects.filter(dia=(ahora.isoweekday() - 1),
+                                          time_start__lte=ahora.time(),
                                           time_end__gte=ahora.time())
             prestamos_envio = []
             for turno in turnos:
-                prestamos = Prestamo.objects.filter(date_turno=ahora.date(), turno_sala__turno=turno).exclude(estado=2)
+                prestamos = Prestamo.objects.filter(date_turno=ahora.date(),
+                                                    turno_sala__turno=turno).exclude(
+                    estado=2)
                 for pres in prestamos:
                     prestamos_envio.append(pres)
 
@@ -508,16 +665,20 @@ def ver_horario_edificio(request):
                         else:
                             data += '<tr class="white-text red">'
 
-                        data += '<td>%s</td>'%(pres_envio.turno_sala.sala.codigo)
-                        data += '<td>%s</td>'%(pres_envio.profesor.persona.user.first_name)
-                        data += '<td>%s - %s</td>'%(pres_envio.nombre, pres_envio.grupo)
+                        data += '<td>%s</td>' % (
+                        pres_envio.turno_sala.sala.codigo)
+                        data += '<td>%s</td>' % (
+                        pres_envio.profesor.persona.user.first_name)
+                        data += '<td>%s - %s</td>' % (
+                        pres_envio.nombre, pres_envio.grupo)
                         if pres_envio.estado == 1:
                             data += '''
                                 <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
                                 secondary-content green darken-4"><i class="material-icons">done_all</i>
                                             </a>
                                 </td>
-                            ''' % (pres_envio.turno_sala.turno.time_start, pres_envio.turno_sala.turno.time_end)
+                            ''' % (pres_envio.turno_sala.turno.time_start,
+                                   pres_envio.turno_sala.turno.time_end)
                         else:
                             data += '''
                                 <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
@@ -526,19 +687,24 @@ def ver_horario_edificio(request):
                                             </a>
                                 </td>
 
-                            ''' % (pres_envio.turno_sala.turno.time_start, pres_envio.turno_sala.turno.time_end)
+                            ''' % (pres_envio.turno_sala.turno.time_start,
+                                   pres_envio.turno_sala.turno.time_end)
                         data += '</tr>'
 
                     data += '</tbody></table>'
-                    msg = {'data': data, 'total': 'Aproximado de Personas: '+str(total)}
+                    msg = {'data': data,
+                           'total': 'Aproximado de Personas: ' + str(total)}
                     res = json.dumps(msg)
                     return HttpResponse(res, content_type='application/json')
-                msg = {'data': '''<h2 class="green-text col l12 ">Turno Libre :)</h2>''', 'total': 'Aproximado de Personas: 0'}
+                msg = {
+                    'data': '''<h2 class="green-text col l12 ">Turno Libre :)</h2>''',
+                    'total': 'Aproximado de Personas: 0'}
                 res = json.dumps(msg)
                 return HttpResponse(res, content_type='application/json')
 
-
-            return render(request, 'diseraca/horario_sala.html', {'edificio': edificio, 'prestamos': prestamos_envio})
+            return render(request, 'diseraca/horario_sala.html',
+                          {'edificio': edificio,
+                           'prestamos': prestamos_envio})
 
     else:
         return HttpResponseRedirect('/')
@@ -547,27 +713,35 @@ def ver_horario_edificio(request):
 @login_required(login_url='/')
 def registrar_asistencia(request):
     if request.user.is_authenticated() and 'usuario' in request.session:
-        #print request.client_ip
-        beca = Beca.objects.get(persona__user__username=request.session['usuario'])
+        # print request.client_ip
+        beca = Beca.objects.get(
+            persona__user__username=request.session['usuario'])
         ahora = datetime.datetime.now()
         asistencia = Asistencia.objects.filter(date_turno=ahora.date(),
                                                beca_turno__beca=beca,
                                                beca_turno__turno__time_start__lt=ahora.time(),
-                                               beca_turno__turno__time_end__gt=ahora.time(), tipo=0)
+                                               beca_turno__turno__time_end__gt=ahora.time(),
+                                               tipo=0)
 
-
-        #turno_ahora = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca, datetime_registro=None)
+        # turno_ahora = Asistencia.objects.filter(date_turno=ahora.date(), beca_turno__beca=beca, datetime_registro=None)
         if len(asistencia) > 0:
-            if asistencia[0].datetime_registro != None and asistencia[0].ip != None:
-                request.session['msg'] = u'Ya se había registrado en este turno, como inasistencia'
+            if asistencia[0].datetime_registro != None and asistencia[
+                0].ip != None:
+                request.session[
+                    'msg'] = u'Ya se había registrado en este turno, como inasistencia'
                 return HttpResponseRedirect('inicio')
 
-            if datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00) < ahora.time() \
-                    < datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=50, second=00):
+            if datetime.time(
+                    hour=asistencia[0].beca_turno.turno.time_start.hour,
+                    minute=15, second=00) < ahora.time() \
+                    < datetime.time(
+                hour=asistencia[0].beca_turno.turno.time_start.hour,
+                minute=50, second=00):
                 try:
                     ip = Ip_Registro.objects.get(ip=request.client_ip)
                     if not ip.estado:
-                        request.session['msg'] = 'IP desactivada, no se registro la llegada'
+                        request.session[
+                            'msg'] = 'IP desactivada, no se registro la llegada'
                         return HttpResponseRedirect('inicio')
 
                     asistencia[0].ip = ip
@@ -580,7 +754,9 @@ def registrar_asistencia(request):
                 except Ip_Registro.DoesNotExist:
                     request.session['msg'] = 'Ip no valida'
                     return HttpResponseRedirect('inicio')
-            elif ahora.time() < datetime.time(hour=asistencia[0].beca_turno.turno.time_start.hour, minute=15, second=00):
+            elif ahora.time() < datetime.time(
+                    hour=asistencia[0].beca_turno.turno.time_start.hour,
+                    minute=15, second=00):
                 try:
                     ip = Ip_Registro.objects.get(ip=request.client_ip)
                     asistencia[0].ip = ip
@@ -611,12 +787,13 @@ def registrar_asistencia(request):
         return HttpResponseRedirect('/')
 
 
-#------------admin-----------
+# ------------admin-----------
 @login_required(login_url='/')
 def buscar_salas_admin(request):
     if 'id' in request.GET and 'fecha' in request.GET and 'docente' in request.GET:
         try:
-            profesor = Profesor.objects.get(persona__user__username=request.GET['docente'])
+            profesor = Profesor.objects.get(
+                persona__user__username=request.GET['docente'])
         except Profesor.DoesNotExist:
             text = '<h3 class="accent-1 red-text">No existe el docente</h3>'
             return HttpResponse(text)
@@ -624,12 +801,15 @@ def buscar_salas_admin(request):
         # se obtiene el mes en numero
         date = request.GET['fecha'].split('-')
 
-        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                              year=int(date[0]))
         edificio = Edificio.objects.get(id=request.GET['id'])
-        salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
+        salas = Sala.objects.filter(edificio=edificio).exclude(
+            estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
         if len(salas) == 0:
-            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (edificio.nombre)
+            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
+            edificio.nombre)
             return HttpResponse(text)
 
         ul = '<h3 class="accent-1 red-text">%s, %s</h3><ul class="collapsible" data-collapsible="accordion">' % (
@@ -648,9 +828,12 @@ def buscar_salas_admin(request):
                                   </tr>
                                 </thead>
                                 <tbody>
-            ''' % (['Sala Audiovisuales', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
+            ''' % (
+            ['Sala Audiovisuales', 'Aula virtual', 'Auditorio'][s.tipo],
+            str(s.capacidad), s.codigo)
 
-            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(turno__dia=(fecha.isoweekday() - 1)).exclude(
+            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
+                turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
 
             if len(sala_turnos) == 0:
@@ -660,8 +843,11 @@ def buscar_salas_admin(request):
                         </tr>'''
             else:
                 for st in sala_turnos:
-                    if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                        prestamos = Prestamo.objects.filter(date_turno=fecha).filter(turno_sala=st).filter(estado=0)
+                    if (
+                            st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
+                        prestamos = Prestamo.objects.filter(
+                            date_turno=fecha).filter(turno_sala=st).filter(
+                            estado=0)
 
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
@@ -671,31 +857,39 @@ def buscar_salas_admin(request):
                                     <a onclick="ver_form('%s')" class="waves-effect waves-circle
                                     waves-light btn-floating secondary-content">
                                     <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5], str(st.id))
+                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5],
+                                                str(st.id))
                         else:
                             if prestamos[0].tipo == 1:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
-                                                                               str(st.turno.time_end)[:5],
-                                                                               u'Sustentación de %s de %s '
-                                                                                %(prestamos[0].solicitante,
-                                                                                  prestamos[0].carrera.nombre)
-                                                                               )
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
+                                str(st.turno.time_start)[:5],
+                                str(st.turno.time_end)[:5],
+                                u'Sustentación de %s de %s '
+                                % (prestamos[0].solicitante,
+                                   prestamos[0].carrera.nombre)
+                                )
                             elif prestamos[0].tipo == 2:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
-                                                                                str(st.turno.time_end)[:5],
-                                                                                'Curso'
-                                                                                )
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
+                                str(st.turno.time_start)[:5],
+                                str(st.turno.time_end)[:5],
+                                'Curso'
+                                )
                             elif prestamos[0].tipo == 3:
-                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (str(st.turno.time_start)[:5],
-                                                                                str(st.turno.time_end)[:5],
-                                                                                u'Reunión'
-                                                                                )
+                                ul += "<tr><td>%s a %s</td><td>%s</td></tr>" % (
+                                str(st.turno.time_start)[:5],
+                                str(st.turno.time_end)[:5],
+                                u'Reunión'
+                                )
                             else:
                                 ul += '''<tr>
                                 <td>%s a %s</td>
                                 <td>%s</td>
-                                </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                            prestamos[0].profesor.persona.user.first_name + ' / ' + prestamos[0].nombre
+                                </tr>''' % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[
+                                                                                      0].profesor.persona.user.first_name + ' / ' +
+                                            prestamos[0].nombre
                                             + ', G-' + prestamos[0].grupo)
 
             ul += '</tbody></table></div></li>'
@@ -707,14 +901,17 @@ def buscar_salas_admin(request):
 def get_carga_docente(request):
     if 'docente' in request.GET:
         try:
-            profesor = Profesor.objects.get(persona__user__username=request.GET['docente'])
+            profesor = Profesor.objects.get(
+                persona__user__username=request.GET['docente'])
             carga = Carga.objects.filter(profesor=profesor)
             data = '''<option value="" disabled selected>Seleccione</option>'''
             for c in carga:
-                data += '''<option value="%s">%s-%s-%s, Matriculados: %s</option>''' % (c.id, c.nombre, c.codigo, c.grupo,
-                                                                                  c.matriculados)
+                data += '''<option value="%s">%s-%s-%s, Matriculados: %s</option>''' % (
+                c.id, c.nombre, c.codigo, c.grupo,
+                c.matriculados)
 
-            data = json.dumps({'code': 200, 'msg': data, 'docente': profesor.persona.user.first_name.upper()})
+            data = json.dumps({'code': 200, 'msg': data,
+                               'docente': profesor.persona.user.first_name.upper()})
             return HttpResponse(data, content_type='application/json')
 
         except Profesor.DoesNotExist:
@@ -726,17 +923,20 @@ def add_prestamo_docente_admin(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             date = request.POST['fecha'].split('-')
-            fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+            fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                                  year=int(date[0]))
             carga = Carga.objects.get(id=request.POST['carga'])
-            turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno'])
+            turno_sala = Turno_Sala.objects.get(
+                id=request.POST['sala_turno'])
 
             if carga.matriculados > turno_sala.sala.capacidad:
                 request.session['msg'] = 'supera la capacidad de la sala'
 
-
-            prestamos_activos = Prestamo.objects.filter(profesor=carga.profesor, estado=0)
+            prestamos_activos = Prestamo.objects.filter(
+                profesor=carga.profesor, estado=0)
             if len(prestamos_activos) == 3:
-                request.session['msg'] = 'ya tiene los turnos activos permitidos'
+                request.session[
+                    'msg'] = 'ya tiene los turnos activos permitidos'
 
             prestamo = Prestamo()
             prestamo.carrera = carga.carrera
@@ -748,7 +948,8 @@ def add_prestamo_docente_admin(request):
             prestamo.date_turno = fecha
             prestamo.matriculados = carga.matriculados
             prestamo.ip = request.client_ip
-            prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+            prestamo.usuario = Persona.objects.get(
+                user__username=request.session['usuario']).user.first_name
             prestamo.save()
 
             if 'msg' not in request.session:
@@ -764,11 +965,14 @@ def get_prestamos_activos_docente(request):
     if request.user.is_authenticated():
         if 'docente' in request.GET:
             try:
-                p = Profesor.objects.get(persona__user__username=request.GET['docente'])
+                p = Profesor.objects.get(
+                    persona__user__username=request.GET['docente'])
             except Profesor.DoesNotExist:
-                return HttpResponse('<h4 class="accent-1 red-text" hidden>No existe el docente :(</h4>')
+                return HttpResponse(
+                    '<h4 class="accent-1 red-text" hidden>No existe el docente :(</h4>')
             ahora = datetime.datetime.now()
-            prestamos = Prestamo.objects.filter(profesor=p, estado=0, date_turno__gte=ahora.date())
+            prestamos = Prestamo.objects.filter(profesor=p, estado=0,
+                                                date_turno__gte=ahora.date())
             if len(prestamos) > 0:
                 data = '''
                     <h4 class="accent-1 red-text">Prestamos Activos</h4>
@@ -797,8 +1001,12 @@ def get_prestamos_activos_docente(request):
                                 </td>
                             </tr>
 
-                    ''' % (prestamo.turno_sala.sala.codigo, prestamo.turno_sala.sala.edificio.codigo, prestamo.date_turno,
-                           prestamo.turno_sala.turno.time_start, prestamo.turno_sala.turno.time_end, prestamo.nombre,
+                    ''' % (prestamo.turno_sala.sala.codigo,
+                           prestamo.turno_sala.sala.edificio.codigo,
+                           prestamo.date_turno,
+                           prestamo.turno_sala.turno.time_start,
+                           prestamo.turno_sala.turno.time_end,
+                           prestamo.nombre,
                            prestamo.grupo, prestamo.id)
                 data += '</tbody></table>'
             else:
@@ -812,44 +1020,45 @@ def get_prestamos_activos_docente(request):
 @login_required(login_url='/')
 def view_becas(request):
     if request.user.is_authenticated():
-        turnos = Turno.objects.filter(id__lte=48, estado=0).order_by('time_start')
+        turnos = Turno.objects.filter(id__lte=48, estado=0).order_by(
+            'time_start')
         beca_turnos_lunes = Beca_Turno.objects.filter(turno__dia=0,
-                                        status=True,
-                                        beca__persona__user__is_active=True)
+                                                      status=True,
+                                                      beca__persona__user__is_active=True)
         beca_turnos_martes = Beca_Turno.objects.filter(turno__dia=1,
                                                        status=True,
-                                        beca__persona__user__is_active=True)
+                                                       beca__persona__user__is_active=True)
         beca_turnos_miercoles = Beca_Turno.objects.filter(turno__dia=2,
                                                           status=True,
-                                        beca__persona__user__is_active=True)
+                                                          beca__persona__user__is_active=True)
         beca_turnos_jueves = Beca_Turno.objects.filter(turno__dia=3,
                                                        status=True,
-                                        beca__persona__user__is_active=True)
+                                                       beca__persona__user__is_active=True)
         beca_turnos_viernes = Beca_Turno.objects.filter(turno__dia=4,
                                                         status=True,
-                                        beca__persona__user__is_active=True)
+                                                        beca__persona__user__is_active=True)
         beca_turnos_sabado = Beca_Turno.objects.filter(turno__dia=5,
                                                        status=True,
-                                        beca__persona__user__is_active=True)
+                                                       beca__persona__user__is_active=True)
 
-        persona = Persona.objects.get(user__username=request.session['usuario'])
-        #ips = Ip_Registro.objects.filter(estado=True)
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
+        # ips = Ip_Registro.objects.filter(estado=True)
 
-
-
-        return render(request, 'diseraca/admin/becas.html', {'turnos': turnos,
-                                                             'beca_turnos_lunes': beca_turnos_lunes,
-                                                             'beca_turnos_martes': beca_turnos_martes,
-                                                             'beca_turnos_miercoles': beca_turnos_miercoles,
-                                                             'beca_turnos_jueves': beca_turnos_jueves,
-                                                             'beca_turnos_viernes': beca_turnos_viernes,
-                                                             'beca_turnos_sabado': beca_turnos_sabado,
-                                                             'admin': persona})
+        return render(request, 'diseraca/admin/becas.html',
+                      {'turnos': turnos,
+                       'beca_turnos_lunes': beca_turnos_lunes,
+                       'beca_turnos_martes': beca_turnos_martes,
+                       'beca_turnos_miercoles': beca_turnos_miercoles,
+                       'beca_turnos_jueves': beca_turnos_jueves,
+                       'beca_turnos_viernes': beca_turnos_viernes,
+                       'beca_turnos_sabado': beca_turnos_sabado,
+                       'admin': persona})
     else:
         return HttpResponseRedirect('/')
 
 
-#-------crud becas--------
+# -------crud becas--------
 
 @login_required(login_url='/')
 def add_beca(request):
@@ -971,7 +1180,7 @@ def asignar_asistencias_semestre(request):
             fecha_ini2 = fecha_ini + datetime.timedelta(days=i)
 
             for beca_turno in beca_turnos:
-                fecha = fecha_ini2 #lunea
+                fecha = fecha_ini2  # lunea
                 for i in range(0, int(request.POST['semanas'])):
                     try:
                         asistencia = Asistencia()
@@ -982,7 +1191,8 @@ def asignar_asistencias_semestre(request):
                     except Exception as e:
                         print(e)
 
-        messages.success(request, "Las asistencias se registraron exitosamente.")
+        messages.success(request,
+                         "Las asistencias se registraron exitosamente.")
         return HttpResponseRedirect('view_becas')
 
 
@@ -996,7 +1206,7 @@ def desactivar_beca_admin(request):
             beca.delete_asistencias()
             beca.delete_turnos()
 
-            #'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
+            # 'Beca desactivado, recuerde que solo el webmaster puede activar usuarios'
 
             res = json.dumps({'code': 200, 'msg': "Beca desactivado"})
             return HttpResponse(res, content_type='application/json')
@@ -1029,16 +1239,20 @@ def get_becas(request):
         becas = Beca.objects.all()
 
         t = [{'id': w.id, 'tel': w.tel, 'nick': w.nick, 'cc': w.cc,
-              'persona': {'nombre': w.persona.user.first_name, 'codigo': w.persona.user.username,
-                          'email': w.persona.user.email, 'is_active': w.persona.user.is_active}} for w in becas]
-        #data = json.dumps(t)
+              'persona': {'nombre': w.persona.user.first_name,
+                          'codigo': w.persona.user.username,
+                          'email': w.persona.user.email,
+                          'is_active': w.persona.user.is_active}} for w in
+             becas]
+        # data = json.dumps(t)
 
         res = json.dumps({'code': 200, 'msg': t})
         return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
-#----crud ip-----------
+
+# ----crud ip-----------
 
 @login_required(login_url='/')
 def get_ips(request):
@@ -1118,19 +1332,22 @@ def editar_ip(request):
         return HttpResponseRedirect('/')
 
 
-#----------prestar salar sustentaciones, cursos y reuniones
+# ----------prestar salar sustentaciones, cursos y reuniones
 @login_required(login_url='/')
 def buscar_salas_admin_sustentacion(request):
     if request.user.is_authenticated():
         # se obtiene el mes en numero
         date = request.GET['fecha'].split('-')
-        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                              year=int(date[0]))
         edificio = Edificio.objects.get(id=request.GET['id'])
-        salas = Sala.objects.filter(edificio=edificio).exclude(estado=2).order_by('tipo')
+        salas = Sala.objects.filter(edificio=edificio).exclude(
+            estado=2).order_by('tipo')
         ahora = datetime.datetime.now()
 
         if len(salas) == 0:
-            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (edificio.nombre)
+            text = '<h3 class="accent-1 red-text">%s Sin salas disponibles</h3>' % (
+            edificio.nombre)
             return HttpResponse(text)
 
         ul = '<h3 class="accent-1 red-text">%s, %s</h3><ul class="collapsible" data-collapsible="accordion">' % (
@@ -1149,9 +1366,11 @@ def buscar_salas_admin_sustentacion(request):
                               </tr>
                             </thead>
                             <tbody>
-            ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo], str(s.capacidad), s.codigo)
+            ''' % (['Sala de clase', 'Aula virtual', 'Auditorio'][s.tipo],
+                   str(s.capacidad), s.codigo)
 
-            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(turno__dia=(fecha.isoweekday() - 1)).exclude(
+            sala_turnos = Turno_Sala.objects.filter(sala=s).filter(
+                turno__dia=(fecha.isoweekday() - 1)).exclude(
                 estado=1).order_by('turno__time_start')
 
             if len(sala_turnos) == 0:
@@ -1161,11 +1380,14 @@ def buscar_salas_admin_sustentacion(request):
                             </tr>'''
             else:
                 for st in sala_turnos:
-                    if (st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                        prestamos = Prestamo.objects.filter(date_turno=fecha).filter(turno_sala=st).filter(estado=0)
+                    if (
+                            st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
+                        prestamos = Prestamo.objects.filter(
+                            date_turno=fecha).filter(turno_sala=st).filter(
+                            estado=0)
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
-                                #la opcion viene de buscar salas para prestamos de cursos/reuniones
+                                # la opcion viene de buscar salas para prestamos de cursos/reuniones
                                 if 'opcion' in request.GET:
                                     ul += '''<tr>
                                     <td>%s a %s</td>
@@ -1173,7 +1395,9 @@ def buscar_salas_admin_sustentacion(request):
                                     <a onclick="ver_form_cursos('%s')" class="waves-effect waves-circle
                                     waves-light btn-floating secondary-content">
                                     <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5], str(st.id))
+                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5],
+                                                str(st.id))
                                 else:
                                     ul += '''<tr>
                                     <td>%s a %s</td>
@@ -1181,20 +1405,26 @@ def buscar_salas_admin_sustentacion(request):
                                     <a onclick="ver_form_sustentacion('%s')" class="waves-effect waves-circle
                                     waves-light btn-floating secondary-content">
                                     <i class="material-icons">add</i></a></td>
-                                    </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5], str(st.id))
+                                    </tr>''' % (str(st.turno.time_start)[:5],
+                                                str(st.turno.time_end)[:5],
+                                                str(st.id))
                         else:
                             # la opcion viene de buscar salas para prestamos de cursos/reuniones
-                            if prestamos[0].tipo == 1 and not 'opcion' in request.GET:
+                            if prestamos[
+                                0].tipo == 1 and not 'opcion' in request.GET:
                                 ul += '''<tr>
                                 <td>%s a %s</td>
                                 <td>Sustentacion de %s de %s
                                 <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
                                 waves-light btn-floating secondary-content red">
                                 <i class="material-icons">delete</i></a></td>
-                                </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                prestamos[0].solicitante, prestamos[0].carrera.nombre, prestamos[0].id)
+                                </tr>''' % (str(st.turno.time_start)[:5],
+                                            str(st.turno.time_end)[:5],
+                                            prestamos[0].solicitante,
+                                            prestamos[0].carrera.nombre,
+                                            prestamos[0].id)
                             elif 'opcion' in request.GET:
-                                #curso
+                                # curso
                                 if prestamos[0].tipo == 2:
                                     ul += '''<tr>
                                         <td>%s a %s</td>
@@ -1202,9 +1432,13 @@ def buscar_salas_admin_sustentacion(request):
                                         <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
                                         waves-light btn-floating secondary-content red">
                                         <i class="material-icons">delete</i></a></td>
-                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                    prestamos[0].solicitante, prestamos[0].carrera.nombre, prestamos[0].id)
-                                #reunion
+                                        </tr>''' % (
+                                    str(st.turno.time_start)[:5],
+                                    str(st.turno.time_end)[:5],
+                                    prestamos[0].solicitante,
+                                    prestamos[0].carrera.nombre,
+                                    prestamos[0].id)
+                                # reunion
                                 elif prestamos[0].tipo == 3:
                                     ul += u'''<tr>
                                         <td>%s a %s</td>
@@ -1212,11 +1446,11 @@ def buscar_salas_admin_sustentacion(request):
                                         <a onclick="desactivar_prestamo_docente('%s')" class="waves-effect waves-circle 
                                         waves-light btn-floating secondary-content red">
                                         <i class="material-icons">delete</i></a></td>
-                                        </tr>''' % (str(st.turno.time_start)[:5], str(st.turno.time_end)[:5],
-                                    prestamos[0].solicitante, prestamos[0].detalle, prestamos[0].id)
-
-
-
+                                        </tr>''' % (
+                                    str(st.turno.time_start)[:5],
+                                    str(st.turno.time_end)[:5],
+                                    prestamos[0].solicitante,
+                                    prestamos[0].detalle, prestamos[0].id)
 
             ul += '</tbody></table></div></li>'
         ul += '</ul>'
@@ -1229,9 +1463,11 @@ def buscar_salas_admin_sustentacion(request):
 def add_prestamo_sustentacion_admin(request):
     if request.user.is_authenticated():
         date = request.POST['fecha_sustentacion'].split('-')
-        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                              year=int(date[0]))
         carrera = Carrera.objects.get(codigo=request.POST['carrera'])
-        turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_sustentacion'])
+        turno_sala = Turno_Sala.objects.get(
+            id=request.POST['sala_turno_sustentacion'])
         prestamo = Prestamo()
         prestamo.carrera = carrera
         prestamo.turno_sala = turno_sala
@@ -1241,11 +1477,13 @@ def add_prestamo_sustentacion_admin(request):
         prestamo.tel = request.POST['tel']
         prestamo.tipo = 1
         prestamo.matriculados = turno_sala.sala.capacidad
-        prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+        prestamo.usuario = Persona.objects.get(
+            user__username=request.session['usuario']).user.first_name
         prestamo.save()
 
         if 'msg' not in request.session:
-            request.session['msg'] = 'Prestamo para sustentacion realizado con exito'
+            request.session[
+                'msg'] = 'Prestamo para sustentacion realizado con exito'
 
         return HttpResponseRedirect('inicio')
     else:
@@ -1256,9 +1494,11 @@ def add_prestamo_sustentacion_admin(request):
 def add_prestamo_cursos_admin(request):
     if request.user.is_authenticated():
         date = request.POST['fecha_curso'].split('-')
-        fecha = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha = datetime.date(day=int(date[2]), month=int(date[1]),
+                              year=int(date[0]))
         carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos'])
-        turno_sala = Turno_Sala.objects.get(id=request.POST['sala_turno_curso'])
+        turno_sala = Turno_Sala.objects.get(
+            id=request.POST['sala_turno_curso'])
         prestamo = Prestamo()
         prestamo.carrera = carrera
         prestamo.turno_sala = turno_sala
@@ -1269,7 +1509,8 @@ def add_prestamo_cursos_admin(request):
         prestamo.tel = request.POST['tel']
         prestamo.tipo = request.POST['tipo']
         prestamo.matriculados = turno_sala.sala.capacidad
-        prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+        prestamo.usuario = Persona.objects.get(
+            user__username=request.session['usuario']).user.first_name
         prestamo.save()
 
         if 'msg' not in request.session:
@@ -1285,17 +1526,20 @@ def save_prestamo_masivo(request):
     if request.user.is_authenticated():
 
         date = request.POST['fecha_inicial'].split('-')
-        fecha_inicial = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha_inicial = datetime.date(day=int(date[2]), month=int(date[1]),
+                                      year=int(date[0]))
         date = request.POST['fecha_final'].split('-')
-        fecha_final = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+        fecha_final = datetime.date(day=int(date[2]), month=int(date[1]),
+                                    year=int(date[0]))
 
         if fecha_inicial >= fecha_final:
-            res = json.dumps({'code': 200, 'msg': "la fecha inicial debe ser mayor a la final"})
+            res = json.dumps({'code': 200,
+                              'msg': "la fecha inicial debe ser mayor a la final"})
             return HttpResponse(res, content_type='application/json')
 
-        carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos_masivo'])
+        carrera = Carrera.objects.get(
+            codigo=request.POST['carrera_cursos_masivo'])
         turno_sala = Turno_Sala.objects.get(id=request.POST['turno'])
-
 
         while fecha_inicial.isoweekday() - 1 != turno_sala.turno.dia:
             fecha_inicial = fecha_inicial + datetime.timedelta(days=1)
@@ -1303,7 +1547,8 @@ def save_prestamo_masivo(request):
         registros = 0
         salida = ""
         while fecha_inicial <= fecha_final:
-            prestamos_turno = Prestamo.objects.filter(date_turno=fecha_inicial, turno_sala=turno_sala, estado=0)
+            prestamos_turno = Prestamo.objects.filter(
+                date_turno=fecha_inicial, turno_sala=turno_sala, estado=0)
             if len(prestamos_turno) == 0:
                 prestamo = Prestamo()
                 prestamo.carrera = carrera
@@ -1315,7 +1560,9 @@ def save_prestamo_masivo(request):
                 prestamo.tel = request.POST['tel']
                 prestamo.tipo = request.POST['tipo']
                 prestamo.matriculados = turno_sala.sala.capacidad
-                prestamo.usuario = Persona.objects.get(user__username=request.session['usuario']).user.first_name
+                prestamo.usuario = Persona.objects.get(
+                    user__username=request.session[
+                        'usuario']).user.first_name
                 prestamo.save()
                 registros += 1
             else:
@@ -1323,26 +1570,31 @@ def save_prestamo_masivo(request):
             fecha_inicial = fecha_inicial + datetime.timedelta(days=7)
 
         if salida != "":
-            res = json.dumps({'code': 200, 'msg': "{0} registrados, no registrados {1}".format(registros, salida)})
+            res = json.dumps({'code': 200,
+                              'msg': "{0} registrados, no registrados {1}".format(
+                                  registros, salida)})
         else:
-            res = json.dumps({'code': 200, 'msg': "{0} registrados".format(registros)})
+            res = json.dumps(
+                {'code': 200, 'msg': "{0} registrados".format(registros)})
         return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
-#-----------------end prestar salar sustentaciones, cursos y reuniones
 
 
+# -----------------end prestar salar sustentaciones, cursos y reuniones
 
 
-#--------------------Crud Turnos---------------
+# --------------------Crud Turnos---------------
 
 @login_required(login_url='/')
 def view_turnos(request):
     if request.user.is_authenticated():
-        persona = Persona.objects.get(user__username=request.session['usuario'])
-        #turnos = Turno.objects.filter(dia=0)
-        #return render(request, 'diseraca/admin/turnos.html', {'admin': persona, 'turnos': turnos})
-        return render(request, 'diseraca/admin/turnos.html', {'admin': persona})
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
+        # turnos = Turno.objects.filter(dia=0)
+        # return render(request, 'diseraca/admin/turnos.html', {'admin': persona, 'turnos': turnos})
+        return render(request, 'diseraca/admin/turnos.html',
+                      {'admin': persona})
     else:
         return HttpResponseRedirect('/')
 
@@ -1350,11 +1602,15 @@ def view_turnos(request):
 @login_required(login_url='/')
 def get_turno_dia(request):
     if request.user.is_authenticated() and 'dia' in request.GET:
-        turnos = Turno.objects.filter(dia=request.GET['dia']).order_by('time_start')
-        data = serializers.serialize('json', turnos, fields=('time_start', 'time_end', 'estado', 'dia'))
+        turnos = Turno.objects.filter(dia=request.GET['dia']).order_by(
+            'time_start')
+        data = serializers.serialize('json', turnos, fields=('time_start',
+                                                             'time_end',
+                                                             'estado',
+                                                             'dia'))
         return HttpResponse(data, content_type='application/json')
     else:
-        #print "no esta el dia"
+        # print "no esta el dia"
         return HttpResponseRedirect('/')
 
 
@@ -1367,7 +1623,7 @@ def save_turno(request):
             turno.time_end = request.POST["turno[fields][time_end]"]
             turno.estado = request.POST["turno[fields][estado]"]
             turno.dia = request.POST["turno[fields][dia]"]
-            #print request.POST["turno[fields][dia]"], 'editar'
+            # print request.POST["turno[fields][dia]"], 'editar'
             turno.save()
             return HttpResponse("Editado Exitosamente")
         except Turno.DoesNotExist:
@@ -1376,7 +1632,7 @@ def save_turno(request):
             turno.time_end = request.POST["turno[fields][time_end]"]
             turno.estado = request.POST["turno[fields][estado]"]
             turno.dia = request.POST["turno[fields][dia]"]
-            #print request.POST["turno[fields][dia]"], 'nuevo'
+            # print request.POST["turno[fields][dia]"], 'nuevo'
             turno.save()
             return HttpResponse("Creado con exito")
     else:
@@ -1387,12 +1643,15 @@ def save_turno(request):
 @login_required(login_url='/')
 def view_docentes(request):
     if request.user.is_authenticated():
-        persona = Persona.objects.get(user__username=request.session['usuario'])
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
         if 'msg' in request.session:
             msg = request.session['msg']
             del request.session['msg']
-            return render(request, 'diseraca/admin/docentes.html', {'admin': persona, 'msg': msg})
-        return render(request, 'diseraca/admin/docentes.html', {'admin': persona})
+            return render(request, 'diseraca/admin/docentes.html',
+                          {'admin': persona, 'msg': msg})
+        return render(request, 'diseraca/admin/docentes.html',
+                      {'admin': persona})
     else:
         return HttpResponseRedirect('/')
 
@@ -1401,12 +1660,16 @@ def view_docentes(request):
 def get_turno_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
         x = Turno_Sala.objects.filter(sala_id=request.GET["sala"])
-        t = [{"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta)
-            , "sala": {"codigo": w.sala.codigo, "edificio":
-                w.sala.edificio_id, "pk": w.sala_id},
-                "turno": {"time_start": str(w.turno.time_start),
-                "time_end": str(w.turno.time_end), "dia": w.turno.dia,
-                        "pk": w.turno_id}}} for w in x]
+        t = [
+            {"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta)
+                , "sala": {"codigo": w.sala.codigo, "edificio":
+                    w.sala.edificio_id, "pk": w.sala_id},
+                                    "turno": {"time_start": str(
+                                        w.turno.time_start),
+                                              "time_end": str(
+                                                  w.turno.time_end),
+                                              "dia": w.turno.dia,
+                                              "pk": w.turno_id}}} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
@@ -1418,17 +1681,20 @@ def get_turno_dia_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
         x = Turno_Sala.objects.filter(sala_id=request.GET["sala"],
                                       turno__dia=request.GET[
-                                          'dia']).order_by('turno__time_start')
-        t = [{"id": w.id, "time_start": str(w.turno.time_start), "time_end": str(w.turno.time_end)} for w in x]
+                                          'dia']).order_by(
+            'turno__time_start')
+        t = [{"id": w.id, "time_start": str(w.turno.time_start),
+              "time_end": str(w.turno.time_end)} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
+
 # --------------------end Crud Turnos---------------
 
 
-#-------------CRUD Edificios------------
+# -------------CRUD Edificios------------
 
 @login_required(login_url='/')
 def save_edificio(request):
@@ -1453,7 +1719,8 @@ def save_edificio(request):
 def get_salas(request):
     if request.user.is_authenticated():
         salas = Sala.objects.filter(edificio_id=request.GET["pk"])
-        data = serializers.serialize('json', salas, fields=('edificio', 'codigo', 'capacidad', 'tipo', 'estado'))
+        data = serializers.serialize('json', salas, fields=(
+        'edificio', 'codigo', 'capacidad', 'tipo', 'estado'))
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
@@ -1542,9 +1809,12 @@ def save_salaTurno_turno(request):
 def get_docentes(request):
     if request.user.is_authenticated():
         x = Profesor.objects.all().order_by('persona__user__username')
-        t = [{"pk": w.id, 'tel': w.tel, "persona": {"nombre": w.persona.user.first_name, 'email': w.persona.user.email,
-                                                    "codigo": w.persona.user.username},
-              'dpto': {'codigo_dpto': w.departamento.codigo, 'nombre_dpto': w.departamento.nombre}} for w in x]
+        t = [{"pk": w.id, 'tel': w.tel,
+              "persona": {"nombre": w.persona.user.first_name,
+                          'email': w.persona.user.email,
+                          "codigo": w.persona.user.username},
+              'dpto': {'codigo_dpto': w.departamento.codigo,
+                       'nombre_dpto': w.departamento.nombre}} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
@@ -1557,15 +1827,22 @@ def get_turnos_docente(request):
         try:
             user = User.objects.get(username=request.GET['docente'])
             x = Prestamo.objects.filter(profesor__persona__user=user,
-                                                date_turno__lte=request.GET['fecha_fin'],
-                                                date_turno__gte=request.GET['fecha_inicio'])
-            t = [{'pk': w.id, 'nom_materia': w.nombre, 'cod_materia': w.carrera.codigo+w.codigo, 'mat_grupo': w.grupo,
-                  'fecha_prestamo': str(w.date_prestamo)[:16], 'fecha_turno': str(w.date_turno), 'usuario': w.usuario,
+                                        date_turno__lte=request.GET[
+                                            'fecha_fin'],
+                                        date_turno__gte=request.GET[
+                                            'fecha_inicio'])
+            t = [{'pk': w.id, 'nom_materia': w.nombre,
+                  'cod_materia': w.carrera.codigo + w.codigo,
+                  'mat_grupo': w.grupo,
+                  'fecha_prestamo': str(w.date_prestamo)[:16],
+                  'fecha_turno': str(w.date_turno), 'usuario': w.usuario,
                   'sala': w.turno_sala.sala.codigo,
-                  'turno': str(w.turno_sala.turno.time_start) +'-'+ str(w.turno_sala.turno.time_end),
+                  'turno': str(w.turno_sala.turno.time_start) + '-' + str(
+                      w.turno_sala.turno.time_end),
                   'ip': w.ip, 'estado': w.estado} for w in x]
 
-            res = json.dumps({'code': 200, 'msg': t, 'docente': user.first_name.upper()})
+            res = json.dumps(
+                {'code': 200, 'msg': t, 'docente': user.first_name.upper()})
             return HttpResponse(res, content_type='application/json')
 
         except Profesor.DoesNotExist:
@@ -1593,8 +1870,10 @@ def save_docente(request):
         try:
             docente = Profesor.objects.get(id=request.POST['data[pk]'])
             docente.tel = request.POST['data[tel]']
-            docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
-            docente.persona.user.email = request.POST['data[persona][email]'].lower()
+            docente.persona.user.first_name = request.POST[
+                'data[persona][nombre]'].lower()
+            docente.persona.user.email = request.POST[
+                'data[persona][email]'].lower()
             docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
             docente.persona.user.save()
             docente.save()
@@ -1603,11 +1882,15 @@ def save_docente(request):
         except Profesor.DoesNotExist:
             try:
                 docente = Profesor()
-                docente.persona.user.username = request.POST['data[persona][codigo]']
+                docente.persona.user.username = request.POST[
+                    'data[persona][codigo]']
                 docente.tel = request.POST['data[tel]']
-                docente.persona.user.first_name = request.POST['data[persona][nombre]'].lower()
-                docente.persona.user.email = request.POST['data[persona][email]'].lower()
-                docente.departamento_id = request.POST['data[dpto][codigo_dpto]']
+                docente.persona.user.first_name = request.POST[
+                    'data[persona][nombre]'].lower()
+                docente.persona.user.email = request.POST[
+                    'data[persona][email]'].lower()
+                docente.departamento_id = request.POST[
+                    'data[dpto][codigo_dpto]']
                 docente.persona.user.save()
                 docente.save()
             except (User.DoesNotExist, Persona.DoesNotExist):
@@ -1624,7 +1907,8 @@ def save_docente(request):
 
                 profesor = Profesor()
                 profesor.persona = persona
-                profesor.departamento_id = request.POST['data[dpto][codigo_dpto]']
+                profesor.departamento_id = request.POST[
+                    'data[dpto][codigo_dpto]']
                 profesor.tel = request.POST['data[tel]']
                 profesor.save()
 
@@ -1656,7 +1940,6 @@ def save_docente_csv(request):
 
 
 def background_docente(file):
-
     data = unicode_csv_reader(file)
     add = 0
     update = 0
@@ -1675,7 +1958,8 @@ def background_docente(file):
                 dpto.codigo = str(COD_DPTO)
                 dpto.nombre = NOMDPTO.lower()
                 dpto.save()
-                profesor = Profesor.objects.get(persona__user__username=str(COD_PROFESOR))
+                profesor = Profesor.objects.get(
+                    persona__user__username=str(COD_PROFESOR))
                 profesor.persona.user.email = EMAIL.lower()
                 profesor.persona.user.first_name = NOMBRES.lower()
                 profesor.persona.user.save()
@@ -1778,7 +2062,8 @@ def background_carga_docente(file):
                 carrera.save()
                 carga = Carga()
                 carga.carrera = carrera
-                profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
+                profesor = Profesor.objects.get(
+                    persona__user__username=COD_PROFESOR)
                 carga.profesor = profesor
                 carga.matriculados = MATRICULADOS
                 carga.codigo = COD_MATERIA
@@ -1793,7 +2078,8 @@ def background_carga_docente(file):
             carrera = Carrera.objects.get(codigo=COD_CARRERA)
             carga.carrera = carrera
             try:
-                profesor = Profesor.objects.get(persona__user__username=COD_PROFESOR)
+                profesor = Profesor.objects.get(
+                    persona__user__username=COD_PROFESOR)
                 carga.profesor = profesor
                 carga.matriculados = MATRICULADOS
                 carga.codigo = COD_MATERIA
@@ -1815,7 +2101,8 @@ def save_carga_docente(request):
         print(request.POST, 'post')
         try:
             carga = Carga.objects.get(id=request.POST['id'])
-            carga.carrera = Carrera.objects.get(codigo=request.POST['carrera'])
+            carga.carrera = Carrera.objects.get(
+                codigo=request.POST['carrera'])
             docente = Profesor.objects.get(
                 persona__user__username=request.POST['profesor'])
             carga.profesor = docente
@@ -1830,10 +2117,11 @@ def save_carga_docente(request):
 
         except (Carga.DoesNotExist, ValueError):
             carga = Carga()
-            carga.carrera = Carrera.objects.get(codigo=request.POST['carrera'])
+            carga.carrera = Carrera.objects.get(
+                codigo=request.POST['carrera'])
             docente = Profesor.objects.get(
                 persona__user__username=request.POST['profesor'])
-            #print docente
+            # print docente
             carga.profesor = docente
             carga.codigo = request.POST['codigo']
             carga.nombre = request.POST['nombre']
@@ -1857,10 +2145,13 @@ def buscar_carga_docente(request):
         docente = Profesor.objects.get(persona__user__username=str(
             request.GET['docente']))
         cargas = Carga.objects.filter(profesor=docente)
-        t = [{'codigo': w.codigo, 'nombre': w.nombre.upper(), 'grupo': w.grupo,
+        t = [{'codigo': w.codigo, 'nombre': w.nombre.upper(),
+              'grupo': w.grupo,
               'matriculados': w.matriculados, 'id': w.id, 'carrera':
-                  w.carrera.codigo, 'profesor': w.profesor.id, 'carrera': w.carrera.codigo} for w in cargas]
-        data = json.dumps({'code': 200, 'msg': t, 'docente': docente.persona.user.first_name.upper()})
+                  w.carrera.codigo, 'profesor': w.profesor.id,
+              'carrera': w.carrera.codigo} for w in cargas]
+        data = json.dumps({'code': 200, 'msg': t,
+                           'docente': docente.persona.user.first_name.upper()})
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
@@ -1870,21 +2161,25 @@ def buscar_carga_docente(request):
 def get_carreras(request):
     if request.user.is_authenticated():
         carreras = Carrera.objects.all()
-        t = [ {'codigo': w.codigo, 'nombre': w.nombre, 'departamento':
-            {'codigo': w.departamento.codigo, 'nombre': w.departamento.nombre}
-               } for w in carreras]
+        t = [{'codigo': w.codigo, 'nombre': w.nombre, 'departamento':
+            {'codigo': w.departamento.codigo,
+             'nombre': w.departamento.nombre}
+              } for w in carreras]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
 
-#------------crud semestre---------------
+
+# ------------crud semestre---------------
 
 @login_required(login_url='/')
 def view_estadisticas(request):
     if request.user.is_authenticated():
-        persona = Persona.objects.get(user__username=request.session['usuario'])
-        return render(request, 'diseraca/admin/estadisticas.html', {'admin': persona})
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
+        return render(request, 'diseraca/admin/estadisticas.html',
+                      {'admin': persona})
     else:
         return HttpResponseRedirect('/')
 
@@ -1900,17 +2195,18 @@ def save_semester(request):
                 semestre = Semestre()
                 msg = "Creado con exito"
             date = request.POST['fecha_inicio'].split('-')
-            fecha_inicio = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
+            fecha_inicio = datetime.date(day=int(date[2]),
+                                         month=int(date[1]),
+                                         year=int(date[0]))
 
             date = request.POST['fecha_fin'].split('-')
-            fecha_fin = datetime.date(day=int(date[2]), month=int(date[1]), year=int(date[0]))
-
+            fecha_fin = datetime.date(day=int(date[2]), month=int(date[1]),
+                                      year=int(date[0]))
 
             semestre.nombre = request.POST['semestre']
             semestre.fecha_inicio = fecha_inicio
             semestre.fecha_fin = fecha_fin
             semestre.save()
-
 
         res = json.dumps({'code': 200, 'msg': msg})
         return HttpResponse(res, content_type='application/json')
@@ -1923,18 +2219,20 @@ def save_semester(request):
 def get_semestres(request):
     if request.user.is_authenticated():
         semestres = Semestre.objects.all().order_by('nombre')
-        t = [{'id': w.id, 'semestre': w.nombre, 'fecha_inicio': str(w.fecha_inicio),
+        t = [{'id': w.id, 'semestre': w.nombre,
+              'fecha_inicio': str(w.fecha_inicio),
               'fecha_fin': str(w.fecha_fin)} for w in semestres]
 
         res = json.dumps({'code': 200, 'msg': t})
         return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
-#---------------end crud semestre---------
 
 
+# ---------------end crud semestre---------
 
-#------------------reporte de becas por inasistencia o retardos----
+
+# ------------------reporte de becas por inasistencia o retardos----
 
 @login_required(login_url='/')
 def get_report_becas(request):
@@ -1952,8 +2250,9 @@ def get_report_becas(request):
                     inasistencias += 1
                 elif asis.tipo == 1:
                     tardes += 1
-            total = inasistencias*2 + tardes
-            reporte = {'id': beca.id, 'nick': beca.nick, 'inasistencias': inasistencias,
+            total = inasistencias * 2 + tardes
+            reporte = {'id': beca.id, 'nick': beca.nick,
+                       'inasistencias': inasistencias,
                        'tarde': tardes, 'total': total}
             list_reportes.append(reporte)
 
@@ -1970,15 +2269,18 @@ def get_inasistencias_beca(request):
             hoy = datetime.datetime.now().date()
             beca = Beca.objects.get(id=request.GET['id'])
             asistencias = Asistencia.objects.filter(beca_turno__beca=beca,
-                                                    date_turno__lt=hoy, tipo=0)
+                                                    date_turno__lt=hoy,
+                                                    tipo=0)
             msg = [{'date_turno': str(w.date_turno),
-                          'datetime_registro': str(w.datetime_registro)[:16],
-                        'ip': str(w.ip), 'turno': u"{0}-{1}".format(str(w.beca_turno.turno.time_start)[:5],
-                    str(w.beca_turno.turno.time_end)[:5])} for w in asistencias]
+                    'datetime_registro': str(w.datetime_registro)[:16],
+                    'ip': str(w.ip), 'turno': u"{0}-{1}".format(
+                    str(w.beca_turno.turno.time_start)[:5],
+                    str(w.beca_turno.turno.time_end)[:5])} for w in
+                   asistencias]
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
-            #print e.message
+            # print e.message
             res = json.dumps({'code': 404, 'msg': e.message})
             return HttpResponse(res, content_type='application/json')
     else:
@@ -2003,22 +2305,27 @@ def get_asistencias_tarde(request):
             res = json.dumps({'code': 200, 'msg': msg})
             return HttpResponse(res, content_type='application/json')
         except Exception as e:
-            #print e.message
+            # print e.message
             res = json.dumps({'code': 404, 'msg': e})
             return HttpResponse(res, content_type='application/json')
     else:
         return HttpResponseRedirect('/')
-#------------------fin reporte de becas por inasistencia o retardos----
+
+
+# ------------------fin reporte de becas por inasistencia o retardos----
 
 
 @login_required(login_url='/')
 def mis_turnos(request):
     if request.user.is_authenticated():
-        persona = Persona.objects.get(user__username=request.session['usuario'])
+        persona = Persona.objects.get(
+            user__username=request.session['usuario'])
         beca = Beca.objects.get(persona=persona)
         turnos = Beca_Turno.objects.filter(beca=beca, status=True)
         hoy = datetime.datetime.now().date()
-        asistencias = Asistencia.objects.filter(beca_turno__beca=beca, date_turno__lt=hoy).exclude(tipo=2)
+        asistencias = Asistencia.objects.filter(beca_turno__beca=beca,
+                                                date_turno__lt=hoy).exclude(
+            tipo=2)
         return render(request, 'diseraca/beca/turnos.html',
                       {'beca': beca, 'turnos': turnos,
                        'asistencias': asistencias,
@@ -2027,18 +2334,18 @@ def mis_turnos(request):
         return HttpResponseRedirect('/')
 
 
-
-
-
-#----------crud admin-----------------
+# ----------crud admin-----------------
 
 @login_required(login_url='/')
 def get_admins(request):
     if request.user.is_authenticated():
-        admins = Persona.objects.filter(tipo=2).exclude(user__username="06337")
+        admins = Persona.objects.filter(tipo=2).exclude(
+            user__username="06337")
 
-        t = [{'id': w.id, 'codigo': w.user.username, 'nombre': w.user.first_name,
-              'email': w.user.email, 'is_active': w.user.is_active} for w in admins]
+        t = [{'id': w.id, 'codigo': w.user.username,
+              'nombre': w.user.first_name,
+              'email': w.user.email, 'is_active': w.user.is_active} for w in
+             admins]
         data = json.dumps({'code': 200, 'msg': t})
         return HttpResponse(data, content_type='application/json')
     else:
@@ -2102,11 +2409,7 @@ def deactivte_admin(request):
         return HttpResponseRedirect('/')
 
 
-
-
-
-
-#----------fin crud admin-----------------
+# ----------fin crud admin-----------------
 '''
 @login_required(login_url='/')
 def view_docentes(request):
