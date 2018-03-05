@@ -50,6 +50,7 @@
 
             <div class="row">
                 {% if prestamos %}
+                    {{ prestamos|length }}
                     <h4 class="accent-1 red-text">Prestamos</h4>
                     <table class="highlight centered responsive-table">
                         <thead>
@@ -60,30 +61,30 @@
                           </tr>
                         </thead>
                         <tbody>
-                    {% for prestamo in prestamos %}
-                        <tr>
-                            <td>{{ prestamo.turno_sala.sala.codigo }} - {{ prestamo.turno_sala.sala.edificio.codigo }}</td>
-                            <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}</td>
-                            <td>{{ prestamo.nombre }}  G-{{ prestamo.grupo }}
-                                {% if prestamo.estado == 0 %}
-                                    <a href="/llegada_docente?id={{ prestamo.id }}"
-                                       class="waves-effect waves-circle waves-light btn-floating secondary-content">
-                                        <i class="material-icons">done</i>
-                                    </a>
-                                {% elif prestamo.estado == 2%}
-                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content red">
-                                        <i class="material-icons">not_interested</i>
-                                    </a>
-                                {% else %}
-                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content green">
-                                        <i class="material-icons">done_all</i>
-                                    </a>
+                            {% for prestamo in prestamos %}
+                                <tr>
+                                    <td>{{ prestamo.turno_sala.sala.codigo }} - {{ prestamo.turno_sala.sala.edificio.codigo }}</td>
+                                    <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}</td>
+                                    <td>{{ prestamo.nombre }}-{{ prestamo.grupo }}
+                                        {% if prestamo.estado == 0 %}
+                                            <a href="/llegada_docente?id={{ prestamo.id }}"
+                                               class="waves-effect waves-circle waves-light btn-floating secondary-content">
+                                                <i class="material-icons">done</i>
+                                            </a>
+                                        {% elif prestamo.estado == 2%}
+                                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red">
+                                                <i class="material-icons">not_interested</i>
+                                            </a>
+                                        {% else %}
+                                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green">
+                                                <i class="material-icons">done_all</i>
+                                            </a>
 
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 {% else %}
                     <h4 class="accent-1 red-text">No hay prestamos</h4>
