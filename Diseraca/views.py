@@ -851,10 +851,9 @@ def buscar_salas_admin(request):
                         None and fecha > st.hasta) or st.estado == 0:
                         prestamos = Prestamo.objects.\
                             filter(date_turno=fecha, turno_sala=st, estado=0)
-
+                        ahora_delta = ahora - datetime.timedelta(hours=1)
                         if len(prestamos) == 0:
-                            if st.turno.time_start > ahora.time() - \
-                                    datetime.timedelta(hours=1) \
+                            if st.turno.time_start > ahora_delta \
                                     or fecha > ahora.date():
                                 tr += """
                                 <tr>
