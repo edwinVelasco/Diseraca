@@ -457,15 +457,16 @@ def buscar_salas_horario_docente(request):
                 else:
                     tr = ""
                     j = 0
-
                     for st in sala_turnos:
                         if (st.estado == 2 and st.hasta
                             and fecha > st.hasta) or st.estado == 0:
 
-                            # prestamos pasados
+                            #prestamos del turno st
                             p_turno = Prestamo.objects.filter(
-                                date_turno=fecha, turno_sala=st).exclude(
-                                estado=2)
+                                date_turno=fecha, turno_sala=st)\
+                                .exclude(estado=2)
+
+                            # prestamos pasados
                             p_p1 = Prestamo.objects.filter(profesor=p,
                                                         date_turno=fecha_p,
                                                         turno_sala__turno__time_start=st.turno.time_end) \
@@ -478,6 +479,7 @@ def buscar_salas_horario_docente(request):
                                                            date_turno=fecha_p,
                                                            turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
+
                             # prestamos siguientes
                             p_s1 = Prestamo.objects.filter(profesor=p,
                                                            date_turno=fecha_s,

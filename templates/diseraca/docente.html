@@ -119,6 +119,19 @@
                 </div>
 
             </div>
+            <div class="row" id="container_edificios">
+                {% if edificios %}
+                    {% for edificio in edificios %}
+                        <div class="col s1">
+                            <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_horario_docente({{ edificio.id }})">
+                                {{ edificio.codigo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+
+            </div>
 
             <div class="row" id="container_salas">
 
@@ -182,26 +195,12 @@
                                 </button>
                             </div>
                         </div>
-
-
                     </form>
 
                 {% endif %}
             </div>
 
-            <div class="row" id="container_edificios">
-                {% if edificios %}
-                    {% for edificio in edificios %}
-                        <div class="col s1">
-                            <a class="btn-floating btn-large waves-effect waves-light red" onclick="buscar_salas_horario_docente({{ edificio.id }})">
-                                {{ edificio.codigo }}
-                            </a>
-                        </div>
-                    {% endfor %}
 
-                {% endif %}
-
-            </div>
 
         {% endif %}
 
