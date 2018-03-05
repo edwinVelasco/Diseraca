@@ -853,8 +853,8 @@ def buscar_salas_admin(request):
                             filter(date_turno=fecha, turno_sala=st, estado=0)
 
                         if len(prestamos) == 0:
-                            if st.turno.time_start + \
-                                datetime.timedelta(hours=1) > ahora.time() \
+                            if st.turno.time_start > ahora.time() - \
+                                    datetime.timedelta(hours=1) \
                                     or fecha > ahora.date():
                                 tr += """
                                 <tr>
