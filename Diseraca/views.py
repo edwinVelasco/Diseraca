@@ -900,7 +900,7 @@ def buscar_salas_admin(request):
                                 """ % (str(st.turno.time_start)[:5],
                                       str(st.turno.time_end)[:5],
                                       ["","Sustentacion", "Curso",
-                                        u"Reunión"][prestamos[0].estado],
+                                        u"Reunión"][prestamos[0].tipo],
                                       prestamos[0].solicitante.lower(),
                                       prestamos[0].detalle.lower())
 
