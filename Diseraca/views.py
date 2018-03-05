@@ -282,6 +282,8 @@ def inicio(request):
                 # print prestamos
                 for pres in prestamos:
                     prestamos_turnos.append(pres)
+            if b.persona.user.username == '1611028':
+                messages.success(request, "hola mi vida, :*")
             if 'msg' in request.session:
                 msg = request.session['msg']
                 del request.session['msg']

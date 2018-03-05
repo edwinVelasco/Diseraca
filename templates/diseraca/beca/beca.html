@@ -47,6 +47,21 @@
                     <h4 class="accent-1 red-text">{{ msg }}</h4>
                 {% endif %}
             </div>
+            <div class="row" id="container_edificios">
+                {% if edificios %}
+                    {% for edificio in edificios %}
+                        <div class="col s1">
+                            <a class="btn-floating btn-large waves-effect waves-light red" target="_blank"
+                               href="ver_horario_edificio?id={{ edificio.id }}" >
+                                {{ edificio.codigo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                    <h3>No hay edificios</h3>
+                {% endif %}
+            </div>
 
             <div class="row">
                 {% if prestamos %}
@@ -91,22 +106,7 @@
                 {% endif %}
             </div>
 
-            <div class="row" id="container_edificios">
-                {% if edificios %}
-                    {% for edificio in edificios %}
-                        <div class="col s1">
-                            <a class="btn-floating btn-large waves-effect waves-light red" target="_blank"
-                               href="ver_horario_edificio?id={{ edificio.id }}" >
-                                {{ edificio.codigo }}
-                            </a>
-                        </div>
-                    {% endfor %}
 
-                {% else %}
-                    <h3>No hay edificios</h3>
-
-                {% endif %}
-            </div>
         </div>
     </div>
 {% endblock %}
@@ -127,6 +127,21 @@
 
 
 {% block init %}
+    {% if messages %}
+        {% for message in messages %}
+            if ("Notification" in window){
+                let ask = Notification.requestPermission();
+                ask.then(permission => {
+                    if (permission ==='granted') {
+                        let msg = new Notification('Mensaje', {
+                            body: "{{ message }}",
+                            icon:"/static/img/ufps.jpg"
+                        });
+                    }
+                });
+            }
+        {% endfor %}
+    {% endif %}
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 1, // Creates a dropdown of 15 years to control year
