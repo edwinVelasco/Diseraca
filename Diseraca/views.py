@@ -405,7 +405,9 @@ def buscar_salas_horario_docente(request):
                 </a>
                 <div class="row">''' % (
             edificio.nombre.upper(), fecha)
+            #mismo dia pero en la semana anterior
             fecha_p = fecha - datetime.timedelta(days=7)
+            #mismo dia pero semana siguiente
             fecha_s = fecha + datetime.timedelta(days=7)
 
             conta_tablas = 0
@@ -428,17 +430,15 @@ def buscar_salas_horario_docente(request):
                             </tr>
                         </thead>
                     """ % (s.codigo, s.capacidad)
-
+                #si el prestamo es es para despues del hoy
                 if fecha > ahora.date():
-                    sala_turnos = Turno_Sala.objects.filter(sala=s,
-                                                            turno__dia=(
-                                                                    fecha.isoweekday() - 1)).exclude(
-                        estado=1).order_by('turno__time_start')
+                    sala_turnos = Turno_Sala.objects.\
+                        filter(sala=s, turno__dia=(fecha.isoweekday()-1))\
+                        .exclude(estado=1).order_by('turno__time_start')
                 else:
-                    sala_turnos = Turno_Sala.objects.filter(sala=s,
-                                                            turno__dia=(
-                                                                    fecha.isoweekday() - 1),
-                                                            turno__time_start__gte=ahora.time()) \
+                    sala_turnos = Turno_Sala.objects.\
+                        filter(sala=s, turno__dia=(fecha.isoweekday() - 1),
+                               turno__time_start__gte=ahora.time()) \
                         .exclude(estado=1).order_by('turno__time_start')
 
                 if len(sala_turnos) == 0:
@@ -466,56 +466,38 @@ def buscar_salas_horario_docente(request):
                                 date_turno=fecha, turno_sala=st)\
                                 .exclude(estado=2)
 
-                            # prestamos pasados
-                            p_p1 = Prestamo.objects.filter(profesor=p,
-                                                        date_turno=fecha_p,
-                                                        turno_sala__turno__time_start=st.turno.time_end) \
-                                .exclude(estado=2)
-                            p_p = Prestamo.objects.filter(profesor=p,
-                                                          date_turno=fecha_p,
-                                                          turno_sala__turno=st.turno) \
-                                .exclude(estado=2)
-                            p_p2 = Prestamo.objects.filter(profesor=p,
-                                                           date_turno=fecha_p,
-                                                           turno_sala__turno__time_end=st.turno.time_start) \
+                            #Prestamos pasados del profesor en ese turno
+                            p_p = Prestamo.objects.\
+                                filter(profesor=p,
+                                       date_turno=fecha_p,
+                                       turno_sala__turno=st.turno)\
                                 .exclude(estado=2)
 
-                            # prestamos siguientes
-                            p_s1 = Prestamo.objects.filter(profesor=p,
-                                                           date_turno=fecha_s,
-                                                           turno_sala__turno__time_start=st.turno.time_end) \
-                                .exclude(estado=2)
-                            p_s = Prestamo.objects.filter(profesor=p,
-                                                          date_turno=fecha_s,
-                                                          turno_sala__turno=st.turno) \
-                                .exclude(estado=2)
-                            p_s2 = Prestamo.objects.filter(profesor=p,
-                                                           date_turno=fecha_s,
-                                                           turno_sala__turno__time_end=st.turno.time_start) \
+                            # prestamos siguientes del profesor en ese turno
+                            p_s = Prestamo.objects.\
+                                filter(profesor=p,
+                                       date_turno=fecha_s,
+                                       turno_sala__turno=st.turno)\
                                 .exclude(estado=2)
 
-                            # prestamos para el dia del prestamo
-                            p_d1 = Prestamo.objects.filter(profesor=p,
-                                                           date_turno=fecha,
-                                                           turno_sala__turno__time_end=st.turno.time_start) \
+                            # prestamos para el dia del prestamo, en las
+                            # siguiente bloque que no sea cancelado
+                            p_d2 = Prestamo.objects.\
+                                filter(profesor=p,date_turno=fecha,
+                            turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
-                            p_d = Prestamo.objects.filter(profesor=p,
-                                                          date_turno=fecha,
-                                                          turno_sala__turno=st.turno) \
-                                .exclude(estado=2)
-                            p_d2 = Prestamo.objects.filter(profesor=p,
-                                                           date_turno=fecha,
-                                                           turno_sala__turno__time_end=st.turno.time_start) \
+
+                            #prestamos para el dia del prestamo en el
+                            # bloque siguiente que no sean canceladas
+                            p_d1 = Prestamo.objects.\
+                                filter(profesor=p, date_turno=fecha,
+                            turno_sala__turno__time_end=st.turno.time_start) \
                                 .exclude(estado=2)
 
                             # prestamos siguientes
 
-                            if len(p_p1) == 0 and len(p_p2) == 0 and len(
-                                    p_s1) == 0 and len(p_s2) == 0 and \
-                                    len(p_d1) == 0 and len(
-                                p_d2) == 0 and len(p_s) == 0 and len(
-                                p_p) == 0 and \
-                                    len(p_d) == 0 and len(p_turno) == 0:
+                            if not p_turno and not p_p and not p_s and not\
+                                    p_d2 and not p_d1:
                                 tr += """
                                     <tr>
                                         <td>%s a %s</td>
@@ -865,14 +847,15 @@ def buscar_salas_admin(request):
             else:
                 tr = ""
                 for st in sala_turnos:
-                    if (
-                            st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                        prestamos = Prestamo.objects.filter(
-                            date_turno=fecha).filter(turno_sala=st).filter(
-                            estado=0)
+                    if (st.estado == 2 and st.hasta !=
+                        None and fecha > st.hasta) or st.estado == 0:
+                        prestamos = Prestamo.objects.\
+                            filter(date_turno=fecha, turno_sala=st, estado=0)
 
                         if len(prestamos) == 0:
-                            if st.turno.time_start > ahora.time() or fecha > ahora.date():
+                            if st.turno.time_start + \
+                                datetime.timedelta(hours=1) > ahora.time() \
+                                    or fecha > ahora.date():
                                 tr += """
                                 <tr>
                                     <td>%s a %s</td>
