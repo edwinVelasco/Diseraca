@@ -20,34 +20,32 @@
 
     <main>
         <div class="container">
-            <div id="body-horario-sala">
 
-            </div>
             <div class="row">
-
-                <div class="col l6 ">
-                    <h2 class="green-text col l12" style="min-height: 500px">{{ edificio.nombre }}</h2>
-
-                    <div class="col l12">
-                        <div class="col l6 ">
+                <div class="col l12 ">
+                    <div class="col l4">
+                        <h4 class="green-text">{{ edificio.nombre }}</h4>
+                    </div>
+                    <div class="col l8">
+                        <div class="col l3 ">
                             <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
                                 <i class="material-icons">done_all</i>
                             </a>
                             <h5>En sala</h5>
                         </div>
-                        <div class="col l6 ">
+                        <div class="col l5">
                             <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
                                 <i class="material-icons">done</i>
                             </a>
-                            <h5>no ha llega</h5>
+                            <h5>No ha llegado</h5>
                         </div>
-                    </div>
-                    <div class="col l12">
-                        <h5 id="totalAlumnos">Aproximado de Personas: 0</h5>
+                        <div class="col l4">
+                            <h5 id="totalAlumnos">Personas: 0</h5>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col l6" id="tabla_prestamos">
+                <div class="col l12" id="tabla_prestamos">
                     {% if prestamos %}
                         {% if prestamos|length > 0 %}
                             <table class="bordered centered">
@@ -72,17 +70,17 @@
                                             <td>{{ prestamo.turno_sala.sala.codigo }}</td>
 
                                             {% if prestamo.tipo == 0 %}
-                                                <td>{{ prestamo.profesor.persona.user.first_name }}</td>
-                                                <td>{{ prestamo.nombre }}: {{ prestamo.codigo }}-{{ prestamo.grupo }}</td>
+                                                <td><h3>{{ prestamo.profesor.persona.user.first_name }}</h3></td>
+                                                <td><h3>{{ prestamo.nombre }}: {{ prestamo.codigo }}-{{ prestamo.grupo }}</h3></td>
                                             {% elif prestamo.tipo == 1 %}
-                                                <td>{{ prestamo.solicitante }}</td>
-                                                <td>Sust. {{ prestamo.carrera.nombre }}</td>
+                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
+                                                <td><h3>Sust. {{ prestamo.carrera.nombre }}</h3></td>
                                             {% elif prestamo.tipo == 2 %}
-                                                <td>{{ prestamo.solicitante }}</td>
-                                                <td>Curso. {{ prestamo.detalle }}</td>
+                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
+                                                <td><h3>Curso. {{ prestamo.detalle }}</h3></td>
                                             {% else %}
-                                                <td>{{ prestamo.solicitante }}</td>
-                                                <td>Reunión. {{ prestamo.detalle }}</td>
+                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
+                                                <td><h3>Reunión. {{ prestamo.detalle }}</h3></td>
                                             {% endif %}
 
                                             {% if prestamo.estado == 1 %}
@@ -112,10 +110,10 @@
                     {% endif %}
                 </div>
             </div>
-
-            <div class="row">
+            <div id="body-horario-sala">
 
             </div>
+
         </div>
     </main>
 

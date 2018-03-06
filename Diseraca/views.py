@@ -682,12 +682,12 @@ def ver_horario_edificio(request):
 
                     data += '</tbody></table>'
                     msg = {'data': data,
-                           'total': 'Aproximado de Personas: ' + str(total)}
+                           'total': 'Personas: ' + str(total)}
                     res = json.dumps(msg)
                     return HttpResponse(res, content_type='application/json')
                 msg = {
-                    'data': '''<h2 class="green-text col l12 ">Turno Libre :)</h2>''',
-                    'total': 'Aproximado de Personas: 0'}
+                    'data': '''<h2 class="green-text col l12 ">Turno Libre</h2>''',
+                    'total': 'Personas: 0'}
                 res = json.dumps(msg)
                 return HttpResponse(res, content_type='application/json')
 
