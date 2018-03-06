@@ -2493,6 +2493,17 @@ def deactivte_admin(request):
         return HttpResponseRedirect('/')
 
 
+@login_required(login_url='/')
+def cambiar_password(request):
+    if request.user.is_authenticated() and request.GET['codigo']:
+        user = User.objects.get(username=request.GET['codigo'])
+        user.set_password(request.GET['codigo'])
+        user.save()
+        res = json.dumps({'code': 200, 'msg': "Contaseña cambiada con "
+                                              "exito"})
+        return HttpResponse(res, content_type='application/json')
+    else:
+        return HttpResponseRedirect('/')
 # ----------fin crud admin-----------------
 '''
 @login_required(login_url='/')

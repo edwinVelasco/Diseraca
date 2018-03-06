@@ -168,6 +168,7 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
     $scope.newIpFunct = function () {
         $scope.ipAdd = {id:0, ip: ""};
     };
+
     $scope.save_beca = function () {
         $http.post("add_beca", $scope.becaAdd)
             .then( function(data){
@@ -248,7 +249,6 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
     $scope.activate_ip = function (id) {
         var r = confirm("Desea activar la IP?");
         if (r == true) {
-
             $http.get('activar_ip_admin?id='+id)
             .then(function(response) {
                 if ("Notification" in window){
@@ -345,4 +345,28 @@ app.controller('BecasAdminContoller', function ($scope, $http) {
         }
     };
 
+    $scope.restaurar_password = function (codigo) {
+        var r = confirm("Desea restaurar la contraseña, recuerde " +
+            "que será el mismo codigo?");
+        if (r == true) {
+            $http.get('cambiar_password?codigo='+codigo)
+            .then(function(response) {
+                if ("Notification" in window){
+                    let ask = Notification.requestPermission();
+                    ask.then(permission => {
+                        if (permission ==='granted') {
+                            let msg = new Notification('Mensaje', {
+                                body: response.data.msg,
+                                icon:"/static/img/ufps.jpg"
+                            });
+                        }
+                    });
+                }
+                $scope.getBecas();
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+        }
+    };
 });

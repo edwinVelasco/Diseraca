@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # para prueba
     url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
+    url(r'^cambiar_password$', views.cambiar_password),
 
     #fuera del login
     url(r'^$', views.index),

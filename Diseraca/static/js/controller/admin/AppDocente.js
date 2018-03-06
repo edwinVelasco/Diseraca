@@ -275,6 +275,34 @@
           $scope.show_register_carga();
     };
 
+    $scope.restaurar_password = function (codigo) {
+        if($scope.newDocente.persona.codigo === ''){
+            alert('Busque un docente');
+            return
+        }
+        var r = confirm("Desea restaurar la contraseña, recuerde " +
+            "que será el mismo codigo?");
+        if (r == true) {
+            $http.get('cambiar_password?codigo='+codigo)
+            .then(function(response) {
+                if ("Notification" in window){
+                    let ask = Notification.requestPermission();
+                    ask.then(permission => {
+                        if (permission ==='granted') {
+                            let msg = new Notification('Mensaje', {
+                                body: response.data.msg,
+                                icon:"/static/img/ufps.jpg"
+                            });
+                        }
+                    });
+                }
+                $scope.getBecas();
+            }, function(response) {
+                //Second function handles error
+                $scope.content = "Something went wrong";
+            });
+        }
+    };
 
 
 });
