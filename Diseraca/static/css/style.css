@@ -21,3 +21,7 @@ position: absolute;
     background-repeat: no-repeat;
     background-position: center;
 }
+
+#tabla_prestamos td, th{
+    padding: 5px 5px;
+}

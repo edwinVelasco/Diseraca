@@ -613,7 +613,6 @@ def llegada_docente(request):
     else:
         return HttpResponseRedirect('/')
 
-
 @login_required(login_url='/')
 def ver_horario_edificio(request):
     if request.user.is_authenticated():
@@ -649,25 +648,31 @@ def ver_horario_edificio(request):
                     '''
                     for pres_envio in prestamos_envio:
                         if pres_envio.estado == 1:
-                            data += '<tr class="white-text green">'
+                            data += '<tr class="green lighten-4">'
                             total += pres_envio.matriculados
                         else:
-                            data += '<tr class="white-text red">'
+                            data += '<tr class="red lighten-4">'
 
-                        data += '<td>%s</td>' % (
-                        pres_envio.turno_sala.sala.codigo)
-                        data += '<td>%s</td>' % (
-                        pres_envio.profesor.persona.user.first_name)
-                        data += '<td>%s - %s</td>' % (
-                        pres_envio.nombre, pres_envio.grupo)
+                        data += """
+                            <td><h4>%s</h4></td>
+                            <td><h4>%s</h4></td>
+                            <td><h4>%s %s-%s</h4></td>
+                        """ % (pres_envio.turno_sala.sala.codigo,
+                               pres_envio.profesor.persona.user.first_name.lower(),
+                               pres_envio.nombre, pres_envio.codigo,
+                               pres_envio.grupo.upper()
+                               )
                         if pres_envio.estado == 1:
                             data += '''
-                                <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
+                                <td><h5>%s a %s</h5><a 
+                                class="waves-effect waves-circle waves-light btn-floating
                                 secondary-content green darken-4"><i class="material-icons">done_all</i>
                                             </a>
                                 </td>
-                            ''' % (pres_envio.turno_sala.turno.time_start,
-                                   pres_envio.turno_sala.turno.time_end)
+                            ''' % (str(
+                                pres_envio.turno_sala.turno.time_start)[:5],
+                                str(pres_envio.turno_sala.turno.time_end)[
+                                :5])
                         else:
                             data += '''
                                 <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
@@ -676,8 +681,10 @@ def ver_horario_edificio(request):
                                             </a>
                                 </td>
 
-                            ''' % (pres_envio.turno_sala.turno.time_start,
-                                   pres_envio.turno_sala.turno.time_end)
+                            ''' % (str(
+                                pres_envio.turno_sala.turno.time_start)[:5],
+                                str(pres_envio.turno_sala.turno.time_end)[
+                                :5])
                         data += '</tr>'
 
                     data += '</tbody></table>'

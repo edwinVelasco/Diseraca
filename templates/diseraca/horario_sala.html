@@ -47,66 +47,63 @@
 
                 <div class="col l12" id="tabla_prestamos">
                     {% if prestamos %}
-                        {% if prestamos|length > 0 %}
-                            <table class="bordered centered">
-                                <thead>
-                                  <tr>
-                                      <th data-field="sala">Sala</th>
-                                      <th data-field="docente">Docente</th>
-                                      <th data-field="materia">Materia</th>
-                                      <th data-field="horario">Horario</th>
-                                  </tr>
-                                </thead>
+                        <table class="bordered centered">
+                            <thead>
+                              <tr>
+                                  <th data-field="sala">Sala</th>
+                                  <th data-field="docente">Docente</th>
+                                  <th data-field="materia">Materia</th>
+                                  <th data-field="horario">Horario</th>
+                              </tr>
+                            </thead>
 
-                                <tbody>
+                            <tbody>
 
-                                    {% for prestamo in prestamos %}
-                                        {% if prestamo.estado == 1 %}
-                                            <tr class="white-text green">
+                                {% for prestamo in prestamos %}
+                                    {% if prestamo.estado == 1 %}
+                                        <tr class="green lighten-4">
+                                    {% else %}
+                                        <tr class="red lighten-4">
+                                    {% endif %}
+
+                                        <td><h4>{{ prestamo.turno_sala.sala.codigo }}</h4></td>
+
+                                        {% if prestamo.tipo == 0 %}
+                                            <td><h4>{{ prestamo.profesor.persona.user.first_name|lower }}</h4></td>
+                                            <td><h4>{{ prestamo.nombre|lower }}: {{ prestamo.codigo }}-{{ prestamo.grupo|upper }}</h4></td>
+                                        {% elif prestamo.tipo == 1 %}
+                                            <td><h4>{{ prestamo.solicitante }}</h4></td>
+                                            <td><h4>Sust. {{ prestamo.carrera.nombre }}</h4></td>
+                                        {% elif prestamo.tipo == 2 %}
+                                            <td><h4>{{ prestamo.solicitante }}</h4></td>
+                                            <td><h4>Curso. {{ prestamo.detalle }}</h4></td>
                                         {% else %}
-                                            <tr class="white-text red">
+                                            <td><h4>{{ prestamo.solicitante }}</h4></td>
+                                            <td><h4>Reunión. {{ prestamo.detalle }}</h4></td>
                                         {% endif %}
 
-                                            <td>{{ prestamo.turno_sala.sala.codigo }}</td>
+                                        {% if prestamo.estado == 1 %}
+                                            <td>
+                                            <h4>{{ prestamo.turno_sala.turno.time_start|time }} a {{ prestamo.turno_sala.turno.time_end|time }}</h4>
+                                                <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
+                                                    <i class="material-icons">done_all</i>
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                <h4>{{ prestamo.turno_sala.turno.time_start|time }} a {{ prestamo.turno_sala.turno.time_end|time }}</h4>
+                                                <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
+                                                    <i class="material-icons">done</i>
+                                                </a>
+                                            </td>
+                                        {% endif %}
+                                        </tr>
+                                {% endfor %}
 
-                                            {% if prestamo.tipo == 0 %}
-                                                <td><h3>{{ prestamo.profesor.persona.user.first_name }}</h3></td>
-                                                <td><h3>{{ prestamo.nombre }}: {{ prestamo.codigo }}-{{ prestamo.grupo }}</h3></td>
-                                            {% elif prestamo.tipo == 1 %}
-                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
-                                                <td><h3>Sust. {{ prestamo.carrera.nombre }}</h3></td>
-                                            {% elif prestamo.tipo == 2 %}
-                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
-                                                <td><h3>Curso. {{ prestamo.detalle }}</h3></td>
-                                            {% else %}
-                                                <td><h3>{{ prestamo.solicitante }}</h3></td>
-                                                <td><h3>Reunión. {{ prestamo.detalle }}</h3></td>
-                                            {% endif %}
-
-                                            {% if prestamo.estado == 1 %}
-                                                <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}
-                                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
-                                                        <i class="material-icons">done_all</i>
-                                                    </a>
-                                                </td>
-                                            {% else %}
-                                                <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}
-                                                    <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
-                                                        <i class="material-icons">done</i>
-                                                    </a>
-                                                </td>
-                                            {% endif %}
-                                            </tr>
-                                    {% endfor %}
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <h2 class="green-text">Libre</h2>
-
-                    {% endif %}
+                            </tbody>
+                        </table>
                     {% else %}
-                        <h2 class="green-text col l12 ">Turno Libre :)</h2>
+                        <h2 class="green-text">Libre</h2>
                     {% endif %}
                 </div>
             </div>
@@ -118,6 +115,7 @@
     </main>
 
     <footer class="page-footer">
+        <!--
         <div class="container">
             <div class="row white-text">
                 <div class="col l6 s12">
@@ -131,6 +129,7 @@
                 </div>
             </div>
         </div>
+        -->
           <div class="footer-copyright">
             <div class="container">
             2017 © Copyright Edwin A. Velasco, Ingenieria de Sistemas
