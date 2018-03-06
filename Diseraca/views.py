@@ -624,9 +624,11 @@ def ver_horario_edificio(request):
                                           time_end__gte=ahora.time())
             prestamos_envio = []
             for turno in turnos:
-                prestamos = Prestamo.objects.filter(date_turno=ahora.date(),
-                                                    turno_sala__turno=turno).exclude(
-                    estado=2)
+                prestamos = Prestamo.\
+                    objects.filter(date_turno=ahora.date(),
+                                   turno_sala__turno=turno,
+                                   turno_sala__sala__edificio=edificio)\
+                    .exclude(estado=2)
                 for pres in prestamos:
                     prestamos_envio.append(pres)
 
