@@ -19,7 +19,7 @@
     </header>
 
     <main>
-        <div class="container">
+        <div class="container" style="width: 90%;">
 
             <div class="row">
                 <div class="col l12 ">
@@ -28,14 +28,14 @@
                     </div>
                     <div class="col l8">
                         <div class="col l3 ">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
-                                <i class="material-icons">done_all</i>
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green lighten-4">
+
                             </a>
                             <h5>En sala</h5>
                         </div>
                         <div class="col l5">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
-                                <i class="material-icons">done</i>
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red lighten-4">
+
                             </a>
                             <h5>No ha llegado</h5>
                         </div>
@@ -81,22 +81,12 @@
                                             <td><h4>{{ prestamo.solicitante }}</h4></td>
                                             <td><h4>Reunión. {{ prestamo.detalle }}</h4></td>
                                         {% endif %}
+                                        <td>
+                                            <h4>
+                                                {{ prestamo.turno_sala.turno.time_start|slice:":5" }}
+                                                a {{ prestamo.turno_sala.turno.time_end|slice:":5" }}</h4>
+                                        </td>
 
-                                        {% if prestamo.estado == 1 %}
-                                            <td>
-                                            <h4>{{ prestamo.turno_sala.turno.time_start|time }} a {{ prestamo.turno_sala.turno.time_end|time }}</h4>
-                                                <a class="waves-effect waves-circle waves-light btn-floating secondary-content green darken-4">
-                                                    <i class="material-icons">done_all</i>
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                                <h4>{{ prestamo.turno_sala.turno.time_start|time }} a {{ prestamo.turno_sala.turno.time_end|time }}</h4>
-                                                <a class="waves-effect waves-circle waves-light btn-floating secondary-content red darken-4">
-                                                    <i class="material-icons">done</i>
-                                                </a>
-                                            </td>
-                                        {% endif %}
                                         </tr>
                                 {% endfor %}
 

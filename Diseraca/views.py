@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Q
 
 from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, \
     Persona, Beca, Turno, \
@@ -645,7 +646,6 @@ def ver_horario_edificio(request):
                               <th data-field="horario">Horario</th>
                           </tr>
                         </thead>
-
                         <tbody>
                     '''
                     for pres_envio in prestamos_envio:
@@ -658,7 +658,7 @@ def ver_horario_edificio(request):
                         data += """
                             <td><h4>%s</h4></td>
                             <td><h4>%s</h4></td>
-                            <td><h4>%s %s-%s</h4></td>
+                            <td><h4>%s %s-%s</h5></td>
                         """ % (pres_envio.turno_sala.sala.codigo,
                                pres_envio.profesor.persona.user.first_name.lower(),
                                pres_envio.nombre, pres_envio.codigo,
@@ -668,7 +668,7 @@ def ver_horario_edificio(request):
                             data += '''
                                 <td><h5>%s a %s</h5><a 
                                 class="waves-effect waves-circle waves-light btn-floating
-                                secondary-content green darken-4"><i class="material-icons">done_all</i>
+                                secondary-content green lighten-4">
                                             </a>
                                 </td>
                             ''' % (str(
@@ -678,8 +678,8 @@ def ver_horario_edificio(request):
                         else:
                             data += '''
                                 <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
-                                secondary-content red darken-4">
-                                                <i class="material-icons">done</i>
+                                secondary-content red lighten-4">
+                                                
                                             </a>
                                 </td>
 
@@ -861,7 +861,8 @@ def buscar_salas_admin(request):
                     if (st.estado == 2 and st.hasta !=
                         None and fecha > st.hasta) or st.estado == 0:
                         prestamos = Prestamo.objects.\
-                            filter(date_turno=fecha, turno_sala=st, estado=0)
+                            filter(Q(estado=0) | Q(estado=1),
+                                   date_turno=fecha, turno_sala=st)
                         ahora_delta = ahora - datetime.timedelta(hours=1)
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora_delta.time() \
@@ -1434,7 +1435,8 @@ def buscar_salas_admin_sustentacion(request):
                 for st in sala_turnos:
                     if (
                             st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
-                        prestamos = Prestamo.objects.filter(
+                        prestamos = Prestamo.\
+                            objects.filter(Q(estado=0) | Q(estado=1),
                             date_turno=fecha).filter(turno_sala=st).filter(
                             estado=0)
                         if len(prestamos) == 0:
