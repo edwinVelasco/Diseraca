@@ -710,8 +710,8 @@ def registrar_asistencia(request):
         if len(asistencia) > 0:
             if asistencia[0].datetime_registro != None and asistencia[
                 0].ip != None:
-                request.session[
-                    'msg'] = u'Ya se había registrado en este turno, como inasistencia'
+                request.session['msg'] = u'Ya se había registrado en este ' \
+                                         u'turno, como inasistencia'
                 return HttpResponseRedirect('inicio')
 
             if datetime.time(
@@ -764,7 +764,16 @@ def registrar_asistencia(request):
                 except Ip_Registro.DoesNotExist:
                     request.session['msg'] = 'Ip no valida'
                     return HttpResponseRedirect('inicio')
-        request.session['msg'] = 'No tiene turno de beca'
+        asistencia_registrada = Asistencia.\
+            objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
+                           beca_turno__turno__time_start__lt=ahora.time(),
+                           beca_turno__turno__time_end__gt=ahora.time(),
+                           tipo=1)
+        if asistencia_registrada:
+            request.session['msg'] = 'Ya habias registrado la llegada.'
+            return HttpResponseRedirect('inicio')
+
+        request.session['msg'] = 'No tiene turno de beca.'
         return HttpResponseRedirect('inicio')
     else:
         return HttpResponseRedirect('/')
