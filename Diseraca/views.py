@@ -664,29 +664,14 @@ def ver_horario_edificio(request):
                                pres_envio.nombre, pres_envio.codigo,
                                pres_envio.grupo.upper()
                                )
-                        if pres_envio.estado == 1:
-                            data += '''
-                                <td><h5>%s a %s</h5><a 
-                                class="waves-effect waves-circle waves-light btn-floating
-                                secondary-content green lighten-4">
-                                            </a>
+                        data += '''
+                                <td><h4>%s a %s</h4>
                                 </td>
                             ''' % (str(
                                 pres_envio.turno_sala.turno.time_start)[:5],
                                 str(pres_envio.turno_sala.turno.time_end)[
                                 :5])
-                        else:
-                            data += '''
-                                <td>%s a %s<a class="waves-effect waves-circle waves-light btn-floating
-                                secondary-content red lighten-4">
-                                                
-                                            </a>
-                                </td>
 
-                            ''' % (str(
-                                pres_envio.turno_sala.turno.time_start)[:5],
-                                str(pres_envio.turno_sala.turno.time_end)[
-                                :5])
                         data += '</tr>'
 
                     data += '</tbody></table>'
