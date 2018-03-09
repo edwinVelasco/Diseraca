@@ -766,10 +766,10 @@ def registrar_asistencia(request):
                     return HttpResponseRedirect('inicio')
         asistencia_registrada = Asistencia.\
             objects.filter(date_turno=ahora.date(), beca_turno__beca=beca,
-                           beca_turno__turno__time_start__lt=ahora.time(),
+                           beca_turno__turno__time_start__lte=ahora.time(),
                            beca_turno__turno__time_end__gt=ahora.time(),
                            tipo=1)
-        if asistencia_registrada:
+        if len(asistencia_registrada) > 0:
             request.session['msg'] = 'Ya habias registrado la llegada.'
             return HttpResponseRedirect('inicio')
 
