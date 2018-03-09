@@ -5,7 +5,7 @@ urlpatterns = [
     # para prueba
     url(r'^asignar_asistencias_semestre$', views.asignar_asistencias_semestre),
     url(r'^cambiar_password$', views.cambiar_password),
-    url(r'^adm_cread/index.php$', views.cambiar_password),
+    url(r'^adm_cread/index.php$', views.redirect_home),
 
     #fuera del login
     url(r'^$', views.index),
