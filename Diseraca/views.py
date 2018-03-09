@@ -19,6 +19,10 @@ from .models import Edificio, Sala, Turno_Sala, Prestamo, Profesor, Carga, \
     Beca_Turno, Asistencia, Ip_Registro, Carrera, Departamento, Semestre
 
 
+def redirect_home(request):
+    return HttpResponseRedirect('/')
+
+
 def index(request):
     print(request.client_ip)
     # print(request.GET['hola'])
