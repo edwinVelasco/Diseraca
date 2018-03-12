@@ -178,7 +178,7 @@
     };
 
     $scope.saveCargaDocente = function () {
-        //$scope.edit_carga_obj.carrera = $("#carreras_carga_docente").val();
+        $scope.edit_carga_obj.carrera = $("#carreras_carga_docente").val();
         $('#register_carga_docente').modal('close');
         $http.post("save_carga_docente", $scope.edit_carga_obj)
             .then( function(data){
