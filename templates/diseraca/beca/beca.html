@@ -72,7 +72,7 @@
                           <tr>
                               <th data-field="Sala">Sala-Edificio</th>
                               <th data-field="Horario">Horario</th>
-                              <th data-field="Materia">Materia-Grupo</th>
+                              <th data-field="Materia">Solicitante/Materia-Grupo</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -80,7 +80,16 @@
                                 <tr>
                                     <td>{{ prestamo.turno_sala.sala.codigo }} - {{ prestamo.turno_sala.sala.edificio.codigo }}</td>
                                     <td>{{ prestamo.turno_sala.turno.time_start }} a {{ prestamo.turno_sala.turno.time_end }}</td>
-                                    <td>{{ prestamo.nombre }}-{{ prestamo.grupo }}
+                                    <td>
+                                        {% if prestamo.tipo == 0 %}
+                                            {{ prestamo.profesor.persona.user.first_name | title }}{{ prestamo.nombre | capfirst }}-{{ prestamo.grupo | upper}}
+                                        {% elif prestamo.tipo == 1 %}
+                                            {{ prestamo.solicitante | title }}, Sustentación de {{ prestamo.carrera.nombre | capfirst }}
+                                        {% elif prestamo.tipo == 2 %}
+                                            {{ prestamo.solicitante | title }}, Curso de {{ prestamo.detalle | capfirst }}
+                                        {% elif prestamo.tipo == 3 %}
+                                            {{ prestamo.solicitante | title }}, Reunión de {{ prestamo.detalle | capfirst }}
+                                        {% endif %}
                                         {% if prestamo.estado == 0 %}
                                             <a href="/llegada_docente?id={{ prestamo.id }}"
                                                class="waves-effect waves-circle waves-light btn-floating secondary-content">

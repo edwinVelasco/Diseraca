@@ -143,41 +143,46 @@ def get_salas_disponibilidad(request):
                                     </tr>''' % (str(st.turno.time_start)[:5],
                                                 str(st.turno.time_end)[:5])
                         else:
+
+                            tr += '''
+                                <tr class="green lighten-5">
+                                    <td>%s a %s</td>
+                            ''' % (str(st.turno.time_start)[:5],
+                                  str(st.turno.time_end)[:5])
+
                             if prestamos[0].tipo == 1:
-                                tr += u"""
-                                <tr class="green lighten-5">
-                                    <td>%s a %s</td>
-                                    <td>Sustentación de %s de %s</td>
-                                </tr>""" % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante.lower(),
-                                            prestamos[0].carrera.nombre.lower())
+                                tr += u"""                                
+                                    <td>%s, Sustentación de %s</td>
+                                </tr>
+                                """ % (prestamos[0].solicitante.title(),
+                                       prestamos[0].carrera.nombre.title())
                             elif prestamos[0].tipo == 2:
-                                tr += """
-                                <tr class="green lighten-5">
-                                    <td>%s a %s</td>
-                                    <td>Curso de %s  %s</td>
-                                </tr>""" % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante.lower(),
-                                            prestamos[0].detalle.lower())
+                                if not prestamos[0].carrera:
+                                    tr += """                                    
+                                        <td>%s, Curso de %s</td>
+                                    </tr>
+                                    """ % (prestamos[0].solicitante.title(),
+                                           prestamos[0].detalle.capitalize())
+                                else:
+                                    tr += """
+                                        <td>%s</td>
+                                    </tr>
+                                    """ % (prestamos[0].detalle.capitalize())
                             elif prestamos[0].tipo == 3:
-                                tr += '''
-                                <tr class="green lighten-5">
-                                    <td>%s a %s</td>
-                                    <td>Reunion de %s  %s</td>
-                                </tr>''' % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5],
-                                            prestamos[0].solicitante.lower(),
-                                            prestamos[0].detalle.lower())
+                                if not prestamos[0].carrera:
+                                    tr += u'''                                    
+                                        <td>%s, Reunión de %s</td>
+                                    </tr>''' % (prestamos[0].solicitante.title(),
+                                                prestamos[0].detalle.capitalize())
+                                else:
+                                    tr += """                                    
+                                        <td>%s</td>
+                                    </tr>
+                                    """ % (prestamos[0].detalle.capitalize())
                             else:
-                                tr += """
-                                <tr class="green lighten-5">
-                                    <td>%s a %s</td>
+                                tr += """                                
                                     <td>%s, %s, %s-%s</td>
-                                </tr>""" % (str(st.turno.time_start)[:5],
-                                            str(st.turno.time_end)[:5],
-                                            prestamos[0].profesor.persona.user.first_name.lower(),
+                                </tr>""" % (prestamos[0].profesor.persona.user.first_name.lower(),
                                             prestamos[0].nombre.lower(),
                                             prestamos[0].codigo.lower(),
                                             prestamos[0].grupo.upper())
@@ -410,8 +415,7 @@ def buscar_salas_horario_docente(request):
                 <a target="_blank"  href="informacion" class="">
                     <i class="material-icons">info_outline</i>
                 </a>
-                <div class="row">''' % (
-            edificio.nombre.upper(), fecha)
+                <div class="row">''' % (edificio.nombre.upper(), fecha)
             #mismo dia pero en la semana anterior
             fecha_p = fecha - datetime.timedelta(days=7)
             #mismo dia pero semana siguiente
@@ -453,7 +457,7 @@ def buscar_salas_horario_docente(request):
                         <tbody>
                             <tr>
                                 <td>Sala sin turnos</td>
-                                <td>Contectenos para mas detalles</td>                            
+                                <td>Contactenos para mas detalles</td>                            
                             </tr>
                         </tbody>
                     </table>
@@ -465,8 +469,9 @@ def buscar_salas_horario_docente(request):
                     tr = ""
                     j = 0
                     for st in sala_turnos:
-                        if (st.estado == 2 and st.hasta
-                            and fecha > st.hasta) or st.estado == 0:
+                        if (st.estado == 2 and st.hasta and st.hasta
+                            and (fecha > st.hasta or fecha < st.desde)) or \
+                                st.estado == 0:
 
                             #prestamos del turno st
                             p_turno = Prestamo.objects.filter(
@@ -640,13 +645,13 @@ def ver_horario_edificio(request):
             if 'bool' in request.GET:
                 if len(prestamos_envio) > 0:
                     total = 0
-                    data = '''
+                    data = u'''
                         <table class="bordered centered">
                         <thead>
                           <tr>
                               <th data-field="sala">Sala</th>
-                              <th data-field="docente">Docente</th>
-                              <th data-field="materia">Materia</th>
+                              <th data-field="docente">Docente/Solicitante</th>
+                              <th data-field="materia">Materia/Descripción</th>
                               <th data-field="horario">Horario</th>
                           </tr>
                         </thead>
@@ -654,29 +659,60 @@ def ver_horario_edificio(request):
                     '''
                     for pres_envio in prestamos_envio:
                         if pres_envio.estado == 1:
-                            data += '<tr class="green lighten-4">'
+                            data += '<tr class="green lighten-1">'
                             total += pres_envio.matriculados
                         else:
-                            data += '<tr class="red lighten-4">'
+                            data += '<tr class="red lighten-1">'
 
-                        data += """
-                            <td><h4>%s</h4></td>
-                            <td><h4>%s</h4></td>
-                            <td><h4>%s %s-%s</h5></td>
-                        """ % (pres_envio.turno_sala.sala.codigo,
-                               pres_envio.profesor.persona.user.first_name.lower(),
-                               pres_envio.nombre, pres_envio.codigo,
-                               pres_envio.grupo.upper()
-                               )
+                        if pres_envio.tipo == 2:
+                            data += """
+                                <td><h4>%s</h4></td>
+                                <td><h4>%s</h4></td>
+                                <td><h4>Curso de %s</h4></td>
+                            """ % (pres_envio.turno_sala.sala.codigo,
+                                   pres_envio.solicitante.title(),
+                                   pres_envio.detalle.capitalize()
+                                )
+                        elif pres_envio.tipo == 3:
+                            data += u"""
+                                <td><h4>%s</h4></td>
+                                <td><h4>%s</h4></td>
+                                <td><h4>Reunión de %s</h4></td>
+                            """ % (pres_envio.turno_sala.sala.codigo,
+                                   pres_envio.solicitante.title(),
+                                   pres_envio.detalle.capitalize()
+                            )
+
+                        elif pres_envio.tipo == 1:
+
+                            data += """
+                                <td><h4>%s</h4></td>
+                                <td><h4>%s</h4></td>
+                                <td><h4>Sustentación de %s</h5></td>
+                            """ % (pres_envio.turno_sala.sala.codigo,
+                                   pres_envio.solicitante.title(),
+                                   pres_envio.carrera.nombre.title()
+                                   )
+
+                        else:
+                            data += """
+                                <td><h4>%s</h4></td>
+                                <td><h4>%s</h4></td>
+                                <td><h4>%s %s-%s</h5></td>
+                            """ % (pres_envio.turno_sala.sala.codigo,
+                                   pres_envio.profesor.persona.user.first_name.title(),
+                                   pres_envio.nombre.capitalize(),
+                                   pres_envio.codigo,
+                                   pres_envio.grupo.upper()
+                            )
+
                         data += '''
-                                <td><h4>%s a %s</h4>
-                                </td>
-                            ''' % (str(
-                                pres_envio.turno_sala.turno.time_start)[:5],
-                                str(pres_envio.turno_sala.turno.time_end)[
-                                :5])
+                            <td><h4>%s a %s</h4>
+                            </td>
+                            </tr>
+                        ''' % (str(pres_envio.turno_sala.turno.time_start)[:5],
+                               str(pres_envio.turno_sala.turno.time_end)[:5])
 
-                        data += '</tr>'
 
                     data += '</tbody></table>'
                     msg = {'data': data,
@@ -844,7 +880,7 @@ def buscar_salas_admin(request):
                     <tbody>
                         <tr>
                             <td colspan=2>Sala sin turnos, 
-                                Contectenos para mas detalles
+                                Contactenos para mas detalles
                             </td>                                
                         </tr>
                     </tbody>
@@ -880,39 +916,34 @@ def buscar_salas_admin(request):
                                             str(st.turno.time_end)[:5],
                                             str(st.id))
                         else:
+
+                            tr += '''
+                            <tr>
+                                <td>%s a %s</td>
+                            ''' % (str(st.turno.time_start)[:5],
+                                   str(st.turno.time_end)[:5])
+
                             if prestamos[0].tipo == 0:
-                                tr += """
-                                    <tr>
-                                        <td>%s a %s</td>
-                                        <td>%s, %s-%s</td>
+                                tr += """                                    
+                                    <td>%s, %s-%s</td>
                                     </tr>
-                                """ % (str(st.turno.time_start)[:5],
-                                       str(st.turno.time_end)[:5],
-                                       prestamos[0].profesor.persona.user.first_name.lower(),
-                                       prestamos[0].nombre.lower(),
+                                """ % (prestamos[0].profesor.persona.user.first_name.title(),
+                                       prestamos[0].nombre.title(),
                                        prestamos[0].grupo.upper())
                             elif prestamos[0].tipo == 1:
-                                tr += u"""
-                                <tr>
-                                    <td>%s a %s</td>
-                                    <td>Sustentación de %s, %s</td>
+                                tr += u"""                                
+                                    <td>%s, Sustentación de %s</td>
                                 </tr>
-                                """ % (str(st.turno.time_start)[:5],
-                                       str(st.turno.time_end)[:5],
-                                       prestamos[0].solicitante.lower(),
-                                       prestamos[0].carrera.nombre.lower())
+                                """ % (prestamos[0].solicitante.title(),
+                                       prestamos[0].carrera.nombre.capitalize())
                             else:
-                                tr += """
-                                    <tr>
-                                        <td>%s a %s</td>
-                                        <td>%s de %s, %s</td>
+                                tr += """                                    
+                                        <td>%s, %s de %s</td>
                                     </tr>
-                                """ % (str(st.turno.time_start)[:5],
-                                      str(st.turno.time_end)[:5],
-                                      ["","Sustentacion", "Curso",
+                                """ % (prestamos[0].solicitante.title(),
+                                       ["", "", "Curso",
                                         u"Reunión"][prestamos[0].tipo],
-                                      prestamos[0].solicitante.lower(),
-                                      prestamos[0].detalle.lower())
+                                      prestamos[0].detalle.capitalize())
 
                 body = """
                     <tbody>
@@ -984,7 +1015,7 @@ def add_prestamo_docente_admin(request):
             prestamo.save()
 
             if 'msg' not in request.session:
-                request.session['msg'] = 'Prestamo reaizado con exito'
+                request.session['msg'] = 'Prestamo realizado con exito'
 
             return HttpResponseRedirect('inicio')
     else:
@@ -1171,7 +1202,6 @@ def delete_turno_beca(request):
                     return HttpResponseRedirect('view_becas')
                 except Beca_Turno.DoesNotExist:
                     return HttpResponseRedirect('inicio')
-
     else:
         return HttpResponseRedirect('/')
 
@@ -1419,7 +1449,7 @@ def buscar_salas_admin_sustentacion(request):
                     <tbody>
                         <tr>
                             <td colspan=2>
-                                Sala sin turnos, Contectenos para mas detalles
+                                Sala sin turnos, Contactenos para mas detalles
                             </td>                            
                         </tr>
                     </tbody>
@@ -1431,12 +1461,12 @@ def buscar_salas_admin_sustentacion(request):
             else:
                 tr = ""
                 for st in sala_turnos:
-                    if (
-                            st.estado == 2 and st.hasta != None and fecha > st.hasta) or st.estado == 0:
+                    if (st.estado == 2 and st.hasta != None and
+                        fecha > st.hasta) or st.estado == 0:
                         prestamos = Prestamo.\
                             objects.filter(Q(estado=0) | Q(estado=1),
-                            date_turno=fecha).filter(turno_sala=st).filter(
-                            estado=0)
+                                           date_turno=fecha,
+                                           turno_sala=st)
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() or fecha > ahora.date():
                                 # la opcion viene de buscar salas para prestamos de cursos/reuniones
@@ -1475,12 +1505,25 @@ def buscar_salas_admin_sustentacion(request):
                                                 str(st.id))
                         else:
                             # la opcion viene de buscar salas para prestamos de cursos/reuniones
-                            if prestamos[0].tipo == 1 and not 'opcion' in request.GET:
+                            print(prestamos[0].tipo)
+                            if prestamos[0].tipo == 0:
+                                tr += """
+                                    <tr>
+                                        <td>%s a %s</td>                                    
+                                        <td>%s, %s-%s</td>
+                                    </tr>
+                                """ % (str(st.turno.time_start)[:5],
+                                       str(st.turno.time_end)[:5],
+                                       prestamos[0].profesor.persona.user.first_name.title(),
+                                       prestamos[0].nombre.title(),
+                                       prestamos[0].grupo.upper())
+
+                            elif prestamos[0].tipo == 1 and not 'opcion' in request.GET:
                                 tr += u"""
                                 <tr>
-                                    <td>%s a %s</td>
+                                    <td>%s a %s</td>                              
                                     <td>
-                                        Sustentación de %s de %s
+                                        %s, Sustentación de %s
                                         <a onclick="desactivar_prestamo_docente('%s')"
                                         class="waves-effect waves-circle 
                                         waves-light btn-floating 
@@ -1491,17 +1534,17 @@ def buscar_salas_admin_sustentacion(request):
                                 </tr>
                                 """ % (str(st.turno.time_start)[:5],
                                        str(st.turno.time_end)[:5],
-                                       prestamos[0].solicitante,
-                                       prestamos[0].carrera.nombre,
+                                       prestamos[0].solicitante.title(),
+                                       prestamos[0].carrera.nombre.capitalize(),
                                        prestamos[0].id)
                             elif 'opcion' in request.GET:
                                 # curso
                                 if prestamos[0].tipo == 2:
-                                    tr += """
+                                    tr += """  
                                     <tr>
-                                        <td>%s a %s</td>
+                                        <td>%s a %s</td>                                   
                                         <td>
-                                            Curso de %s de %s
+                                            %s, Curso de %s
                                             <a onclick="desactivar_prestamo_docente('%s')" 
                                             class="waves-effect waves-circle
                                             waves-light btn-floating 
@@ -1512,16 +1555,16 @@ def buscar_salas_admin_sustentacion(request):
                                     </tr>
                                 """ % (str(st.turno.time_start)[:5],
                                        str(st.turno.time_end)[:5],
-                                       prestamos[0].solicitante,
-                                       prestamos[0].carrera.nombre,
+                                       prestamos[0].solicitante.title(),
+                                       prestamos[0].detalle.capitalize(),
                                        prestamos[0].id)
                                 # reunion
                                 elif prestamos[0].tipo == 3:
-                                    tr += u"""
+                                    tr += u""" 
                                     <tr>
-                                        <td>%s a %s</td>
+                                        <td>%s a %s</td>                                   
                                         <td>
-                                            Reunión de %s para %s
+                                            %s, Reunión de %s
                                             <a onclick="desactivar_prestamo_docente('%s')" 
                                             class="waves-effect waves-circle 
                                             waves-light btn-floating 
@@ -1532,9 +1575,11 @@ def buscar_salas_admin_sustentacion(request):
                                     </tr>
                                     """ % (str(st.turno.time_start)[:5],
                                            str(st.turno.time_end)[:5],
-                                           prestamos[0].solicitante,
-                                           prestamos[0].detalle,
+                                           prestamos[0].solicitante.title(),
+                                           prestamos[0].detalle.capitalize(),
                                            prestamos[0].id)
+
+                                print(tr)
 
                 body = """
                     <tbody>
@@ -1576,7 +1621,7 @@ def add_prestamo_sustentacion_admin(request):
 
         if 'msg' not in request.session:
             request.session[
-                'msg'] = 'Prestamo para sustentacion realizado con exito'
+                'msg'] = u'Prestamo para sustentación realizado con exito'
 
         return HttpResponseRedirect('inicio')
     else:
@@ -1589,11 +1634,15 @@ def add_prestamo_cursos_admin(request):
         date = request.POST['fecha_curso'].split('-')
         fecha = datetime.date(day=int(date[2]), month=int(date[1]),
                               year=int(date[0]))
-        carrera = Carrera.objects.get(codigo=request.POST['carrera_cursos'])
+        prestamo = Prestamo()
+        if 'carrera_cursos' in request.POST and \
+            request.POST.get('carrera_cursos', '') == '':
+            carrera = Carrera.objects.get(
+                codigo=request.POST['carrera_cursos'])
+            prestamo.carrera = carrera
+
         turno_sala = Turno_Sala.objects.get(
             id=request.POST['sala_turno_curso'])
-        prestamo = Prestamo()
-        prestamo.carrera = carrera
         prestamo.turno_sala = turno_sala
         prestamo.date_turno = fecha
         prestamo.ip = request.client_ip
@@ -1630,8 +1679,12 @@ def save_prestamo_masivo(request):
                               'msg': "la fecha inicial debe ser mayor a la final"})
             return HttpResponse(res, content_type='application/json')
 
-        carrera = Carrera.objects.get(
-            codigo=request.POST['carrera_cursos_masivo'])
+        carrera = None
+        if 'carrera_cursos_masivo' in request.POST and \
+            request.POST.get('carrera_cursos_masivo', '') == '':
+
+            carrera = Carrera.objects.get(
+                codigo=request.POST['carrera_cursos_masivo'])
         turno_sala = Turno_Sala.objects.get(id=request.POST['turno'])
 
         while fecha_inicial.isoweekday() - 1 != turno_sala.turno.dia:
@@ -1644,7 +1697,8 @@ def save_prestamo_masivo(request):
                 date_turno=fecha_inicial, turno_sala=turno_sala, estado=0)
             if len(prestamos_turno) == 0:
                 prestamo = Prestamo()
-                prestamo.carrera = carrera
+                if not carrera:
+                    prestamo.carrera = carrera
                 prestamo.turno_sala = turno_sala
                 prestamo.date_turno = fecha_inicial
                 prestamo.ip = request.client_ip
@@ -1753,16 +1807,16 @@ def view_docentes(request):
 def get_turno_sala(request):
     if request.user.is_authenticated() and 'sala' in request.GET:
         x = Turno_Sala.objects.filter(sala_id=request.GET["sala"])
-        t = [
-            {"pk": w.id, "fields": {"estado": w.estado, "hasta": str(w.hasta)
-                , "sala": {"codigo": w.sala.codigo, "edificio":
-                    w.sala.edificio_id, "pk": w.sala_id},
-                                    "turno": {"time_start": str(
-                                        w.turno.time_start),
-                                              "time_end": str(
-                                                  w.turno.time_end),
-                                              "dia": w.turno.dia,
-                                              "pk": w.turno_id}}} for w in x]
+        t = [{"pk": w.id,
+             "fields": {"estado": w.estado, 'desde': str(w.desde),
+                        "hasta": str(w.hasta),
+                        "sala": {"codigo": w.sala.codigo,
+                                 "edificio": w.sala.edificio_id,
+                                 "pk": w.sala_id},
+                        "turno": {"time_start": str(w.turno.time_start),
+                                  "time_end": str(w.turno.time_end),
+                                  "dia": w.turno.dia,
+                                  "pk": w.turno_id}}} for w in x]
         data = json.dumps(t)
         return HttpResponse(data, content_type='application/json')
     else:
@@ -1881,6 +1935,13 @@ def save_salaTurno_turno(request):
                 salaTurno.hasta = None
             else:
                 salaTurno.hasta = request.POST.get('data[fields][hasta]')
+
+            if request.POST.get('data[fields][desde]', None) == '':
+                salaTurno.desde = None
+            else:
+                salaTurno.desde = request.POST.get('data[fields][desde]')
+
+
             salaTurno.save()
             return HttpResponse("Editado Exitosamente")
         except Turno_Sala.DoesNotExist:
@@ -2253,7 +2314,7 @@ def buscar_carga_docente(request):
 @login_required(login_url='/')
 def get_carreras(request):
     if request.user.is_authenticated():
-        carreras = Carrera.objects.all()
+        carreras = Carrera.objects.all().order_by('nombre')
         t = [{'codigo': w.codigo, 'nombre': w.nombre, 'departamento':
             {'codigo': w.departamento.codigo,
              'nombre': w.departamento.nombre}

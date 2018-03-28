@@ -17,7 +17,8 @@ var app = angular.module('AppAdmin',[])
     $scope.listTurnosSala = [];
     $scope.lisDias = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
     $scope.showPagination = [0, 9];
-    $scope.newSalaTurno = {"pk": 0, "fields": {"estado": "", "hasta": null, "sala": {"codigo": "", "edificio": "", "pk": ""},
+    $scope.newSalaTurno = {"pk": 0, "fields": {"estado": "", "desde": null,
+                            "hasta": null, "sala": {"codigo": "", "edificio": "", "pk": ""},
                             "turno": {"time_start": "", "time_end": "", "dia": "", "pk": ""}}};
 
     $scope.turn_day_sala = 0;
@@ -251,7 +252,7 @@ var app = angular.module('AppAdmin',[])
             });
     };
     $scope.newSalaTurnoFrom = function () {
-        $scope.newSalaTurno = {"pk": 0, "fields": {"estado": "", "hasta": null, "sala": {"codigo": "", "edificio": "", "pk": ""},
+        $scope.newSalaTurno = {"pk": 0, "fields": {"estado": "", "desde": null, "hasta": null, "sala": {"codigo": "", "edificio": "", "pk": ""},
                             "turno": {"time_start": "", "time_end": "", "dia": "", "pk": ""}}};
         $scope.get_edif();
         $('#sala_sala_turno').material_select('destroy');
@@ -317,6 +318,7 @@ var app = angular.module('AppAdmin',[])
         $scope.newSalaTurno.fields.sala.pk = $('#sala_sala_turno').val();
         $scope.newSalaTurno.fields.turno.pk = $('#turno_sala_turno').val();
         $scope.newSalaTurno.fields.hasta= $('#hasta_sala_turno').val();
+        $scope.newSalaTurno.fields.desde= $('#desde_sala_turno').val();
         $http.post("save_salaTurno_turno", {data: $scope.newSalaTurno})
             .then( function(data){
                 $scope.newSalaTurnoFrom();

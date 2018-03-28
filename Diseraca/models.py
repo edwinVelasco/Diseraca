@@ -100,6 +100,7 @@ class Turno_Sala(models.Model):
         (2, 'Temporal'),
     )
     estado = models.IntegerField(default=0, choices=estados)
+    desde = models.DateField(null=True, help_text='desde cuando se desactivara el turno', blank=True)
     hasta = models.DateField(null=True, help_text='hasta cuando se desactivara el turno', blank=True)
 
     def __unicode__(self):
@@ -110,7 +111,7 @@ class Prestamo(models.Model):
     #carga = models.ForeignKey('Carga')
     '''estos datos se sacan de la carga para ser guardados en el historial de prestamos'''
 
-    carrera = models.ForeignKey('Carrera')
+    carrera = models.ForeignKey('Carrera', models.PROTECT, null=True)
     profesor = models.ForeignKey('Profesor', null=True)
     codigo = models.CharField(max_length=7, null=True)  # codigo de la materia
     nombre = models.CharField(max_length=45, null=True)  # nombre de la materia

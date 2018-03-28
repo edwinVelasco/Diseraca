@@ -161,7 +161,7 @@
                                     </select>
                                     <label for="edif">Turno</label>
                                 </div>
-                                <div class="input-field col s6">
+                                <div class="input-field col s4">
                                     <select name="estado_sala_turno" id="estado_sala_turno" required>
                                         <option value="" disabled selected>Seleccione</option>
                                         <option value="0">Activado</option>
@@ -170,9 +170,13 @@
                                     </select>
                                     <label for="edif">Estado</label>
                                 </div>
-                                <div class=" input-field col l6">
+                                <div class=" input-field col l4">
+                                    <input placeholder="Fecha" name="desde_sala_turno" id="desde_sala_turno" type="text" ng-model="newSalaTurno.fields.desde" class="datepicker">
+                                    <label for="desde_sala_turno">Desde cuando?</label>
+                                </div>
+                                <div class=" input-field col l4">
                                     <input placeholder="Fecha" name="hasta_sala_turno" id="hasta_sala_turno" type="text" ng-model="newSalaTurno.fields.hasta" class="datepicker">
-                                    <label for="time_start">Hasta cuando?</label>
+                                    <label for="hasta_sala_turno">Hasta cuando?</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -209,7 +213,7 @@
                                 <tr>
                                     <th>Turnos</th>
                                     <th>Estado</th>
-                                    <th>hasta</th>
+                                    <th>Desactivado</th>
                                     <th>Opción</th>
                                 </tr>
                             </thead>
@@ -223,7 +227,7 @@
                                         [[ estadoSalaTurno[dataTurno.fields.estado] ]]
                                     </td>
                                     <td>
-                                        [[ dataTurno.fields.hasta ]]
+                                        [[ dataTurno.fields.desde ]] a [[ dataTurno.fields.hasta ]]
                                     </td>
                                     <td>
                                         <a href="#" ng-click="edit_sala_turno(dataTurno)" class="green-text tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar Turno">

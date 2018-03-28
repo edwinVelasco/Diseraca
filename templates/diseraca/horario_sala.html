@@ -28,13 +28,13 @@
                     </div>
                     <div class="col l8">
                         <div class="col l3 ">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green lighten-4">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green lighten-1">
 
                             </a>
                             <h5>En sala</h5>
                         </div>
                         <div class="col l4">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red lighten-4">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red lighten-1">
 
                             </a>
                             <h5>No ha llegado</h5>
@@ -61,9 +61,9 @@
 
                                 {% for prestamo in prestamos %}
                                     {% if prestamo.estado == 1 %}
-                                        <tr class="green lighten-4">
+                                        <tr class="green lighten-1">
                                     {% else %}
-                                        <tr class="red lighten-4">
+                                        <tr class="red lighten-1">
                                     {% endif %}
 
                                         <td><h4>{{ prestamo.turno_sala.sala.codigo }}</h4></td>
@@ -75,11 +75,11 @@
                                             <td><h4>{{ prestamo.solicitante }}</h4></td>
                                             <td><h4>Sust. {{ prestamo.carrera.nombre }}</h4></td>
                                         {% elif prestamo.tipo == 2 %}
-                                            <td><h4>{{ prestamo.solicitante }}</h4></td>
-                                            <td><h4>Curso. {{ prestamo.detalle }}</h4></td>
+                                            <td><h4>{{ prestamo.solicitante | title}}</h4></td>
+                                            <td><h4>{{ prestamo.detalle | capfirst}}</h4></td>
                                         {% else %}
-                                            <td><h4>{{ prestamo.solicitante }}</h4></td>
-                                            <td><h4>Reunión. {{ prestamo.detalle }}</h4></td>
+                                            <td><h4>{{ prestamo.solicitante | title }}</h4></td>
+                                            <td><h4>{{ prestamo.detalle | capfirst}}</h4></td>
                                         {% endif %}
                                         <td>
                                             <h4>
@@ -105,21 +105,6 @@
     </main>
 
     <footer class="page-footer">
-        <!--
-        <div class="container">
-            <div class="row white-text">
-                <div class="col l6 s12">
-                    Avenida Gran Colombia No. 12E-96 Barrio Colsag Edificio CREAD piso 3.
-                </div>
-                <div class="col l3 s12">
-                    Tel: 5753256-5776655 ext 301-302
-                </div>
-                <div class="col l3 s12">
-                    Correo: diseraca@ufps.edu.co
-                </div>
-            </div>
-        </div>
-        -->
           <div class="footer-copyright">
             <div class="container">
             2017 © Copyright Edwin A. Velasco, Ingenieria de Sistemas
