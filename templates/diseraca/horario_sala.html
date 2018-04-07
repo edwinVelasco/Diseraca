@@ -28,13 +28,13 @@
                     </div>
                     <div class="col l8">
                         <div class="col l3 ">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content green lighten-1">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content yellow lighten-1">
 
                             </a>
                             <h5>En sala</h5>
                         </div>
                         <div class="col l4">
-                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red lighten-1">
+                            <a class="waves-effect waves-circle waves-light btn-floating secondary-content red lighten-2">
 
                             </a>
                             <h5>No ha llegado</h5>
@@ -61,9 +61,9 @@
 
                                 {% for prestamo in prestamos %}
                                     {% if prestamo.estado == 1 %}
-                                        <tr class="green lighten-1">
+                                        <tr class="yellow lighten-1">
                                     {% else %}
-                                        <tr class="red lighten-1">
+                                        <tr class="red lighten-2">
                                     {% endif %}
 
                                         <td><h4>{{ prestamo.turno_sala.sala.codigo }}</h4></td>
