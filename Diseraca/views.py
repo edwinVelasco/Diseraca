@@ -659,10 +659,10 @@ def ver_horario_edificio(request):
                     '''
                     for pres_envio in prestamos_envio:
                         if pres_envio.estado == 1:
-                            data += '<tr class="green lighten-1">'
+                            data += '<tr class="yellow lighten-1">'
                             total += pres_envio.matriculados
                         else:
-                            data += '<tr class="red lighten-1">'
+                            data += '<tr class="red lighten-2">'
 
                         if pres_envio.tipo == 2:
                             data += """
