@@ -1519,8 +1519,10 @@ def buscar_salas_admin_sustentacion(request):
                                     </tr>
                                 """.format(str(st.turno.time_start)[:5],
                                        str(st.turno.time_end)[:5],
-                                       prestamos[0].profesor.persona.user.first_name.title(),
-                                       prestamos[0].nombre.title(),
+                                       prestamos[0].profesor.persona.user.
+                                           first_name.encode('utf-8').title(),
+                                       prestamos[0].nombre.encode(
+                                           'utf-8').title(),
                                        prestamos[0].grupo.upper())
 
                             elif prestamos[0].tipo == 1 and not 'opcion' in request.GET:
