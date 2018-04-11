@@ -1598,7 +1598,7 @@ def buscar_salas_admin_sustentacion(request):
             conta_tablas += 1
         if conta_tablas % 3 != 0:
             tablas += "</div>"
-        out = u'{}'.format(tablas.encode('utf-8'))
+        out = u"{}".format(tablas.encode('utf-8'))
         return HttpResponse(out)
     else:
         return HttpResponseRedirect('/')
