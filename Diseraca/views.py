@@ -1586,7 +1586,6 @@ def buscar_salas_admin_sustentacion(request):
                                            prestamos[0].solicitante.title(),
                                            prestamos[0].detalle.capitalize(),
                                            prestamos[0].id)
-
                 body = u"""
                     <tbody>
                         {}
@@ -1598,8 +1597,7 @@ def buscar_salas_admin_sustentacion(request):
             conta_tablas += 1
         if conta_tablas % 3 != 0:
             tablas += "</div>"
-        out = u"{}".format(tablas.encode('utf-8'))
-        return HttpResponse(out)
+        return HttpResponse(tablas.encode('utf-8'))
     else:
         return HttpResponseRedirect('/')
 
