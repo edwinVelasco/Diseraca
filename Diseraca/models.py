@@ -87,8 +87,9 @@ class Turno(models.Model):
     estado = models.IntegerField(default=0, help_text='activo --> 0, desactivado --> 1', choices=estados)
 
     def __unicode__(self):
-        return str(self.time_start)+' a '+str(self.time_end)+'. '+['lunes',
-                                                                   'martes', 'miercoles', 'jueves', 'viernes', 'sabado'][self.dia]
+        return str(self.time_start)[:5]+' a '+str(self.time_end)[:5]+'. '+[
+            'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
+            'sabado'][self.dia]
 
 
 class Turno_Sala(models.Model):
