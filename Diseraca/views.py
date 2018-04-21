@@ -73,7 +73,7 @@ def get_salas_disponibilidad(request):
                     <div class="row">
                 """
 
-            head = """
+            head = u"""
                 <div class="col s4">
                 <table class="card centered bordered" border>
                     <thead>
@@ -113,7 +113,7 @@ def get_salas_disponibilidad(request):
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora.time() \
                                     or fecha > ahora.date():
-                                tr += """
+                                tr += u"""
                                     <tr>
                                         <td>%s a %s</td>
                                         <td>
@@ -133,7 +133,7 @@ def get_salas_disponibilidad(request):
                                                 str(st.turno.time_end)[:5],
                                             request.GET['fecha'], str(st.id))
                             else:
-                                tr += """
+                                tr += u"""
                                     <tr>
                                         <td>%s a %s</td>
                                         <td>No fue utilizado</td>
@@ -141,7 +141,7 @@ def get_salas_disponibilidad(request):
                                                 str(st.turno.time_end)[:5])
                         else:
 
-                            tr += """
+                            tr += u"""
                                 <tr class="green lighten-5">
                                     <td>%s a %s</td>
                             """ % (str(st.turno.time_start)[:5],
@@ -159,13 +159,13 @@ def get_salas_disponibilidad(request):
                                        )
                             elif prestamos[0].tipo == 2:
                                 if not prestamos[0].carrera:
-                                    tr += """                                    
+                                    tr += u"""                                    
                                         <td>%s, Curso de %s</td>
                                     </tr>
                                     """ % (prestamos[0].solicitante.title(),
                                            prestamos[0].detalle.capitalize())
                                 else:
-                                    tr += """
+                                    tr += u"""
                                         <td>%s</td>
                                     </tr>
                                     """ % (prestamos[0].detalle.capitalize())
@@ -176,19 +176,19 @@ def get_salas_disponibilidad(request):
                                     </tr>""" % (prestamos[0].solicitante.title(),
                                                 prestamos[0].detalle.capitalize())
                                 else:
-                                    tr += """                                    
+                                    tr += u"""                                    
                                         <td>%s</td>
                                     </tr>
                                     """ % (prestamos[0].detalle.capitalize())
                             else:
-                                tr += """                                
+                                tr += u"""                                
                                     <td>%s, %s, %s-%s</td>
                                 </tr>""" % (prestamos[0].profesor.persona.user.first_name.lower(),
                                             prestamos[0].nombre.lower(),
                                             prestamos[0].codigo.lower(),
                                             prestamos[0].grupo.upper())
 
-                body = """
+                body = u"""
                     <tbody>
                         %s
                     </tbody>
@@ -409,7 +409,7 @@ def buscar_salas_horario_docente(request):
 
             p = Profesor.objects.get(
                 persona__user__username=request.session['usuario'])
-            tablas = """
+            tablas = u"""
                 <h3 class="accent-1 red-text">%s, %s</h3>
                 Solo se muestran las salas y turnos disponibles para 
                 usted 
@@ -425,11 +425,11 @@ def buscar_salas_horario_docente(request):
             conta_tablas = 0
             for s in salas:
                 if conta_tablas % 4 == 0:
-                    tablas += """
+                    tablas += u"""
                             </div>
                             <div class="row">
                         """
-                head = """
+                head = u"""
                     <div class="col s3">
                     <table class="card centered highlight" border>
                         <thead>
@@ -454,7 +454,7 @@ def buscar_salas_horario_docente(request):
                         .exclude(estado=1).order_by('turno__time_start')
 
                 if len(sala_turnos) == 0:
-                    body = """
+                    body = u"""
                         <tbody>
                             <tr>
                                 <td>Sala sin turnos</td>
@@ -511,7 +511,7 @@ def buscar_salas_horario_docente(request):
 
                             if not p_turno and not p_p and not p_s and not\
                                     p_d2 and not p_d1:
-                                tr += """
+                                tr += u"""
                                     <tr>
                                         <td>%s a %s</td>
                                         <td>
@@ -528,12 +528,12 @@ def buscar_salas_horario_docente(request):
                                 j += 1
 
                     if j == 0:
-                        tr += """
+                        tr += u"""
                         <tr>                            
                             <td colspan=2>Sala sin turnos, contactenos para mas detalles</td>
                         </tr>"""
 
-                    body = """
+                    body = u"""
                         <tbody>
                             %s
                         </tbody>
@@ -666,7 +666,7 @@ def ver_horario_edificio(request):
                             data += '<tr class="red lighten-2">'
 
                         if pres_envio.tipo == 2:
-                            data += """
+                            data += u"""
                                 <td><h4>%s</h4></td>
                                 <td><h4>%s</h4></td>
                                 <td><h4>Curso de %s</h4></td>
@@ -696,7 +696,7 @@ def ver_horario_edificio(request):
                                    )
 
                         else:
-                            data += """
+                            data += u"""
                                 <td><h4>%s</h4></td>
                                 <td><h4>%s</h4></td>
                                 <td><h4>%s %s-%s</h5></td>
@@ -707,7 +707,7 @@ def ver_horario_edificio(request):
                                    pres_envio.grupo.upper()
                             )
 
-                        data += """
+                        data += u"""
                             <td><h4>%s a %s</h4>
                             </td>
                             </tr>
@@ -845,18 +845,18 @@ def buscar_salas_admin(request):
             edificio.nombre)
             return HttpResponse(text)
 
-        tablas = """
+        tablas = u"""
             <h3 class="accent-1 red-text">%s, %s</h3>
         <div class="row">
         """ % (edificio.nombre, fecha)
         conta_tablas = 0
         for s in salas:
             if conta_tablas % 3 == 0:
-                tablas += """
+                tablas += u"""
                     </div>
                     <div class="row">
                 """
-            head = """
+            head = u"""
                 <div class="col s4">
                 <table class="card centered highlight" border>
                     <thead>
@@ -902,7 +902,7 @@ def buscar_salas_admin(request):
                         if len(prestamos) == 0:
                             if st.turno.time_start > ahora_delta.time() \
                                     or fecha > ahora.date():
-                                tr += """
+                                tr += u"""
                                 <tr>
                                     <td>%s a %s</td>
                                     <td>
@@ -918,14 +918,14 @@ def buscar_salas_admin(request):
                                             str(st.id))
                         else:
 
-                            tr += """
+                            tr += u"""
                             <tr>
                                 <td>%s a %s</td>
                             """ % (str(st.turno.time_start)[:5],
                                    str(st.turno.time_end)[:5])
 
                             if prestamos[0].tipo == 0:
-                                tr += """                                    
+                                tr += u"""                                    
                                     <td>%s, %s-%s</td>
                                     </tr>
                                 """ % (prestamos[0].profesor.persona.user.first_name.title(),
@@ -941,7 +941,7 @@ def buscar_salas_admin(request):
                                 """ % (prestamos[0].solicitante.title(),
                                        name_carrera)
                             else:
-                                tr += """                                    
+                                tr += u"""                                    
                                         <td>%s, %s de %s</td>
                                     </tr>
                                 """ % (prestamos[0].solicitante.title(),
@@ -949,7 +949,7 @@ def buscar_salas_admin(request):
                                         u"Reunión"][prestamos[0].tipo],
                                       prestamos[0].detalle.capitalize())
 
-                body = """
+                body = u"""
                     <tbody>
                         %s
                     </tbody>
@@ -1042,7 +1042,7 @@ def get_prestamos_activos_docente(request):
             prestamos = Prestamo.objects.filter(profesor=p, estado=0,
                                                 date_turno__gte=ahora.date())
             if len(prestamos) > 0:
-                data = """
+                data = u"""
                     <h4 class="accent-1 red-text">Prestamos Activos</h4>
                         <table class="highlight centered responsive-table">
                             <thead>
@@ -1056,7 +1056,7 @@ def get_prestamos_activos_docente(request):
                             <tbody>
                         """
                 for prestamo in prestamos:
-                    data += """
+                    data += u"""
                             <tr>
                                 <td>%s - %s</td>
                                 <td>%s</td>
@@ -1391,7 +1391,7 @@ def buscar_salas_admin_sustentacion(request):
         ahora = datetime.datetime.now()
 
         if len(salas) == 0:
-            text = """<h3 class="accent-1 red-text">%s Sin salas
+            text = u"""<h3 class="accent-1 red-text">%s Sin salas
                    disponibles</h3>""" % edificio.codigo.upper()
             return HttpResponse(text.encode('utf-8'))
 
@@ -1403,12 +1403,12 @@ def buscar_salas_admin_sustentacion(request):
 
         for s in salas:
             if conta_tablas % 3 == 0:
-                tablas += """
+                tablas += u"""
                     </div>
                     <div class="row">
                 """
 
-            head = """
+            head = u"""
                 <div class="col s4">
                     <table class="card centered highlight" border>
                         <thead>
@@ -1458,7 +1458,7 @@ def buscar_salas_admin_sustentacion(request):
                                 # la opcion viene de buscar salas para prestamos de cursos/reuniones
                                 if 'opcion' in request.GET:
 
-                                    tr += """
+                                    tr += u"""
                                     <tr>
                                         <td>%s a %s</td>
                                         <td>
@@ -1474,7 +1474,7 @@ def buscar_salas_admin_sustentacion(request):
                                                 str(st.turno.time_end)[:5],
                                                 str(st.id))
                                 else:
-                                    tr += """
+                                    tr += u"""
                                     <tr>
                                         <td>%s a %s</td>
                                         <td>
@@ -1494,7 +1494,7 @@ def buscar_salas_admin_sustentacion(request):
                         else:
                             # la opcion viene de buscar salas para prestamos de cursos/reuniones
                             if prestamos[0].tipo == 0:
-                                tr += """
+                                tr += u"""
                                     <tr>
                                         <td>%s a %s</td>                                    
                                         <td>%s, %s-%s</td>
@@ -1533,7 +1533,7 @@ def buscar_salas_admin_sustentacion(request):
                             elif 'opcion' in request.GET:
                                 # curso
                                 if prestamos[0].tipo == 2:
-                                    tr += """  
+                                    tr += u"""  
                                     <tr>
                                         <td>%s a %s</td>                                   
                                         <td>
@@ -1653,7 +1653,7 @@ def add_prestamo_cursos_admin(request):
         prestamo.save()
 
         if 'msg' not in request.session:
-            request.session['msg'] = """Prestamo realizado con exito, 
+            request.session['msg'] = u"""Prestamo realizado con exito, 
                 Sala %s de %s""" % (prestamo.turno_sala.sala.codigo,
                                     prestamo.turno_sala.turno)
 
