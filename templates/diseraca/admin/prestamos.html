@@ -164,7 +164,7 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s8 offset-s2">
-                                <select name="carrera" id="carrera_sustentacion"  >
+                                <select name="carrera" id="carrera_sustentacion" required class="validate">
                                     {% if carreras %}
                                         <option value="" disabled selected>Carrera</option>
                                         {% for carrera in carreras %}
@@ -256,7 +256,7 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s4 offset-s4">
-                                <select name="tipo"  >
+                                <select name="tipo"  required>
                                     <option value="" disabled selected>Curso/reunion</option>
                                     <option value="2">Curso</option>
                                     <option value="3">Reunion</option>
