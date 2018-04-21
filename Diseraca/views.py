@@ -1502,9 +1502,8 @@ def buscar_salas_admin_sustentacion(request):
                                 """ % (str(st.turno.time_start)[:5],
                                        str(st.turno.time_end)[:5],
                                        prestamos[0].profesor.persona.user.
-                                           first_name.encode('utf-8').title(),
-                                       prestamos[0].nombre.encode(
-                                           'utf-8').title(),
+                                           first_name.title(),
+                                       prestamos[0].nombre.title(),
                                        prestamos[0].grupo.upper())
 
                             elif prestamos[0].tipo == 1 and not 'opcion' in \
@@ -1573,7 +1572,7 @@ def buscar_salas_admin_sustentacion(request):
                                            prestamos[0].solicitante.title(),
                                            prestamos[0].detalle.capitalize(),
                                            prestamos[0].id)
-                body = """
+                body = u"""
                     <tbody>
                         %s
                     </tbody>
