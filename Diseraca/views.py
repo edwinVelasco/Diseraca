@@ -1020,7 +1020,7 @@ def add_prestamo_docente_admin(request):
 
             if 'msg' not in request.session:
                 request.session['msg'] = 'Prestamo realizado con exito, ' \
-                                         'Sala {} de {}'%s(
+                                         'Sala {} de {}'.format(
                     prestamo.turno_sala.sala.codigo, prestamo.turno_sala.turno)
 
             return HttpResponseRedirect('inicio')
